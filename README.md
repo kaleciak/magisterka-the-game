@@ -10,6 +10,7 @@ pytania dodatkowe komisji (z typowymi pułapkami) oraz listę typowych pomyłek.
 
 ## Jak grać
 
+- **Online (telefon, 24/7):** https://kaleciak.github.io/magisterka-the-game/
 - **Najprościej:** otwórz `dist/magisterka.html` (jeden plik, działa po dwukliku, także na telefonie).
 - Wersja deweloperska: `index.html` (te same pliki źródłowe w `js/` i `css/`).
 - Postęp zapisuje się w przeglądarce (localStorage).
