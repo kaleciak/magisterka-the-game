@@ -494,6 +494,11 @@ ol.plan-steps { margin: 0; padding-left: 22px; display: grid; gap: 2px; }
 }
 
 </style>
+<meta name="theme-color" content="#0b130f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Magisterka">
 </head>
 <body>
 <div id="app">
@@ -6804,6 +6809,7 @@ const UI = {
       U.el('p', {}, 'Tempo startowe (czas na odpowiedź):'),
       U.el('div', { class: 'ov-actions' }, ...tempos.map(([v, n]) => this.btn(n, () => { S.tempo = v; STORE.save(); this.settings(); }, S.tempo === v ? 'on' : ''))),
       U.el('p', { class: 'tip' }, 'Postęp zapisuje się w tej przeglądarce. Tryb prywatny może go nie zachować.'),
+      document.querySelector('link[rel="manifest"]') ? U.el('p', { class: 'tip' }, 'Na telefonie: iPhone – Udostępnij → „Do ekranu początkowego”; Android – menu ⋮ → „Zainstaluj aplikację”. Po pierwszym otwarciu gra działa też bez internetu.') : null,
       U.el('div', { class: 'ov-actions' }, reset)));
   },
   help() {
@@ -7202,6 +7208,10 @@ DEF.final = function (list, results) {
   UI.title();
   if (document.fonts && document.fonts.load) {
     Promise.all(['600 12px "Pixelify Sans"', '12px "Press Start 2P"'].map(f => document.fonts.load(f))).catch(() => {});
+  }
+  /* Aplikacja na telefon: praca offline, gdy gra jest hostowana (np. GitHub Pages) */
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
   }
   /* Uchwyty do testów automatycznych (nie wpływają na grę). */
   window.__G = {

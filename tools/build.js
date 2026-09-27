@@ -4,6 +4,8 @@
 const fs = require('fs'), path = require('path');
 const root = path.join(__dirname, '..');
 let html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+// manifest i ikony istnieją tylko przy hostingu całego katalogu (GitHub Pages) – wersje jednoplikowe ich nie mają
+html = html.replace(/^.*data-pwa.*\n/gm, '');
 html = html.replace(/<link rel="stylesheet" href="(css\/[^"]+)">/g, (_, f) => `<style>\n${fs.readFileSync(path.join(root, f), 'utf8')}\n</style>`);
 html = html.replace(/<script src="(js\/[^"]+)"><\/script>/g, (_, f) => {
   const src = fs.readFileSync(path.join(root, f), 'utf8');
@@ -24,6 +26,7 @@ if (ai > 0) {
   fs.writeFileSync(out, body);
   console.log('Artifact:', out, (body.length / 1024).toFixed(0) + ' KB');
 } else {
+  require('./pwa');
   const out = path.join(root, 'dist', 'magisterka.html');
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, html);

@@ -14,6 +14,16 @@ pytania dodatkowe komisji (z typowymi pułapkami) oraz listę typowych pomyłek.
 - Wersja deweloperska: `index.html` (te same pliki źródłowe w `js/` i `css/`).
 - Postęp zapisuje się w przeglądarce (localStorage).
 
+### Online na telefonie (GitHub Pages, 24/7, bez logowania)
+
+Katalog główny repozytorium to gotowa strona (z `.nojekyll`, manifestem, ikonami i service workerem do pracy offline).
+1. Repozytorium musi być publiczne (albo konto z GitHub Pro): *Settings → General → Danger Zone → Change visibility*.
+2. *Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `claude/charming-cori-jw0tcj`, folder `/ (root)` → Save*.
+3. Po ok. minucie gra działa pod adresem `https://kaleciak.github.io/magisterka-the-game/`.
+
+Na telefonie: iPhone – *Udostępnij → Do ekranu początkowego*, Android – *⋮ → Zainstaluj aplikację*. Po pierwszym otwarciu gra działa też bez internetu,
+a gdy jest sieć – zawsze pobiera najnowszą wersję. `node tools/build.js` odświeża ikony, manifest i `sw.js`.
+
 Sterowanie: klawiatura (strzałki, spacja, 1–6, Enter, Esc = pauza) albo dotyk.
 
 ## Tryby
@@ -62,6 +72,7 @@ js/stage.js, js/mg/*.js                      scena canvas, 12 minigier, sala egz
 js/scene.js                                  animowana scena tytułowa
 js/run.js, ui.js, defense.js, main.js        runda, ekrany, symulator obrony, start
 tools/validate.js, tools/build.js            walidacja treści, budowanie dist/magisterka.html
+tools/pwa.js                                 ikony, manifest.webmanifest i sw.js (aplikacja na telefon, offline)
 tests/*.test.js                              testy generatorów, test dymny i symulacja gry (Playwright)
 ```
 

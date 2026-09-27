@@ -405,6 +405,7 @@ const UI = {
       U.el('p', {}, 'Tempo startowe (czas na odpowiedź):'),
       U.el('div', { class: 'ov-actions' }, ...tempos.map(([v, n]) => this.btn(n, () => { S.tempo = v; STORE.save(); this.settings(); }, S.tempo === v ? 'on' : ''))),
       U.el('p', { class: 'tip' }, 'Postęp zapisuje się w tej przeglądarce. Tryb prywatny może go nie zachować.'),
+      document.querySelector('link[rel="manifest"]') ? U.el('p', { class: 'tip' }, 'Na telefonie: iPhone – Udostępnij → „Do ekranu początkowego”; Android – menu ⋮ → „Zainstaluj aplikację”. Po pierwszym otwarciu gra działa też bez internetu.') : null,
       U.el('div', { class: 'ov-actions' }, reset)));
   },
   help() {
