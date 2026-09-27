@@ -1,5 +1,5 @@
 // Wygenerowane przez tools/pwa.js – nie edytuj ręcznie.
-const VERSION = 'mtg-fb5a5f078f';
+const VERSION = 'mtg-069015dfcb';
 const ASSETS = [
   "./",
   "index.html",
@@ -59,8 +59,9 @@ const ASSETS = [
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
+// kasujemy tylko własne, stare pamięci – domena kaleciak.github.io może mieć też inne strony
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('mtg-') && k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', e => {
   const req = e.request;

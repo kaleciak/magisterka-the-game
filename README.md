@@ -27,6 +27,11 @@ a gdy jest sieć – zawsze pobiera najnowszą wersję. `node tools/build.js` od
 
 Czcionka: domyślnie pikselowa Jersey 15 (czytelna), w Ustawieniach można przełączyć na Pixelify Sans albo zwykłą systemową. Czcionki są wbudowane w `fonts/` (działają offline).
 
+Wielu graczy: gra nie ma serwera, więc każdy telefon/komputer ma własny, niezależny zapis – dowolnie wielu graczy naraz bez kolizji.
+Na jednym urządzeniu można założyć kilku graczy (ekran główny → „GRACZ … zmień”), każdy z osobnym postępem; gracza wybiera się osobno w każdej karcie.
+Gra otwarta w kilku kartach tego samego gracza scala zapisy (liczniki per karta, znaczniki czasu, maksima), więc żadna odpowiedź nie ginie.
+Test: `node tests/multiplayer.test.js`.
+
 Sterowanie: klawiatura (strzałki, spacja, 1–6, Enter, Esc = pauza) albo dotyk.
 
 ## Tryby
@@ -76,7 +81,7 @@ js/scene.js                                  animowana scena tytułowa
 js/run.js, ui.js, defense.js, main.js        runda, ekrany, symulator obrony, start
 tools/validate.js, tools/build.js            walidacja treści, budowanie dist/magisterka.html
 tools/pwa.js                                 ikony, manifest.webmanifest i sw.js (aplikacja na telefon, offline)
-tests/*.test.js                              testy generatorów, test dymny i symulacja gry (Playwright)
+tests/*.test.js                              testy generatorów, test dymny, symulacja gry i wielu graczy (Playwright)
 ```
 
 ## Testy i budowanie

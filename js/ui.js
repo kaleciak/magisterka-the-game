@@ -90,6 +90,7 @@ const UI = {
         U.el('div', { class: 'avatar' }, SPR.img('student', 6, 'bob')),
         U.el('div', { class: 'hero-stats' },
           U.el('div', { class: 'exam' }, this.examDays()),
+          U.el('button', { class: 'player-chip', type: 'button', title: 'Zmień gracza', onclick: () => this.players() }, U.el('span', { class: 'pc-l' }, 'GRACZ'), U.el('b', {}, STORE.player().name), U.el('span', { class: 'pc-c' }, 'zmień ▸')),
           U.el('div', { class: 'rank' }, S.rank()),
           U.el('div', { class: 'pbar', 'aria-label': `Postęp ${S.percent()}%` }, U.el('i', { style: { width: S.percent() + '%' } })),
           U.el('div', { class: 'pline' }, `Opanowane ${S.mastered()}/40 · postęp ${S.percent()}% · rekord ${U.fmt(S.data.best.marathon)}`))));
@@ -232,6 +233,51 @@ const UI = {
         lvl > 0 ? this.btn('◀ Mniej', () => this.rehearse(q, lvl - 1), 'ghost') : null,
         lvl < 4 ? this.btn('Ukryj więcej ▶', () => this.rehearse(q, lvl + 1), 'primary', { 'data-primary': '' })
           : this.btn('Pokaż całość ✓', () => { STORE.data.stats.rehearsed = (STORE.data.stats.rehearsed || 0) + 1; STORE.save(); this.rehearse(q, 0); }, 'primary', { 'data-primary': '' }))));
+  },
+  /* ---------- profile graczy (kilka osób na jednym urządzeniu) ---------- */
+  players() {
+    STORE.loadIndex();
+    const list = U.el('div', { class: 'plist' });
+    for (const p of STORE.livePlayers()) {
+      const d = STORE.peek(p.id), cur = p.id === STORE.pid;
+      let armed = false;
+      const del = STORE.livePlayers().length > 1 ? this.btn('Usuń', () => {
+        if (!armed) { armed = true; del.textContent = 'Na pewno?'; del.classList.add('danger'); return; }
+        STORE.removePlayer(p.id); this.applyPlayer(); this.players();
+      }, 'ghost sm') : null;
+      const ren = this.btn('Zmień nazwę', () => {
+        const inp = U.el('input', { type: 'text', value: p.name, maxlength: 24, 'aria-label': 'Nowa nazwa gracza' });
+        const ok = this.btn('OK', () => { STORE.renamePlayer(p.id, inp.value); this.players(); }, 'sm primary');
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') ok.click(); e.stopPropagation(); });
+        row.querySelector('.pl-name').replaceWith(U.el('div', { class: 'pl-name edit' }, inp, ok));
+        inp.focus(); inp.select();
+      }, 'ghost sm');
+      const row = U.el('div', { class: 'prow' + (cur ? ' cur' : '') },
+        U.el('div', { class: 'pl-name' }, U.el('b', {}, p.name), cur ? U.el('span', { class: 'pl-now' }, 'GRASZ TERAZ') : null),
+        U.el('div', { class: 'pl-stat' }, `Opanowane ${STORE.mastered(d)}/40 · postęp ${STORE.percent(d)}%`),
+        U.el('div', { class: 'pbar' }, U.el('i', { style: { width: STORE.percent(d) + '%' } })),
+        U.el('div', { class: 'ov-actions left' }, cur ? null : this.btn('▶ Graj jako ' + p.name, () => { STORE.use(p.id); this.applyPlayer(); this.closeModal(); }, 'sm primary'), ren, del));
+      list.append(row);
+    }
+    const name = U.el('input', { type: 'text', placeholder: 'Imię nowego gracza', maxlength: 24, 'aria-label': 'Imię nowego gracza' });
+    const add = this.btn('+ Dodaj gracza', () => { const id = STORE.addPlayer(name.value); STORE.use(id); this.applyPlayer(); this.closeModal(); }, 'primary');
+    name.addEventListener('keydown', e => { if (e.key === 'Enter') add.click(); e.stopPropagation(); });
+    this.modal(U.el('div', { class: 'players' },
+      U.el('h3', {}, 'Gracze na tym urządzeniu'),
+      U.el('p', { class: 'tip' }, 'Każdy gracz ma osobny postęp, ustawienia i rekordy. Na innych telefonach i komputerach każdy ma własny zapis – nikt nikomu nie nadpisze wyników. Grę możesz też mieć otwartą w kilku kartach: zapisy się łączą.'),
+      list,
+      U.el('div', { class: 'padd' }, name, add)));
+  },
+  applyPlayer() {
+    AUDIO.sfxOn = STORE.data.set.sfx;
+    AUDIO.musicOn = STORE.data.set.music;
+    FONT.use(STORE.data.set.font);
+    if (this.cur === 'title') this.title();
+  },
+  /* inna karta zapisała postęp tego gracza – odśwież ekran startowy */
+  onSync() {
+    FONT.use(STORE.data.set.font);
+    if (this.cur === 'title' && U.$('#modal').hidden) this.title();
   },
   celebrate(title, sub) {
     const box = U.el('div', { class: 'celebrate', 'aria-live': 'polite' }, U.el('div', { class: 'cel-t' }, title), sub ? U.el('div', { class: 'cel-s' }, sub) : null);
@@ -392,7 +438,7 @@ const UI = {
       return b;
     };
     let armed = false;
-    const reset = this.btn('Wyzeruj postęp', () => {
+    const reset = this.btn(`Wyzeruj postęp gracza „${STORE.player().name}”`, () => {
       if (!armed) { armed = true; reset.textContent = 'Na pewno? Kliknij ponownie'; reset.classList.add('danger'); return; }
       STORE.reset(); this.closeModal(); this.title();
     }, 'ghost');
