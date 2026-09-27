@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Magisterka The Game</title>
+<meta name="description" content="Pikselowa gra do nauki 40 zagadnień na egzamin magisterski (AGH): minigry, powtórki rozłożone w czasie, symulator obrony i kompendium.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <section id="scr-title" class="screen" aria-label="Menu główne"></section>
+  <section id="scr-map" class="screen" hidden aria-label="Mapa światów"></section>
+  <section id="scr-world" class="screen" hidden aria-label="Świat"></section>
+  <section id="scr-game" class="screen" hidden aria-label="Gra">
+    <header id="hud">
+      <div class="hud-l"><div id="hearts" aria-label="Życia"></div><span id="hud-lvl"></span></div>
+      <div class="hud-c"><span id="hud-score">0</span><span id="hud-combo"></span></div>
+      <div class="hud-r"><span id="hud-mode"></span><span id="hud-tempo"></span><button id="btn-pause" class="btn sm ghost" type="button" aria-label="Pauza">II</button></div>
+    </header>
+    <div id="prompt" aria-live="polite"><div class="lead"></div><div class="text"></div><div class="sub"></div></div>
+    <div id="stage-wrap">
+      <div id="stage">
+        <canvas id="cv" width="400" height="300"></canvas>
+        <div id="panel" hidden></div>
+        <div id="splash" hidden></div>
+        <div id="toasts"></div>
+      </div>
+    </div>
+    <div id="controls"></div>
+    <div id="overlay" hidden></div>
+  </section>
+  <section id="scr-summary" class="screen" hidden aria-label="Podsumowanie"></section>
+  <section id="scr-defense" class="screen" hidden aria-label="Symulator obrony"></section>
+  <section id="scr-book" class="screen" hidden aria-label="Kompendium"></section>
+  <div id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"></div></div>
+</div>
+<script src="js/util.js"></script>
+<script src="js/data/_core.js"></script>
+<script src="js/data/w0.js"></script>
+<script src="js/data/w1.js"></script>
+<script src="js/data/w2.js"></script>
+<script src="js/data/w3.js"></script>
+<script src="js/data/w4.js"></script>
+<script src="js/data/w5.js"></script>
+<script src="js/data/w6.js"></script>
+<script src="js/data/w7.js"></script>
+<script src="js/data/_rules.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/store.js"></script>
+<script src="js/challenges.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/mg/flappy.js"></script>
+<script src="js/mg/drwal.js"></script>
+<script src="js/mg/wieza.js"></script>
+<script src="js/mg/tasma.js"></script>
+<script src="js/mg/mlotek.js"></script>
+<script src="js/mg/bomba.js"></script>
+<script src="js/mg/spawarka.js"></script>
+<script src="js/mg/komisja.js"></script>
+<script src="js/run.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/defense.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "magisterka-the-game",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pikselowa gra do nauki 40 zagadnień na egzamin magisterski",
+  "scripts": {
+    "test": "node tools/validate.js && node tests/generators.test.js",
+    "test:ui": "node tests/smoke.test.js && node tests/progression.test.js",
+    "build": "node tools/build.js"
+  }
+}
