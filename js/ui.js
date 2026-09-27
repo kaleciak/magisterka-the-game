@@ -82,7 +82,9 @@ const UI = {
       }
     }
     const weakest = WORLDS.map(w => ({ w, p: S.worldPct(w.id) })).sort((a, b) => a.p - b.p)[0];
+    const scene = U.el('canvas', { class: 'title-scene', width: 320, height: 96, 'aria-hidden': 'true' });
     const hero = U.el('div', { class: 'hero' },
+      scene,
       U.el('div', { class: 'logo' }, U.el('span', { class: 'l1' }, 'MAGISTERKA'), U.el('span', { class: 'l2' }, 'THE GAME')),
       U.el('div', { class: 'hero-row' },
         U.el('div', { class: 'avatar' }, SPR.img('student', 6, 'bob')),
@@ -93,8 +95,9 @@ const UI = {
           U.el('div', { class: 'pline' }, `Opanowane ${S.mastered()}/40 · postęp ${S.percent()}% · rekord ${U.fmt(S.data.best.marathon)}`))));
     const menu = U.el('div', { class: 'menu' },
       this.btn(U.el('span', {}, U.el('b', {}, '▶ MARATON'), U.el('small', {}, 'Gra sama dobiera zagadnienia – od najsłabszych')), () => RUN.start({ mode: 'marathon', pool: QUESTIONS }), 'primary big', { 'data-primary': '' }),
+      this.btn(U.el('span', {}, U.el('b', {}, '▶ TRENING ODPOWIEDZI'), U.el('small', {}, 'Mównica, luki, łowca błędów, dopytki – uczysz się mówić jak na obronie')), () => RUN.start({ mode: 'answers', pool: QUESTIONS }), 'answer big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'MAPA ŚWIATÓW'), U.el('small', {}, '8 światów tematycznych + bossowie')), () => this.map(), 'big'),
-      this.btn(U.el('span', {}, U.el('b', {}, 'SYMULATOR OBRONY'), U.el('small', {}, 'Losujesz pytania, mówisz na głos, oceniasz się')), () => this.defense(), 'big'),
+      this.btn(U.el('span', {}, U.el('b', {}, 'SYMULATOR OBRONY'), U.el('small', {}, 'Losujesz pytanie, mówisz na głos wg planu, komisja dopytuje, dostajesz ocenę')), () => this.defense(), 'big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'EGZAMIN KOŃCOWY'), U.el('small', {}, `12 losowych pytań, 3 życia · rekord ${U.fmt(S.data.best.final)}`)), () => RUN.start({ mode: 'final', pool: QUESTIONS }), 'big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'KOMPENDIUM'), U.el('small', {}, 'Minimum, rozszerzenie i haczyki do 40 pytań')), () => this.book(), 'big'));
     el.append(
@@ -109,6 +112,7 @@ const UI = {
         this.btn('Jak grać?', () => this.help(), 'ghost')),
     );
     this.show('title');
+    SCENE.title(scene);
   },
   /* ---------- mapa światów ---------- */
   map() {
@@ -166,16 +170,76 @@ const UI = {
     ov.hidden = false;
     ov.scrollTop = 0;
   },
+  /* Blok pytania: zakładki Jak odpowiedzieć / Minimum / Rozszerzenie / Dopytki */
   qBlock(q, opts = {}) {
     const w = WORLDS[q.w];
-    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Rozszerzenie – pełny materiał'), U.el('div', { class: 'rich', html: U.richText(q.x) }));
-    return U.el('div', { class: 'qblock' },
-      U.el('div', { class: 'qb-tag', style: { '--wc': w.color } }, `${this.qTag(q)} · ${w.name}`),
+    const head = [U.el('div', { class: 'qb-tag', style: { '--wc': w.color } }, `${this.qTag(q)} · ${w.name}`), U.el('h3', { class: 'qb-q' }, q.q)];
+    if (opts.hideAnswer) return U.el('div', { class: 'qblock' }, ...head);
+    const tabs = [
+      ['say', 'Jak odpowiedzieć', () => U.el('div', { class: 'tabp' },
+        this.planEl(q),
+        Room.answer(q),
+        U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+        U.el('div', { class: 'ov-actions left' }, this.btn('Ćwicz na pamięć ▶', () => this.rehearse(q), 'sm answer')))],
+      ['min', 'Minimum', () => U.el('div', { class: 'tabp' }, U.el('div', { class: 'rich', html: U.richText(q.a) }), U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m))],
+      ['ext', 'Rozszerzenie', () => U.el('div', { class: 'tabp' }, U.el('div', { class: 'rich', html: U.richText(q.x) }))],
+      ['fu', `Dopytki (${q.fu.length})`, () => U.el('div', { class: 'tabp' }, U.el('p', { class: 'tip' }, 'Pytania, które komisja może zadać po Twojej odpowiedzi:'),
+        U.el('dl', { class: 'fus' }, ...q.fu.flatMap(([fq, fa]) => [U.el('dt', {}, fq), U.el('dd', {}, fa)])))],
+    ];
+    const bar = U.el('div', { class: 'tabs', role: 'tablist' });
+    const body = U.el('div', { class: 'tabbody' });
+    const open = key => {
+      bar.querySelectorAll('button').forEach(b => { const on = b.dataset.k === key; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+      body.innerHTML = '';
+      body.append(tabs.find(t => t[0] === key)[2]());
+    };
+    for (const [k, label] of tabs) {
+      const b = U.el('button', { class: 'tab', type: 'button', role: 'tab', 'data-k': k }, label);
+      b.addEventListener('click', () => { AUDIO.play('click'); open(k); });
+      bar.append(b);
+    }
+    open(opts.tab || 'say');
+    return U.el('div', { class: 'qblock' }, ...head, bar, body);
+  },
+  planEl(q, cues = true) {
+    return U.el('div', { class: 'plan' }, U.el('span', { class: 'plan-l' }, 'PLAN ODPOWIEDZI:'),
+      ...CH.plan(q).map((p, i) => U.el('span', { class: 'plan-s role-' + p.role }, U.el('b', {}, `${i + 1}. ${p.name}`), cues && p.cue ? U.el('small', {}, p.cue) : null)));
+  },
+  /* Trening na pamięć: tekst znika stopniowo, a Ty mówisz na głos */
+  rehearse(q, lvl = 0) {
+    const tips = ['Przeczytaj odpowiedź na głos, spokojnie, jak przed komisją.', 'Pojęcia zniknęły – powiedz na głos, uzupełniając je z pamięci.', 'Zostały pierwsze litery części słów – mów płynnie.', 'Tylko pierwsze litery – powiedz całość.', 'Tylko plan – powiedz całą odpowiedź z pamięci.'];
+    const mask = (t, L) => {
+      if (L === 0) return U.md(t);
+      return CH.parseBold(t).map(p => {
+        if (p.k === 'b') return '<b class="mask">' + U.esc(p.t.split(/\s+/).map(w => /[0-9A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]/.test(w) ? w[0] + '…' : w).join(' ')) + '</b>';
+        if (L < 2) return U.esc(p.t);
+        let n = 0;
+        return U.esc(p.t).replace(/[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9]{3,}/g, w => (L >= 3 || n++ % 2 === 0) ? w[0] + '<span class="dots">' + '·'.repeat(Math.min(w.length - 1, 6)) + '</span>' : w);
+      }).join('');
+    };
+    const list = U.el('ol', { class: 'say rehearse' });
+    q.say.forEach(([r, t]) => list.append(U.el('li', { class: 'say-' + r }, U.el('span', { class: 'role role-' + r }, CH.ROLE_NAME[r]),
+      U.el('span', { class: 'say-t', html: lvl >= 4 ? '<span class="dots">· · ·</span>' : mask(t, lvl) }))));
+    const steps = U.el('div', { class: 'steps' }, ...[0, 1, 2, 3, 4].map(i => U.el('i', { class: i <= lvl ? 'on' : '' })));
+    this.modal(U.el('div', { class: 'reh' },
+      U.el('div', { class: 'ov-kicker' }, 'NA PAMIĘĆ', steps),
+      U.el('div', { class: 'qb-tag', style: { '--wc': WORLDS[q.w].color } }, `${this.qTag(q)} · ${q.t}`),
       U.el('h3', { class: 'qb-q' }, q.q),
-      opts.hideAnswer ? null : U.el('div', { class: 'mini-label' }, 'MINIMUM EGZAMINACYJNE'),
-      opts.hideAnswer ? null : U.el('div', { class: 'rich', html: U.richText(q.a) }),
-      opts.hideAnswer ? null : U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
-      opts.hideAnswer || opts.noExt ? null : ext);
+      U.el('p', { class: 'reh-tip' }, `Krok ${lvl + 1}/5: ${tips[lvl]}`),
+      this.planEl(q),
+      list,
+      U.el('div', { class: 'ov-actions' },
+        lvl > 0 ? this.btn('◀ Mniej', () => this.rehearse(q, lvl - 1), 'ghost') : null,
+        lvl < 4 ? this.btn('Ukryj więcej ▶', () => this.rehearse(q, lvl + 1), 'primary', { 'data-primary': '' })
+          : this.btn('Pokaż całość ✓', () => { STORE.data.stats.rehearsed = (STORE.data.stats.rehearsed || 0) + 1; STORE.save(); this.rehearse(q, 0); }, 'primary', { 'data-primary': '' }))));
+  },
+  celebrate(title, sub) {
+    const box = U.el('div', { class: 'celebrate', 'aria-live': 'polite' }, U.el('div', { class: 'cel-t' }, title), sub ? U.el('div', { class: 'cel-s' }, sub) : null);
+    const cols = ['#2bd46b', '#ffc21a', '#ff77a8', '#29adff', '#ff7a1a', '#f2ecd9'];
+    for (let i = 0; i < 36; i++) box.append(U.el('i', { class: 'conf', style: { left: U.ri(0, 100) + '%', background: U.pick(cols), animationDelay: (Math.random() * 0.4) + 's', animationDuration: (1 + Math.random() * 0.8) + 's' } }));
+    U.$('#scr-game').append(box);
+    AUDIO.play('fanfare');
+    setTimeout(() => box.remove(), 2200);
   },
   learnCard(q, then) {
     AUDIO.play('level');
@@ -183,7 +247,7 @@ const UI = {
     const box = U.el('div', { class: 'ov-card learn' },
       U.el('div', { class: 'ov-kicker' }, 'NOWE ZAGADNIENIE'),
       this.qBlock(q),
-      U.el('p', { class: 'tip' }, 'Przeczytaj minimum i haczyk. Za chwilę gra sprawdzi to w minigrze – z każdym poziomem trudniej.'),
+      U.el('p', { class: 'tip' }, 'Przeczytaj na głos odpowiedź ustną – dokładnie tak powiesz ją komisji. Gra sprawdzi najpierw pojęcia, potem całą wypowiedź.'),
       U.el('div', { class: 'ov-actions' }, go));
     this.overlay(box, 'learn');
   },
@@ -196,7 +260,7 @@ const UI = {
     if (res.fix && res.fix !== res.right) lines.push(U.el('p', { class: 'c-fix' }, ...String(res.fix).split('\n').flatMap((l, i) => i ? [U.el('br'), l] : [l])));
     const btn = this.btn('DALEJ ▶', () => { this.overlay(null); then(); }, 'primary', { 'data-primary': '', disabled: true });
     setTimeout(() => { btn.disabled = false; }, 900);
-    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Pokaż całe minimum'), U.el('div', { class: 'rich', html: U.richText(q.a) }));
+    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Pokaż wzorcową odpowiedź dla komisji'), Room.answer(q, { compact: true }));
     const lvl = rec && rec.before !== rec.after ? U.el('span', { class: 'lvchg' }, `poziom ${rec.before} → ${rec.after}`) : null;
     const box = U.el('div', { class: 'ov-card bad' },
       U.el('div', { class: 'ov-kicker bad' }, '✗ PUDŁO!', U.el('small', {}, U.pick(quips))),
@@ -260,7 +324,7 @@ const UI = {
         e.res.right ? U.el('p', { class: 'c-right' }, U.el('b', {}, 'Poprawnie: '), e.res.right) : null,
         e.res.fix && e.res.fix !== e.res.right ? U.el('p', { class: 'c-fix' }, e.res.fix) : null,
         U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), e.q.m),
-        U.el('div', { class: 'rich', html: U.richText(e.q.a) }));
+        Room.answer(e.q, { compact: true }));
       return d;
     });
     const again = () => RUN.start(s.opts);
@@ -281,7 +345,7 @@ const UI = {
       misRows.length ? U.el('div', { class: 'card' }, U.el('h3', {}, `Do powtórki (${misRows.length}) – kliknij, by zobaczyć poprawkę`), ...misRows) : U.el('p', { class: 'tip' }, 'Bez pomyłek. Komisja jest pod wrażeniem.'));
     this.show('summary');
   },
-  typeName(t) { return { tf: 'Drwal Prawdy', flappy: 'Flappy Birret', bomb: 'McBomba', match: 'Spawarka Par', sort: 'Taśma Sortownia', whac: 'Młotek Jidoka', tower: 'Wieża Wiedzy', keys: 'Komisja' }[t] || t; },
+  typeName(t) { return { tf: 'Drwal Prawdy', flappy: 'Flappy Birret', bomb: 'McBomba', match: 'Spawarka Par', sort: 'Taśma Sortownia', whac: 'Młotek Jidoka', tower: 'Wieża Wiedzy', keys: 'Komisja', builder: 'Mównica', luki: 'Znikający tekst', hunt: 'Łowca błędów', fu: 'Dopytka komisji' }[t] || t; },
   /* ---------- modal: pytanie / karty / ustawienia ---------- */
   modal(node) {
     const m = U.$('#modal');
@@ -300,6 +364,7 @@ const UI = {
         U.el('dl', { class: 'facts' }, ...q.f.flatMap(([t, d]) => [U.el('dt', {}, t), U.el('dd', {}, d)]))),
       U.el('div', { class: 'ov-actions' },
         U.el('span', { class: 'lvtxt' }, 'Poziom: ', this.stars(L), ` ${CH.LEVEL_NAMES[L]}`),
+        this.btn('Na pamięć', () => this.rehearse(q), 'answer'),
         this.btn('▶ Ćwicz to pytanie', () => { U.$('#modal').hidden = true; RUN.start({ mode: 'focus', pool: [q], title: `Trening ${this.qTag(q)}` }); }, 'primary', { 'data-primary': '' }))));
   },
   cards(list, i) {
@@ -351,13 +416,18 @@ const UI = {
       ['Taśma Sortownia', 'Wrzucaj skrzynki do właściwych pojemników (tap albo 1–5).'],
       ['Młotek Jidoka', 'Wal tylko w krety z hasłami ze zbioru. Przegapienie = pomyłka.'],
       ['Wieża Wiedzy', '← → sterujesz skoczkiem. Ląduj na platformach w dobrej kolejności.'],
-      ['Komisja', 'Zaznacz hasła z minimum odpowiedzi. Potem zobaczysz pełne minimum.'],
+      ['Komisja', 'Zaznacz hasła z minimum odpowiedzi. Potem zobaczysz wzorcową odpowiedź ustną.'],
+      ['Mównica', 'Układasz odpowiedź zdanie po zdaniu: definicja → wyliczenie → rozwinięcie → przykład → domknięcie. Zdania z innego pytania i z błędem odrzucasz.'],
+      ['Znikający tekst', 'Wzorcowa odpowiedź z lukami – wstawiasz kolejne pojęcia z banku. Im wyższy poziom, tym więcej luk.'],
+      ['Łowca błędów', 'Kolega odpowiada przed komisją i myli pojęcia. Tapnij błędne sformułowania – zobaczysz poprawną wersję.'],
+      ['Dopytka komisji', 'Pytanie dodatkowe po odpowiedzi. Wybierz odpowiedź, która Cię obroni (1–3).'],
     ];
     this.modal(U.el('div', { class: 'help' },
       U.el('h3', {}, 'Jak to działa'),
       U.el('p', {}, 'Każde z 40 pytań ma 5 poziomów. Dobra odpowiedź podnosi poziom, zła obniża i wraca za 2 zadania. Poziom decyduje o minigrze:'),
       U.el('ol', {}, ...CH.LEVELS.slice(0, 5).map((l, i) => U.el('li', {}, U.el('b', {}, CH.LEVEL_NAMES[i] + ': '), l.map(t => this.typeName(t)).join(', ')))),
       U.el('p', {}, 'Poziom 5 = opanowane (co jakiś czas wraca na powtórkę). Combo przyspiesza tempo i daje więcej punktów, co 8 trafień w serii – dodatkowe życie.'),
+      U.el('p', {}, U.el('b', {}, 'Jak mówić przed komisją: '), 'każda odpowiedź ma ten sam szkielet – 1) definicja jednym zdaniem, 2) wyliczenie elementów, 3) rozwinięcie najważniejszego, 4) przykład z praktyki, 5) domknięcie (po co to jest / wniosek). Trening odpowiedzi i poziomy 3–5 ćwiczą właśnie to. W karcie pytania kliknij „Na pamięć”, by powtarzać odpowiedź z coraz mniejszą ilością podpowiedzi.'),
       U.el('dl', { class: 'facts' }, ...rows.flatMap(([a, b]) => [U.el('dt', {}, a), U.el('dd', {}, b)])),
       U.el('p', { class: 'tip' }, 'Źródła: „Zagadnienia – egzamin magisterski” (główne) + „40 zagadnień – wersja minimalistyczna” (styl minimum i uzupełnienia oznaczone „plik 1”). Role pracowników wiedzy – wg slajdów z wykładu.')));
   },
@@ -412,6 +482,7 @@ const UI = {
   bookActions(q) {
     return U.el('div', { class: 'ov-actions' },
       U.el('details', { class: 'ext' }, U.el('summary', {}, `Pojęcia i definicje (${q.f.length})`), U.el('dl', { class: 'facts' }, ...q.f.flatMap(([t, d]) => [U.el('dt', {}, t), U.el('dd', {}, d)]))),
+      this.btn('Na pamięć', () => this.rehearse(q), 'answer'),
       this.btn('▶ Ćwicz to pytanie', () => RUN.start({ mode: 'focus', pool: [q], title: `Trening ${this.qTag(q)}` }), 'primary'));
   },
 };

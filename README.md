@@ -4,6 +4,10 @@ Pikselowa gra przeglądarkowa do nauki 40 zagadnień na egzamin magisterski (AGH
 Każde pytanie przechodzi 5 poziomów opanowania, a każdy kolejny poziom to trudniejsza minigra.
 Gra sama dobiera zagadnienia (najsłabsze i najdawniej ćwiczone najpierw), a błędy wracają po dwóch zadaniach.
 
+Najważniejsze: gra uczy **mówić odpowiedź przed komisją**, nie tylko rozpoznawać pojęcia. Każde pytanie ma
+wzorcową odpowiedź ustną ułożoną wg jednego szkieletu: **definicja → wyliczenie → rozwinięcie → przykład → domknięcie**,
+pytania dodatkowe komisji (z typowymi pułapkami) oraz listę typowych pomyłek. Poziomy 3–5 to już praca na całej wypowiedzi.
+
 ## Jak grać
 
 - **Najprościej:** otwórz `dist/magisterka.html` (jeden plik, działa po dwukliku, także na telefonie).
@@ -17,10 +21,11 @@ Sterowanie: klawiatura (strzałki, spacja, 1–6, Enter, Esc = pauza) albo dotyk
 | Tryb | Opis |
 |---|---|
 | Maraton | Wszystkie 40 pytań. Wprowadza po 4 nowe naraz, powtarza słabe, rośnie tempo i combo. |
+| Trening odpowiedzi | Tylko gry „ustne”: Mównica, Znikający tekst, Łowca błędów, Dopytka komisji i Komisja. |
 | Mapa światów | 8 światów tematycznych: gra w danym świecie, karty nauki, boss „Komisja”. |
-| Symulator obrony | Losowanie pytań jak na egzaminie, odpowiedź na głos z zegarem, samoocena hasłami, ocena 2,0–5,0. |
+| Symulator obrony | Losowanie jak na egzaminie, odpowiedź na głos z zegarem (cel 1:00–2:30), płatna podpowiedź planu, porównanie ze wzorcem zdanie po zdaniu, pytanie dodatkowe komisji, ocena 2,0–5,0. |
 | Egzamin końcowy | 12 losowych pytań, wszystkie typy minigier, 3 życia. |
-| Kompendium | Minimum egzaminacyjne, pełne rozszerzenie, haczyki pamięciowe, pojęcia; tryb fiszek i wyszukiwarka. |
+| Kompendium | Zakładki: Jak odpowiedzieć (plan + wzorcowa odpowiedź), Minimum, Rozszerzenie, Dopytki; tryb fiszek, wyszukiwarka i trening „Na pamięć” (tekst znika w 5 krokach). |
 
 ## Poziomy i minigry
 
@@ -28,10 +33,13 @@ Sterowanie: klawiatura (strzałki, spacja, 1–6, Enter, Esc = pauza) albo dotyk
 |---|---|
 | 0 Nowe | Drwal Prawdy (prawda/fałsz, Timberman), Flappy Birret (2 bramki) |
 | 1 Rozpoznaję | Flappy Birret (3 bramki), McBomba (scenki, McPixel), Drwal |
-| 2 Kojarzę | Spawarka Par (pojęcie ↔ opis), McBomba, Taśma Sortownia, Młotek Jidoka |
-| 3 Porządkuję | Wieża Wiedzy (kolejność, Icy Tower), Taśma, Młotek, Spawarka |
-| 4 Odpowiadam | Komisja: zaznacz hasła z minimum odpowiedzi, potem pełne minimum |
-| 5 Opanowane | Losowe powtórki wszystkimi typami |
+| 2 Kojarzę | Spawarka Par (pojęcie ↔ opis), McBomba, Taśma Sortownia, Młotek Jidoka, Wieża Wiedzy (kolejność, Icy Tower) |
+| 3 Układam odpowiedź | Mównica (ułóż wypowiedź ze zdań w dobrej kolejności, odrzuć zdania obce i z błędem), Znikający tekst (luki w odpowiedzi), Dopytka komisji |
+| 4 Mówię jak na obronie | Łowca błędów (znajdź pomyłki w odpowiedzi kolegi), więcej luk, Komisja, Mównica z pułapkami |
+| 5 Opanowane | Powtórki – głównie gry ustne, czasem pozostałe |
+
+Gry ustne rozgrywają się w pikselowej sali egzaminacyjnej: komisja reaguje miną i komentarzem, a pasek pokazuje jej nastrój.
+Po każdej grze ustnej widać wzorcową odpowiedź „Tak to powiedz komisji”.
 
 Dodatkowo generator zadań liczbowych: OEE (P40), EVM – CV/SV/CPI/SPI (P13), RPN (P35).
 
@@ -41,15 +49,17 @@ Dodatkowo generator zadań liczbowych: OEE (P40), EVM – CV/SV/CPI/SPI (P13), R
 - **Styl minimum i uzupełnienia:** „40 zagadnień – wersja minimalistyczna” (plik 1). Wiedza tylko z tego pliku jest oznaczona „(plik 1)”. Przy sprzecznościach wygrywa plik 2.
 - **P10 Role pracowników wiedzy:** według slajdów z wykładu (Kontroler, Pomocnik, Uczący się, Konsolidator, Łącznik, Organizator).
 
-Treść: `js/data/w0.js` … `w7.js` (jedno pytanie = jeden obiekt `Q({...})`), reguły antydwuznaczności dystraktorów: `js/data/_rules.js`.
+Treść: `js/data/w0.js` … `w7.js` (jedno pytanie = jeden obiekt `Q({...})`), odpowiedzi ustne, dopytki i typowe pomyłki: `js/data/oral-a.js`, `oral-b.js`,
+reguły antydwuznaczności dystraktorów: `js/data/_rules.js`.
 
 ## Struktura
 
 ```
 index.html, css/style.css
 js/util.js, sprites.js, audio.js, store.js   narzędzia, pixel-art, dźwięk 8-bit, zapis postępu
-js/challenges.js                             generator zadań dla minigier (+ zadania liczbowe)
-js/stage.js, js/mg/*.js                      scena canvas i 8 minigier
+js/challenges.js, challenges-oral.js         generator zadań dla minigier (+ zadania liczbowe i ustne)
+js/stage.js, js/mg/*.js                      scena canvas, 12 minigier, sala egzaminacyjna (mg/room.js)
+js/scene.js                                  animowana scena tytułowa
 js/run.js, ui.js, defense.js, main.js        runda, ekrany, symulator obrony, start
 tools/validate.js, tools/build.js            walidacja treści, budowanie dist/magisterka.html
 tests/*.test.js                              testy generatorów, test dymny i symulacja gry (Playwright)

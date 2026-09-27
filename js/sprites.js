@@ -20,6 +20,18 @@ const SPRITES = {
     '...llllll...', '..llllllll..', '..lssssssl..', '..skkssskk..', '..ssssssss..', '...ssSSss...',
     '...slllls...', '....llll....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
   ],
+  profH: [
+    '...llllll...', '..llllllll..', '..lssssssl..', '..skkssskk..', '..ssssssss..', '...ssSSss...',
+    '..RsllllsR..', '...sRRRRs...', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
+  profA: [
+    '...llllll...', '..llllllll..', '..lkksskkl..', '..sskssks...', '..ssssssss..', '...ssSSss...',
+    '...slllls...', '....kkkk....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
+  profB: [
+    '...llllll...', '..llllllll..', '..lssssssl..', '..sllssslls.', '..ssssssss..', '...ssSSss...',
+    '...slllls...', '....llll....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
   mole: [
     '....yyyy....', '..yyyyyyyy..', '.yyyyyyyyyy.', 'yyyyyyyyyyyy', '.nnnnnnnnnn.', '.nkwnnnnwkn.',
     '.nnnnppnnnn.', '.nnnwwwwnnn.', '.nnnnnnnnnn.', 'nnnnnnnnnnnn', 'nnnnnnnnnnnn',

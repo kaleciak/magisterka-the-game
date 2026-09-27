@@ -8,11 +8,7 @@ class Komisja extends MG {
     this.submitted = false;
     this.S.prompt({ lead: `${ch.tag} · Pytanie egzaminacyjne`, text: q.q });
     const quips = ['No to słucham…', 'Proszę wymienić najważniejsze elementy.', 'Konkretnie, panie magistrze.', 'Mamy czas. Chociaż nie za dużo.', 'Proszę się nie denerwować.'];
-    const profs = U.el('div', { class: 'profs' },
-      SPR.img('prof', 4, '', { l: '#b8c4bc', B: '#1b4f8a' }),
-      SPR.img('prof', 4, '', { l: '#4a2c18', B: '#8e1a26' }),
-      SPR.img('prof', 4, '', { l: '#f2ecd9', B: '#138a45' }));
-    this.bubble = U.el('div', { class: 'bubble' }, U.pick(quips));
+    this.room = new Room(P, { say: U.pick(quips) });
     this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
     this.chipsEl = U.el('div', { class: 'chips' });
     this.chips = ch.chips.map(c => {
@@ -24,9 +20,8 @@ class Komisja extends MG {
     this.btn = U.el('button', { class: 'btn primary', type: 'button' }, 'ODPOWIADAM ▶');
     this.btn.onclick = () => this.submitted ? this.next() : this.submit(false);
     this.reveal = U.el('div', { class: 'kom-reveal', hidden: true });
-    const head = U.el('div', { class: 'kom-head' }, profs, this.bubble);
     const boss = ch.boss ? U.el('div', { class: 'boss' }, U.el('span', {}, `Komisja: ${ch.boss.hp}/${ch.boss.max}`), U.el('div', { class: 'hp' }, U.el('i', { style: { width: (ch.boss.hp / ch.boss.max * 100) + '%' } }))) : null;
-    P.append(U.el('div', { class: 'kom' }, head, boss, this.bar,
+    P.append(U.el('div', { class: 'kom' }, boss, this.bar,
       U.el('p', { class: 'kom-ins' }, 'Zaznacz hasła, które należą do minimum odpowiedzi na to pytanie:'),
       this.chipsEl, U.el('div', { class: 'kom-actions' }, this.btn), this.reveal));
   }
@@ -50,16 +45,17 @@ class Komisja extends MG {
       c.el.disabled = true;
     }
     const q = this.ch.q;
-    this.bubble.textContent = this.ok ? U.pick(['Bardzo dobrze. Następne pytanie.', 'Widać, że Pan/Pani się przygotował(a).', 'Komisja kiwa głową.']) : U.pick(['Hmm… a gdzie reszta?', 'Komisja marszczy brwi.', 'To nie do końca to…']);
+    this.room.set(this.ok ? 0.3 : -0.3, this.ok ? U.pick(['Bardzo dobrze. Następne pytanie.', 'Widać, że Pan/Pani się przygotował(a).', 'Komisja kiwa głową.']) : U.pick(['Hmm… a gdzie reszta?', 'Komisja marszczy brwi.', 'To nie do końca to…']));
     this.S.sfx(this.ok ? 'ok' : 'bad');
     this.reveal.hidden = false;
     this.reveal.innerHTML = '';
     this.reveal.append(
       U.el('div', { class: 'verdict ' + (this.ok ? 'good' : 'bad') }, (this.ok ? '✓ ZALICZONE' : '✗ NIEZALICZONE') + (timeout ? ' (czas minął)' : '') + ` · trafione ${hit}/${good.length}, błędne ${wrong}`),
       U.el('div', { class: 'legend' }, U.el('span', { class: 'chip hit sm' }, 'trafione'), U.el('span', { class: 'chip miss sm' }, 'pominięte'), U.el('span', { class: 'chip wrong sm' }, 'błędne')),
-      U.el('div', { class: 'mini-label' }, 'MINIMUM EGZAMINACYJNE'),
-      U.el('div', { class: 'rich', html: U.richText(q.a) }),
-      U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m));
+      U.el('div', { class: 'mini-label' }, 'TAK TO POWIEDZ KOMISJI'),
+      Room.answer(q),
+      U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+      U.el('details', { class: 'ext' }, U.el('summary', {}, 'Minimum egzaminacyjne'), U.el('div', { class: 'rich', html: U.richText(q.a) })));
     this.btn.textContent = 'DALEJ ▶';
     this.reveal.append(U.el('div', { class: 'kom-actions' }, this.btn));
     this.btn.focus({ preventScroll: true });
@@ -68,6 +64,7 @@ class Komisja extends MG {
   next() { if (!this.done) this.end({ ok: this.ok, skipCorrection: true }, 0.05); }
   update(dt) {
     super.update(dt);
+    this.room.update(dt);
     if (this.submitted || this.done) return;
     this.left -= dt;
     const f = U.clamp(this.left / this.total, 0, 1);

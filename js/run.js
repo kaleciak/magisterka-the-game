@@ -7,6 +7,7 @@ const RUN = {
     world: { title: 'Świat', cap: 3 },
     focus: { title: 'Trening pytania', cap: 1 },
     drill: { title: 'Poprawka błędów', cap: 6 },
+    answers: { title: 'Trening odpowiedzi', cap: 5 },
     boss: { title: 'Boss: Komisja', cap: 0 },
     final: { title: 'Egzamin końcowy', cap: 0 },
   },
@@ -54,10 +55,12 @@ const RUN = {
     if (s.hearts <= 0) return this.end('dead');
     const allDone = s.pool.every(q => STORE.q(q.id).L >= 5);
     if (s.count > 0 && (s.mode === 'focus' || s.mode === 'world' || s.mode === 'drill') && allDone) return this.end('mastered');
+    if (s.count > 0 && s.mode === 'answers' && s.count >= s.pool.length * 3 && allDone) return this.end('mastered');
     if ((s.mode === 'boss' || s.mode === 'final') && !s.queue.length) return this.end('win');
     let q, type;
-    if (s.mode === 'boss') { q = s.queue[0]; type = 'keys'; }
+    if (s.mode === 'boss') { q = s.queue[0]; type = CH.chooseAnswerType(q, 4, s.lastType); }
     else if (s.mode === 'final') { q = s.queue[0]; type = CH.chooseType(q, 5, s.lastType); }
+    else if (s.mode === 'answers') { q = this.pickQuestion(); type = CH.chooseAnswerType(q, STORE.q(q.id).L, s.lastType); }
     else { q = this.pickQuestion(); type = CH.chooseType(q, STORE.q(q.id).L, s.lastType); }
     if (!STORE.q(q.id).seen && s.mode !== 'boss' && s.mode !== 'final') UI.learnCard(q, () => this.play(q, type));
     else this.play(q, type);
@@ -88,6 +91,7 @@ const RUN = {
       s.speed = Math.min(s.base + 0.75, s.speed + 0.05);
       UI.toast(`+${U.fmt(gain)}${s.combo >= 3 ? ` · COMBO ×${s.combo}` : ''}`, 'good');
       if (rec.after > rec.before) UI.toast(`P${q.id}: ${CH.LEVEL_NAMES[rec.after]} ${'★'.repeat(rec.after)}`, 'lvl');
+      if (rec.after === 5 && rec.before < 5) UI.celebrate(`P${String(q.id).padStart(2, '0')} OPANOWANE!`, q.t);
       if (s.combo % 8 === 0 && s.hearts < s.maxHearts) { s.hearts++; UI.toast('+♥ Kawa z automatu!', 'heart'); AUDIO.play('coin'); }
       if (s.combo % 5 === 0) { AUDIO.play('level'); UI.toast('TEMPO ↑', 'tempo'); }
       if (res.note) UI.toast(res.note, 'note');

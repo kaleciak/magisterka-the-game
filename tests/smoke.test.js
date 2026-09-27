@@ -28,7 +28,7 @@ require('fs').mkdirSync(OUT, { recursive: true });
       await page.waitForTimeout(500);
     }
     // wszystkie minigry z wejściem gracza
-    const types = ['tf', 'flappy', 'bomb', 'match', 'sort', 'whac', 'tower', 'keys'];
+    const types = ['tf', 'flappy', 'bomb', 'match', 'sort', 'whac', 'tower', 'keys', 'builder', 'luki', 'hunt', 'fu'];
     await page.evaluate(() => { const G = window.__G; G.QUESTIONS.forEach(q => G.STORE.markSeen(q.id)); });
     for (const t of types) {
       await page.evaluate(t => {
@@ -53,7 +53,31 @@ require('fs').mkdirSync(OUT, { recursive: true });
       if (t === 'whac') { await page.waitForTimeout(1500); await page.mouse.click(box.x + box.w * 0.5, box.y + box.h * 0.45); }
       if (t === 'match') { const b = await page.$$('.wbtn'); if (b.length > 3) { await b[0].click(); await b[b.length - 1].click(); } }
       if (t === 'keys') { const c = await page.$$('.chip'); for (const x of c.slice(0, 4)) await x.click(); await page.screenshot({ path: `${OUT}/${tag}-11-keys-picked.png` }); await page.click('.kom-actions .btn'); await page.waitForTimeout(300); await page.screenshot({ path: `${OUT}/${tag}-12-keys-reveal.png` }); }
+      if (t === 'builder') {
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; const bad = mg.cards.find(x => !x.c.ok); if (bad) bad.b.click(); });
+        for (let i = 0; i < 3; i++) await page.evaluate(() => { const mg = window.__G.STAGE.mg; const rem = mg.cards.filter(x => x.c.ok && !x.c.used); const min = Math.min(...rem.map(x => x.c.rank)); const n = rem.find(x => x.c.rank === min); if (n) n.b.click(); });
+        await page.waitForTimeout(500); await page.screenshot({ path: `${OUT}/${tag}-15-builder-mid.png` });
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; for (;;) { const rem = mg.cards.filter(x => x.c.ok && !x.c.used); if (!rem.length || mg.over) break; const min = Math.min(...rem.map(x => x.c.rank)); rem.find(x => x.c.rank === min).b.click(); } });
+      }
+      if (t === 'luki') {
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; const w = mg.chips.find((b, i) => !mg.ch.bank[i].ok); if (w) w.click(); });
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; for (let k = 0; k < 2; k++) { const i = mg.ch.bank.findIndex((c, j) => c.t === mg.ch.blanks[mg.cur] && !mg.chips[j].disabled); if (i >= 0) mg.chips[i].click(); } });
+        await page.waitForTimeout(500); await page.screenshot({ path: `${OUT}/${tag}-15-luki-mid.png` });
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; while (!mg.over) { const i = mg.ch.bank.findIndex((c, j) => c.t === mg.ch.blanks[mg.cur] && !mg.chips[j].disabled); if (i < 0) break; mg.chips[i].click(); } });
+      }
+      if (t === 'hunt') {
+        const toks = await page.$$('.tok');
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; const e = mg.toks.find(x => x.s.err); e.b.click(); });
+        await page.waitForTimeout(400); await page.screenshot({ path: `${OUT}/${tag}-15-hunt-mid.png` });
+        await page.evaluate(() => { const mg = window.__G.STAGE.mg; mg.toks.filter(x => x.s.err && !x.b.disabled).forEach(x => x.b.click()); });
+      }
+      if (t === 'fu') { await page.keyboard.press('Digit1'); }
       await page.waitForTimeout(600);
+      if (['builder', 'luki', 'hunt'].includes(t)) {
+        await page.screenshot({ path: `${OUT}/${tag}-16-${t}-finale.png` });
+        const fin = await page.$('.finale .btn');
+        if (!fin) errors.push(`[${tag}] brak finału w ${t}`); else { await fin.click(); await page.waitForTimeout(400); }
+      }
       await page.screenshot({ path: `${OUT}/${tag}-13-${t}-after.png` });
       const ovb = await page.$('#overlay:not([hidden]) [data-primary]');
       if (ovb) { await page.screenshot({ path: `${OUT}/${tag}-14-${t}-correction.png` }); await page.waitForTimeout(950); await ovb.click(); }
@@ -73,8 +97,22 @@ require('fs').mkdirSync(OUT, { recursive: true });
     await page.evaluate(() => window.__G.UI.defense()); await page.waitForTimeout(200);
     await page.click('#scr-defense .btn.primary'); await page.waitForTimeout(1200);
     await page.screenshot({ path: `${OUT}/${tag}-24-defense-q.png` });
+    await page.click('#scr-defense .hint-btn'); await page.waitForTimeout(200);
+    await page.screenshot({ path: `${OUT}/${tag}-24b-defense-hint.png` });
     await page.click('#scr-defense .btn.primary'); await page.waitForTimeout(200);
-    await page.screenshot({ path: `${OUT}/${tag}-25-defense-reveal.png` });
+    const ds = await page.$$('.dk.ds input'); for (const x of ds.slice(0, 3)) await x.check();
+    await page.screenshot({ path: `${OUT}/${tag}-25-defense-reveal.png`, fullPage: true });
+    await page.click('#scr-defense .btn.primary'); await page.waitForTimeout(500);
+    await page.click('#scr-defense .btn.primary'); await page.waitForTimeout(200);
+    await page.screenshot({ path: `${OUT}/${tag}-25b-defense-fu.png` });
+    await page.click('#scr-defense .ov-actions .btn.primary'); await page.waitForTimeout(400);
+    await page.screenshot({ path: `${OUT}/${tag}-25c-defense-final.png`, fullPage: true });
+    await page.evaluate(() => window.__G.UI.rehearse(window.__G.QUESTIONS[20], 2)); await page.waitForTimeout(200);
+    await page.screenshot({ path: `${OUT}/${tag}-27-rehearse.png` });
+    await page.evaluate(() => window.__G.UI.closeModal());
+    await page.evaluate(() => window.__G.UI.qModal(window.__G.QUESTIONS[20])); await page.waitForTimeout(200);
+    await page.click('#modal .tab[data-k="fu"]'); await page.waitForTimeout(100);
+    await page.screenshot({ path: `${OUT}/${tag}-28-qmodal-fu.png` });
     await page.evaluate(() => window.__G.UI.qModal(window.__G.QUESTIONS[39])); await page.waitForTimeout(200);
     await page.screenshot({ path: `${OUT}/${tag}-26-qmodal.png` });
     await page.close();

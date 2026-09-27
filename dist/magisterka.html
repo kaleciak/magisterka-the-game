@@ -184,7 +184,7 @@ button { font: inherit; color: inherit; }
 #stage { position: relative; border: var(--px) solid #000; box-shadow: 0 5px 0 #000; background: #0c1410; max-width: 100%; }
 #stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 #stage.dom { width: 100%; height: 100%; overflow-y: auto; background: var(--panel); }
-#stage.dom canvas { display: none; }
+#stage.dom #cv { display: none; }
 #panel { padding: 12px; }
 #splash {
   position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 10px;
@@ -342,6 +342,129 @@ details.mis { display: grid; gap: 8px; }
 .help ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
 .lvtxt { display: flex; align-items: center; gap: 6px; color: var(--mute); margin-right: auto; }
 
+/* ---------- odpowiedź ustna: role zdań ---------- */
+:root { --r-def: var(--green); --r-list: var(--blue); --r-det: var(--amber); --r-ex: var(--pink); --r-end: #b48cff; }
+.role-def { --rc: var(--r-def); } .role-list { --rc: var(--r-list); } .role-det { --rc: var(--r-det); } .role-ex { --rc: var(--r-ex); } .role-end { --rc: var(--r-end); }
+.say-def { --rc: var(--r-def); } .say-list { --rc: var(--r-list); } .say-det { --rc: var(--r-det); } .say-ex { --rc: var(--r-ex); } .say-end { --rc: var(--r-end); }
+ol.say { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: s; }
+ol.say > li { display: grid; grid-template-columns: 7.2em 1fr; gap: 10px; align-items: start; background: #0f1b15; border: 2px solid #000; border-left: 5px solid var(--rc); padding: 7px 10px; }
+.role { font: 400 8px/1.9 var(--f-display); color: var(--rc); text-transform: uppercase; letter-spacing: .02em; padding-top: 2px; }
+.say-t { font-size: 16px; line-height: 1.45; }
+.say-t b { color: var(--amber); }
+ol.say.compact > li { padding: 5px 8px; }
+ol.say.compact .say-t { font-size: 15px; }
+ol.say > li.fresh { animation: slidein .25s steps(3); }
+@keyframes slidein { from { transform: translateX(-14px); opacity: 0; } }
+.plan { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; }
+.plan-l { font: 400 8px/1.6 var(--f-display); color: var(--mute); align-self: center; margin-right: 2px; }
+.plan-s { display: grid; background: #0f1b15; border: 2px solid #000; border-bottom: 3px solid var(--rc); padding: 3px 8px; font-size: 13px; }
+.plan-s b { color: var(--rc); font-weight: 700; }
+.plan-s small { color: var(--mute); font-size: 12px; max-width: 18ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn.answer { background: var(--blue); color: #041320; }
+.ov-actions.left { justify-content: flex-start; }
+
+/* zakładki bloku pytania */
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 3px solid #000; }
+.tab { background: #0f1b15; border: 2px solid #000; border-bottom: 0; padding: 6px 10px; font-size: 14px; font-weight: 600; color: var(--mute); cursor: pointer; }
+.tab.on { background: var(--panel2); color: var(--ink); box-shadow: inset 0 3px 0 var(--amber); }
+.tabbody { min-height: 60px; }
+.tabp { display: grid; gap: 10px; }
+dl.fus { margin: 0; display: grid; gap: 4px; }
+dl.fus dt { font-weight: 700; color: var(--blue); margin-top: 6px; }
+dl.fus dt::before { content: "? "; color: var(--amber); }
+dl.fus dd { margin: 0 0 0 14px; }
+
+/* trening na pamięć */
+.reh { display: grid; gap: 10px; }
+.steps { display: inline-flex; gap: 4px; margin-left: 6px; }
+.steps i { width: 14px; height: 10px; background: var(--lv0); border: 2px solid #000; }
+.steps i.on { background: var(--blue); }
+.reh-tip { font-weight: 600; color: var(--blue); }
+.mask { color: var(--amber); letter-spacing: .08em; }
+.dots { color: var(--mute); letter-spacing: .05em; }
+
+/* sala egzaminacyjna */
+.room { display: grid; gap: 6px; margin-bottom: 10px; }
+.room-cv { width: 100%; max-width: 400px; aspect-ratio: 320 / 88; image-rendering: pixelated; border: var(--px) solid #000; box-shadow: 0 4px 0 #000; justify-self: center; }
+.room-bubble { position: relative; justify-self: center; max-width: 400px; width: 100%; background: var(--ink); color: #111; border: var(--px) solid #000; padding: 6px 10px; font-weight: 700; font-size: 15px; text-align: center; }
+.room-bubble::before { content: ""; position: absolute; top: -9px; left: 46%; width: 10px; height: 10px; background: var(--ink); border-left: var(--px) solid #000; border-top: var(--px) solid #000; transform: rotate(45deg); }
+.room-bubble.pop { animation: bub .25s steps(3); }
+@keyframes bub { 0% { transform: scale(.85); } 100% { transform: scale(1); } }
+.room-meter { display: flex; gap: 8px; align-items: center; justify-self: center; max-width: 400px; width: 100%; font-size: 12px; color: var(--mute); }
+.rm-bar { flex: 1; height: 8px; background: #06100b; border: 2px solid #000; }
+.rm-bar i { display: block; height: 100%; width: 50%; background: var(--amber); transition: background .3s; }
+
+/* gry ustne */
+.mw { display: grid; gap: 10px; }
+.mw-stat { font-size: 13px; color: var(--mute); font-variant-numeric: tabular-nums; }
+.mw-pool { display: grid; gap: 8px; }
+.mw-card { text-align: left; background: var(--panel2); border: var(--px) solid #000; box-shadow: 0 3px 0 #000; padding: 9px 11px; font-size: 15px; line-height: 1.4; cursor: pointer; display: block; width: 100%; }
+.mw-card b { color: var(--amber); }
+.mw-card:hover:not(:disabled) { filter: brightness(1.15); }
+.mw-card.used { display: none; }
+.mw-card.gone { opacity: .6; background: #2a1316; text-decoration: line-through; text-decoration-color: rgba(255, 107, 107, .7); cursor: default; }
+.mw-card.gone .why { text-decoration: none; display: block; }
+.mw-card.bad { animation: shake .3s steps(3); border-color: var(--red); }
+.why { color: #ff9a9a; font-size: 13px; font-weight: 600; display: block; margin-top: 4px; }
+ol.speech > li { grid-template-columns: 6.4em 1fr; padding: 5px 8px; }
+ol.speech > li:not(:last-child) .say-t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--mute); font-size: 14px; }
+ol.speech > li:not(:last-child) .say-t b { color: inherit; font-weight: 600; }
+ol.speech:empty::before { content: "…jeszcze nic nie powiedziałeś/aś"; color: var(--mute); font-style: italic; padding: 6px 0; display: block; }
+.blank { display: inline-block; min-height: 1.3em; border-bottom: 3px solid var(--mute); background: rgba(255, 255, 255, .04); padding: 0 4px; vertical-align: bottom; font-weight: 700; }
+.blank.cur { border-color: var(--amber); background: rgba(255, 194, 26, .16); animation: blinkb 1s steps(2) infinite; }
+.blank.filled { border-color: var(--green); color: var(--green); background: rgba(43, 212, 107, .1); animation: none; }
+.blank.missed { border: 2px dashed var(--amber); color: var(--amber); animation: none; }
+@keyframes blinkb { 50% { background: rgba(255, 194, 26, .04); } }
+.chips.bank { position: sticky; bottom: -12px; background: var(--panel); padding: 8px 0 10px; border-top: 2px solid var(--line); max-height: 40vh; overflow-y: auto; }
+.chips.bank .chip.hit { display: none; }
+.blank { scroll-margin: 24px 0 44vh; }
+.chip.shake { animation: shake .3s steps(3); }
+.tok { background: transparent; border: 0; border-bottom: 2px dotted var(--mute); padding: 0 2px; margin: 0 1px; font: inherit; line-height: inherit; cursor: pointer; color: inherit; text-align: left; }
+.tok:hover:not(:disabled) { background: rgba(255, 194, 26, .14); }
+.tok.caught { background: rgba(43, 212, 107, .14); border-bottom: 2px solid var(--green); }
+.tok.fine { border-bottom: 2px solid var(--line); color: var(--mute); }
+.tok.missed { background: rgba(224, 48, 60, .18); border-bottom: 2px solid var(--red); }
+.tok s { color: #ff8a8a; }
+.tok b { color: var(--green); }
+.tok:disabled { cursor: default; }
+.fu-list { display: grid; gap: 8px; }
+.fu-opt { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: start; }
+.fu-n { font: 400 10px/1.6 var(--f-display); color: var(--amber); background: #000; padding: 2px 6px; }
+.fu-opt.right { background: #1f4a31; border-color: var(--green); }
+.fu-opt.wrongc { background: #4a1a1f; }
+.finale .kom-actions, .ov-card.learn > .ov-actions { position: sticky; bottom: -12px; background: linear-gradient(transparent, var(--panel) 30%); padding: 14px 0 8px; z-index: 2; }
+.ov-card.learn > .ov-actions { bottom: -16px; }
+.finale { display: grid; gap: 10px; border-top: 3px solid #000; margin-top: 12px; padding-top: 12px; animation: tin .25s steps(3); }
+
+/* świętowanie */
+.celebrate { position: absolute; inset: 0; z-index: 30; pointer-events: none; display: grid; place-content: center; text-align: center; overflow: hidden; }
+.cel-t { font: 400 clamp(16px, 5vw, 26px)/1.4 var(--f-display); color: var(--green); text-shadow: 3px 3px 0 #000, 5px 5px 0 var(--green-d); animation: pop .35s steps(4); background: rgba(4, 10, 7, .8); padding: 12px 16px; border: var(--px) solid #000; }
+.cel-s { font-weight: 700; margin-top: 8px; text-shadow: 2px 2px 0 #000; }
+.conf { position: absolute; top: -12px; width: 8px; height: 8px; animation: fall 1.4s linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
+
+/* obrona 2.0 */
+.clock-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.clock-t { color: var(--mute); font-size: 14px; }
+.clock.ok { color: var(--green); }
+.def-hint:empty { display: none; }
+ol.plan-steps { margin: 0; padding-left: 22px; display: grid; gap: 2px; }
+.dk.ds { display: grid; grid-template-columns: auto 6.6em 1fr; border-left: 5px solid var(--rc); }
+.dk.ds .say-t { font-size: 15px; }
+.cov { display: grid; gap: 4px; font-weight: 700; }
+.fu-ans { background: #0f1b15; border: 2px solid var(--green); padding: 8px 10px; display: grid; gap: 4px; width: 100%; }
+.def-row small { color: var(--mute); flex-basis: 100%; order: 3; }
+.def-q .room { width: 100%; }
+.mic-live { width: 100%; background: #06100b; border: 2px solid var(--blue); padding: 8px 10px; display: grid; gap: 4px; }
+.mic-n { font-weight: 700; color: var(--blue); }
+.mic-t { color: var(--mute); font-size: 14px; min-height: 1.4em; }
+.btn.answer.on { background: var(--red); color: #fff; animation: blinkb 1s steps(2) infinite; }
+.say-t b.heard { color: var(--green); }
+.say-t b.unheard { color: #ff8a8a; text-decoration: underline dotted; }
+
+/* scena tytułowa */
+.title-scene { width: 100%; aspect-ratio: 320 / 96; image-rendering: pixelated; border: var(--px) solid #000; box-shadow: 0 4px 0 #000; display: block; }
+
 @media (max-width: 520px) {
   .screen { padding: 12px 16px 32px; }
   #scr-game { padding: 8px 10px 10px; gap: 6px; }
@@ -353,9 +476,21 @@ details.mis { display: grid; gap: 8px; }
   .avatar .px-img { width: 48px; height: auto; }
   dl.facts { grid-template-columns: 1fr; }
   .ctl { min-height: 64px; }
+  ol.say > li { grid-template-columns: 1fr; gap: 2px; }
+  ol.speech > li { grid-template-columns: 5.6em 1fr; gap: 6px; }
+  ol.speech > li:last-child { grid-template-columns: 1fr; }
+  .room-cv { max-height: 70px; width: auto; }
+  .room { gap: 4px; margin-bottom: 6px; }
+  .room-bubble { font-size: 14px; padding: 4px 8px; }
+  .chips.bank .chip { font-size: 14px; padding: 5px 8px; }
+  .mw-card { font-size: 14px; padding: 8px 9px; }
+  .dk.ds { grid-template-columns: auto 1fr; }
+  .dk.ds .say-t { grid-column: 1 / -1; }
+  .tab { padding: 6px 8px; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bob, #splash.go .sp-title, .toast, .wbtn.bad { animation: none !important; }
+  .bob, #splash.go .sp-title, .toast, .wbtn.bad, .conf, .blank.cur, .room-bubble.pop, ol.say > li.fresh, .cel-t, .finale { animation: none !important; }
+  .conf { display: none; }
 }
 
 </style>
@@ -2838,6 +2973,664 @@ Q({
 });
 
 </script>
+<script>/* js/data/oral-a.js */
+'use strict';
+/* ODPOWIEDZI USTNE (P01–P20): jak powiedzieć to przed komisją.
+   say – wzorcowa wypowiedź zdanie po zdaniu: [rola, zdanie z **kluczowymi pojęciami**]
+         role: def (definicja), list (wyliczenie), det (rozwinięcie), ex (przykład), end (domknięcie)
+   fu  – pytania dodatkowe komisji: [pytanie, dobra odpowiedź, odpowiedź pułapka]
+   err – typowe błędy do „Łowcy błędów”: [poprawny fragment zdania, błędna podmiana] */
+const ORAL = {};
+
+ORAL[1] = {
+  say: [
+    ['def', 'Współczesne przetwórstwo metali nieżelaznych – stopów **Al, Mg, Ti i Cu** – dąży do **integracji procesów**, mniejszej **energochłonności** i uzyskania unikalnej **mikrostruktury**.'],
+    ['list', 'Najważniejsze przykłady to **Twin-Roll Casting**, **Superplastic Forming**, **hydroformowanie** oraz formowanie ze **stanu półciekłego**, czyli thixoforming i rheocasting.'],
+    ['det', 'W **TRC** ciekły metal krzepnie między **dwoma chłodzonymi walcami** i od razu jest walcowany, więc odlewanie i walcowanie to **jeden ciągły proces**, a szybkie chłodzenie ogranicza **segregację**.'],
+    ['det', 'W **SPF** wykorzystujemy **superplastyczność**: blachę o ziarnie **poniżej 10 µm** dociskamy do matrycy **gazem obojętnym** w temperaturze **powyżej 0,5 Tm**.'],
+    ['det', '**Hydroformowanie** kształtuje rury i blachy **cieczą pod bardzo wysokim ciśnieniem**, która działa jak **stempel**, a thixoforming wykorzystuje **tiksotropię** stopu w stanie półciekłym.'],
+    ['end', 'Uzupełniająco można wymienić też **formowanie wybuchowe**.'],
+  ],
+  fu: [
+    ['Na czym polega zaleta strukturalna TRC?', 'Bardzo szybkie chłodzenie ogranicza segregację chemiczną, rozdrabnia strukturę i zwiększa rozpuszczalność składników w roztworze stałym, więc rosną właściwości mechaniczne.', 'Wolne chłodzenie pozwala ziarnom urosnąć, dzięki czemu taśma jest bardziej plastyczna.'],
+    ['Jakie warunki są potrzebne do superplastycznego formowania?', 'Stabilne, bardzo drobne ziarno poniżej 10 µm, temperatura powyżej 0,5 Tm i bardzo mała prędkość odkształcenia; blachę dociska gaz obojętny, np. argon.', 'Gruboziarnisty materiał, temperatura pokojowa i duża prędkość odkształcenia pod stemplem.'],
+    ['Co to jest tiksotropia?', 'Materiał w spoczynku zachowuje się jak ciało stałe, a pod wpływem sił ścinających jego lepkość spada i płynie jak ciecz – wykorzystuje to thixoforming.', 'To wzrost lepkości materiału pod wpływem ścinania, co utrudnia wypełnianie matrycy.'],
+  ],
+  err: [['dwoma chłodzonymi walcami', 'dwoma podgrzewanymi stemplami'], ['poniżej 10 µm', 'powyżej 100 µm'], ['gazem obojętnym', 'olejem hydraulicznym'], ['powyżej 0,5 Tm', 'poniżej 0,1 Tm'], ['segregację', 'przewodność cieplną'], ['cieczą pod bardzo wysokim ciśnieniem', 'gazem w próżni'], ['tiksotropię', 'kruchość']],
+};
+
+ORAL[2] = {
+  say: [
+    ['def', 'Różnice między skalą **laboratoryjną** a **przemysłową** dotyczą czterech aspektów: **masy i przewodności cieplnej**, **kontroli atmosfery**, **ekonomii** oraz **automatyzacji**.'],
+    ['det', 'W laboratorium **małe próbki** nagrzewają się i stygną **szybko i jednorodnie**, a w przemyśle **kilkutonowe wlewki** dają duże **gradienty temperatur**, czyli **segregację chemiczną** i naprężenia termiczne.'],
+    ['det', 'W laboratorium łatwo o **wysoką próżnię** albo czysty argon czy hel, a w przemyśle stosuje się **atmosfery kontrolowane**, **żużle ochronne** i odgazowanie **VD/VOD**.'],
+    ['det', 'Ekonomicznie w laboratorium liczy się **koszt jednostkowy eksperymentu**, a w przemyśle **koszt energii**, **czas cyklu** i **uzysk**, czyli minimum odpadu.'],
+    ['det', 'Laboratorium steruje procesem **ręcznie** i elastycznie, a przemysł jest ściśle **zautomatyzowany systemami SCADA i MES**, więc zmiana parametrów grozi **stratami na dużą skalę**.'],
+  ],
+  fu: [
+    ['Dlaczego duży wlewek jest problemem?', 'Duża masa daje ogromne gradienty temperatur, a to prowadzi do segregacji chemicznej, naprężeń termicznych i niejednorodnej mikrostruktury.', 'Duży wlewek stygnie szybciej i równomierniej niż mała próbka.'],
+    ['Jak chroni się metal przed atmosferą w przemyśle?', 'Stosuje się atmosfery kontrolowane, żużle ochronne albo próżniowe odgazowanie VD/VOD, bo wysoka próżnia w dużej skali jest bardzo droga.', 'W przemyśle standardem jest wysoka próżnia w małych komorach, tak jak w laboratorium.'],
+    ['Co optymalizuje przemysł, a co laboratorium?', 'Laboratorium – koszt jednostkowy eksperymentu; przemysł – koszty energii, czas cyklu, logistykę surowców i uzysk.', 'Laboratorium optymalizuje uzysk i czas cyklu, a przemysł koszt pojedynczej próbki.'],
+  ],
+  err: [['szybko i jednorodnie', 'wolno i niejednorodnie'], ['żużle ochronne', 'gazy szlachetne w komorze'], ['czas cyklu', 'koszt pojedynczej próbki'], ['ręcznie', 'w pełni automatycznie'], ['VD/VOD', 'EDS/WDS'], ['wysoką próżnię', 'żużel ochronny']],
+};
+
+ORAL[3] = {
+  say: [
+    ['def', '**Mikroskopia optyczna** i **skaningowa** to podstawowe narzędzia analizy mikrostruktury metali i stopów.'],
+    ['det', '**Mikroskop optyczny** wykorzystuje **światło widzialne**, powiększa do około **1000–1500 razy** przy rozdzielczości około **0,2 µm** i wymaga **zgładu**, czyli szlifowania, polerowania i trawienia.'],
+    ['det', 'W mikroskopie optycznym oceniamy **wielkość i kształt ziarna według ASTM**, strukturę po obróbce plastycznej, **czystość hutniczą**, czyli wtrącenia niemetaliczne, oraz **grubość warstw wierzchnich**.'],
+    ['det', '**SEM** wykorzystuje **wiązkę elektronów w próżni**, daje powiększenia **powyżej 100 000 razy**, rozdzielczość rzędu **nanometrów** i ogromną **głębię ostrości**.'],
+    ['det', 'Dzięki temu SEM służy do **fraktografii**, czyli badania przełomów ciągliwych, kruchych i zmęczeniowych, z przystawkami **EDS/WDS** bada **skład chemiczny**, a przez **EBSD** – orientację i teksturę.'],
+  ],
+  fu: [
+    ['Jak przygotowuje się próbkę do mikroskopu optycznego?', 'Wykonuje się zgład metalograficzny: szlifowanie, polerowanie i trawienie chemiczne lub elektrochemiczne.', 'Próbkę napyla się złotem i umieszcza w próżni.'],
+    ['Do czego służy EBSD?', 'Do analizy orientacji krystalograficznej i tekstury w mikroskopie skaningowym.', 'Do mikroanalizy składu chemicznego w mikroobszarach.'],
+    ['Dlaczego przełomy bada się w SEM, a nie w mikroskopie optycznym?', 'Bo SEM ma ogromną głębię ostrości i daje obraz 3D powierzchni przy bardzo dużych powiększeniach.', 'Bo SEM wykorzystuje światło widzialne o większej rozdzielczości.'],
+  ],
+  err: [['1000–1500 razy', '100 000 razy'], ['0,2 µm', '0,2 nm'], ['w próżni', 'w powietrzu'], ['EBSD', 'EDS'], ['fraktografii', 'dylatometrii'], ['czystość hutniczą', 'twardość']],
+};
+
+ORAL[4] = {
+  say: [
+    ['def', 'Własności metali są **bezpośrednią funkcją struktury**, czyli ułożenia ziaren i blokowania ruchu **dyslokacji**, a strukturę kształtujemy na **trzech etapach** produkcji.'],
+    ['det', 'Na **etapie ciekłym** stosujemy **modyfikację**, np. **TiB₂** dla stopów Al, która zamienia **kryształy słupkowe na równoosiowe**, a szybkością chłodzenia sterujemy rozstawem ramion dendrytów **DAS**.'],
+    ['det', 'W **obróbce plastycznej na zimno** rośnie gęstość dyslokacji, czyli **umocnienie przez zgniot**, a **na gorąco** zachodzi **zdrowienie i rekrystalizacja dynamiczna**, które dają drobne, równoosiowe ziarno.'],
+    ['det', 'Drobne ziarno jest korzystne zgodnie z zależnością **Halla-Petcha**: im **mniejsze ziarno**, tym **wyższa granica plastyczności**.'],
+    ['det', 'W **obróbce cieplnej** wydzielenia ze **starzenia** stopów Al i Ti blokują dyslokacje, **hartowanie** stali daje **martenzyt**, a **odpuszczanie** przywraca ciągliwość.'],
+  ],
+  fu: [
+    ['Co mówi zależność Halla-Petcha?', 'σy = σ0 + ky·d^(-1/2): im mniejsze ziarno, tym wyższa granica plastyczności.', 'Im większe ziarno, tym wyższa granica plastyczności.'],
+    ['Czym różni się odkształcenie na zimno od odkształcenia na gorąco?', 'Na zimno rośnie gęstość dyslokacji i metal umacnia się zgniotem; na gorąco zachodzi zdrowienie i rekrystalizacja dynamiczna, która odnawia drobne ziarno.', 'Na zimno zachodzi rekrystalizacja, a na gorąco umocnienie zgniotem.'],
+    ['Po co odpuszcza się stal po hartowaniu?', 'Hartowanie daje twardy martenzyt, a odpuszczanie przywraca ciągliwość.', 'Żeby jeszcze bardziej zwiększyć twardość martenzytu.'],
+  ],
+  err: [['słupkowe na równoosiowe', 'równoosiowe na słupkowe'], ['wyższa granica plastyczności', 'niższa granica plastyczności'], ['martenzyt', 'perlit'], ['umocnienie przez zgniot', 'zmiękczenie przez wyżarzanie'], ['TiB₂', 'Fe₃C'], ['przywraca ciągliwość', 'zwiększa kruchość']],
+};
+
+ORAL[5] = {
+  say: [
+    ['def', '**Skaner 3D** to cyfrowe urządzenie, które **bezdotykowo i nieinwazyjnie** odwzorowuje geometrię obiektu w formacie **CAD**, a wynikiem jest **chmura punktów**.'],
+    ['list', 'Metody dzielimy na **kontaktowe** i **bezkontaktowe**, a wśród bezkontaktowych są trzy techniki: **skanowanie laserowe**, **światło strukturalne** i **fotogrametria**.'],
+    ['det', 'Skaner **laserowy** analizuje **odbicie wiązki lasera** – punkt odbicia to **najjaśniejszy piksel** obrazu, a przy silnym świetle laser jest **naprzemiennie włączany i wyłączany**.'],
+    ['det', 'Przy **świetle strukturalnym** rzucamy na obiekt **siatki lub paski** i liczymy współrzędne z ich zniekształceń metodą **triangulacji optycznej**; to zwykle **najdokładniejsza** metoda.'],
+    ['det', '**Fotogrametria** wyznacza kształt ze **zdjęć z różnych perspektyw** na zasadzie **stereoskopii**, jako **lotnicza** – ortofotomapy z dronów – albo **naziemna bliskiego zasięgu**.'],
+  ],
+  fu: [
+    ['Która technika skanowania jest zwykle najdokładniejsza i dlaczego?', 'Światło strukturalne – dzięki triangulacji optycznej ze znanej geometrii projektora i kamery zwykle daje najwyższą rozdzielczość i dokładność.', 'Fotogrametria lotnicza, bo zdjęcia z drona obejmują największy obszar.'],
+    ['Co to jest chmura punktów?', 'Zbiór danych przestrzennych – współrzędnych punktów powierzchni – będący wynikiem skanowania 3D.', 'Model bryłowy CAD wykonany ręcznie przez konstruktora.'],
+    ['Na czym polega stereoskopia w fotogrametrii?', 'Na wyznaczaniu głębi na podstawie zdjęć tego samego obiektu wykonanych z różnych punktów widzenia.', 'Na pomiarze czasu powrotu impulsu laserowego.'],
+  ],
+  err: [['najjaśniejszy piksel', 'najciemniejszy piksel'], ['triangulacji optycznej', 'spiekania laserowego'], ['najdokładniejsza', 'najmniej dokładna'], ['bezdotykowo i nieinwazyjnie', 'stykowo i niszcząco'], ['stereoskopii', 'dyfrakcji'], ['chmura punktów', 'zgład metalograficzny']],
+};
+
+ORAL[6] = {
+  say: [
+    ['def', '**Druk 3D** to wytwarzanie **addytywne**, czyli budowanie obiektu **warstwa po warstwie** z modelu cyfrowego, w odróżnieniu od tradycyjnych procesów **subtraktywnych**.'],
+    ['list', 'Trzy główne technologie to **FDM/FFF**, **SLA** i **SLS**.'],
+    ['det', '**FDM** nakłada **stopiony filament termoplastyczny** o średnicy **1,75 lub 2,85 mm** przez **głowicę** rozgrzaną do **190–260°C**; to najpopularniejsza metoda, ale widać **schodkowanie** warstw.'],
+    ['det', '**SLA** utwardza **ciekłą żywicę fotopolimerową światłem UV** w układzie **bottom-up**, z dokładnością około **0,1 mm**, ale wymaga **mycia i doutwardzania UV**.'],
+    ['det', '**SLS** spieka **proszek wiązką lasera**, warstwami o grubości **20–150 µm**, a wiązkę odchylają **lustra galwanometryczne**.'],
+  ],
+  fu: [
+    ['Czym różni się wytwarzanie addytywne od subtraktywnego?', 'Addytywne buduje obiekt, dodając kolejne warstwy materiału; subtraktywne usuwa materiał, np. cięciem i szlifowaniem.', 'Addytywne usuwa materiał warstwami, a subtraktywne go dokłada.'],
+    ['Dlaczego wydruki FDM mają widoczne linie?', 'Bo materiał nakładany jest warstwami ze stopionego filamentu – to tzw. efekt schodkowania.', 'Bo laser nierówno spieka proszek.'],
+    ['Na czym polega post-processing w SLA?', 'Wydruk trzeba umyć i dodatkowo doutwardzić światłem UV.', 'Wydruk trzeba wygrzać w piecu do spiekania proszku.'],
+  ],
+  err: [['addytywne', 'subtraktywne'], ['światłem UV', 'wiązką elektronów'], ['proszek wiązką lasera', 'żywicę lampą UV'], ['190–260°C', '400–600°C'], ['0,1 mm', '1 cm'], ['lustra galwanometryczne', 'chłodzone walce']],
+};
+
+ORAL[7] = {
+  say: [
+    ['def', 'Według Arystotelesa wyróżniamy cztery rodzaje wiedzy, które odpowiadają na pytania: **co, dlaczego, jak i kto**.'],
+    ['det', '**Know-what** to wiedza bliskoznaczna z **informacją** – twarde **fakty i liczby**, na przykład liczba mieszkańców Nowego Jorku; można ją przesłać **danymi i bitami**.'],
+    ['det', '**Know-why** **wyjaśnia rzeczywistość** przez **zasady i prawa uniwersalne**, jak prawa ruchu; w zarządzaniu obejmuje też decyzje, **czego nie robić**.'],
+    ['det', '**Know-how** to **umiejętności** ludzi i zespołów, sprawność robienia czegoś, w przemyśle – wiedza **nieopisana patentami i licencjami**, potrzebna przy **transferze technologii**.'],
+    ['det', '**Know-who** to wiedza o tym, **kto posiada wiedzę**, oraz **kompetencje społeczne** do współpracy z **ekspertami zewnętrznymi**.'],
+    ['end', 'Z pragmatyki życiowej dochodzą jeszcze **know-where, know-if, know-when, know-between i know-which**.'],
+  ],
+  fu: [
+    ['Czym know-how różni się od know-what?', 'Know-what to fakty i dane, które da się przesłać bitami; know-how to umiejętności i sprawność działania, często nieopisane w patentach.', 'Know-how to fakty i liczby, a know-what to umiejętności praktyczne.'],
+    ['Co to jest know-which?', 'Umiejętność wyboru spośród skończonej liczby alternatyw.', 'Umiejętność wyboru właściwego momentu działania.'],
+    ['Dlaczego know-who jest dziś tak ważna?', 'Bo nowe produkty powstają z wiedzy wielu dziedzin, więc trzeba wiedzieć, kto ma kompetencje, i umieć współpracować z ekspertami.', 'Bo zastępuje wiedzę techniczną w procesie produkcji.'],
+  ],
+  err: [['informacją', 'umiejętnością'], ['nieopisana patentami i licencjami', 'w całości opisana patentami'], ['czego nie robić', 'ile to kosztuje'], ['ekspertami zewnętrznymi', 'maszynami produkcyjnymi'], ['wyjaśnia rzeczywistość', 'podaje wyłącznie liczby']],
+};
+
+ORAL[8] = {
+  say: [
+    ['def', 'Proces twórczy przebiega w **pięciu etapach**, w ściśle określonej kolejności.'],
+    ['det', 'Najpierw następuje **wyszukiwanie lub intuicyjne rozpoznanie problemu**, a potem **przygotowanie**, czyli skupienie na problemie, **zbieranie informacji** i stawianie **roboczych hipotez**.'],
+    ['det', 'Trzeci etap to **inkubacja** – **odprężenie**, w którym **podświadomość** układa fakty w nowe wzory, choć człowiek wydaje się bezczynny.'],
+    ['det', 'Czwarty etap to **zrozumienie lub olśnienie** – pomysł pojawia się w **najmniej oczekiwanej chwili** i trzeba go **szybko zanotować**.'],
+    ['det', 'Na końcu jest **weryfikacja i zastosowanie**, czyli udowodnienie **eksperymentem lub logicznym rozumowaniem**, że pomysł rozwiązuje problem.'],
+    ['end', 'W klasycznym modelu **Wallasa** te etapy nazywamy: **preparacja, inkubacja, iluminacja i weryfikacja**.'],
+  ],
+  fu: [
+    ['Co dzieje się w fazie inkubacji?', 'Po zebraniu informacji następuje odprężenie, a podświadomość przetwarza materiał i układa fakty w nowe wzory.', 'Człowiek intensywnie i świadomie zbiera dane oraz stawia hipotezy.'],
+    ['Dlaczego pomysł z fazy olśnienia trzeba zanotować?', 'Bo pojawia się nagle, w nieoczekiwanej chwili, i świadoma część umysłu może o nim szybko zapomnieć.', 'Bo trzeba go od razu zgłosić do urzędu patentowego.'],
+    ['Jak nazywają się etapy w modelu Wallasa?', 'Preparacja, inkubacja, iluminacja i weryfikacja.', 'Preparacja, iluminacja, inkubacja i weryfikacja.'],
+  ],
+  err: [['pięciu etapach', 'trzech etapach'], ['podświadomość', 'świadoma analiza'], ['szybko zanotować', 'natychmiast zapomnieć'], ['eksperymentem lub logicznym rozumowaniem', 'intuicją i marzeniem na jawie'], ['inkubacja', 'iluminacja']],
+};
+
+ORAL[9] = {
+  say: [
+    ['def', 'Wielka Piątka to pięcioczynnikowy model osobowości, który obejmuje: **neurotyczność, ekstrawersję, otwartość na doświadczenie, ugodowość i sumienność**.'],
+    ['det', '**Sumienność** opisuje **zorganizowanie, wytrwałość, odpowiedzialność i motywację** do działania; takie osoby są **skrupulatne i systematyczne**.'],
+    ['ex', 'W inżynierii produkcji osoby sumienne świetnie sprawdzają się w **kontroli jakości, auditach i zarządzaniu procesami**.'],
+    ['det', '**Otwartość na doświadczenie** to **poszukiwanie nowości, kreatywność, wyobraźnia i ciekawość intelektualna**.'],
+    ['ex', 'Osoby otwarte łatwo **adaptują się do zmian** i chętnie **wdrażają innowacje technologiczne**.'],
+  ],
+  fu: [
+    ['Co oznacza niska neurotyczność?', 'Stabilność emocjonalną – odporność na stres i trafne decyzje pod presją.', 'Nadmierną wrażliwość na stres i częste wahania nastroju.'],
+    ['Gdzie w fabryce najlepiej sprawdzi się osoba sumienna?', 'W kontroli jakości, auditach i zarządzaniu procesami, bo jest skrupulatna i systematyczna.', 'W dziale marketingu, bo jest ekstrawertyczna i towarzyska.'],
+    ['Czy inteligencja jest wymiarem Wielkiej Piątki?', 'Nie – wymiary to neurotyczność, ekstrawersja, otwartość na doświadczenie, ugodowość i sumienność.', 'Tak – inteligencja zastępuje w modelu otwartość na doświadczenie.'],
+  ],
+  err: [['skrupulatne i systematyczne', 'impulsywne i chaotyczne'], ['adaptują się do zmian', 'unikają zmian'], ['kontroli jakości, auditach', 'kampaniach reklamowych'], ['ugodowość', 'inteligencję']],
+};
+
+ORAL[10] = {
+  say: [
+    ['def', '**Pracownicy wiedzy** to osoby, dla których głównym narzędziem pracy jest **kapitał intelektualny**.'],
+    ['list', 'Przykładowe role to: **Kontroler, Pomocnik, Uczący się, Konsolidator, Łącznik i Organizator**.'],
+    ['det', '**Kontroler** **monitoruje wyniki organizacji** na podstawie **surowych informacji** – analizuje, zbiera i rozpowszechnia dane.'],
+    ['det', '**Organizator** zajmuje się **planowaniem działań** osobistych lub organizacyjnych, na przykład tworzy **listy spraw** i **harmonogramy**.'],
+    ['det', 'Warto odróżnić **Konsolidatora**, który **łączy informacje z różnych źródeł** w nową informację, od **Łącznika**, który buduje **relacje z ludźmi** wykonującymi ten sam rodzaj pracy.'],
+    ['end', 'Role te opisali m.in. **Davenport i Prusak**, **Nonaka i Takeuchi**, Moore i Rugullies oraz Geisler.'],
+  ],
+  fu: [
+    ['Czym zajmuje się Pomocnik?', 'Przekazuje informacje, aby uczyć innych i pomagać im rozwiązywać napotkane problemy.', 'Tworzy harmonogramy i listy spraw do załatwienia.'],
+    ['Kim jest Uczący się?', 'Osobą, która wykorzystuje informacje i praktyczne przypadki, by doskonalić własne umiejętności i kompetencje.', 'Osobą, która monitoruje wyniki organizacji na podstawie surowych danych.'],
+    ['Czym różni się Konsolidator od Łącznika?', 'Konsolidator miesza informacje z różnych źródeł i tworzy nową informację; Łącznik tworzy relacje z ludźmi, by dzielić się informacjami i wspierać nawzajem.', 'Konsolidator buduje sieć kontaktów, a Łącznik scala dane z różnych baz.'],
+  ],
+  err: [['monitoruje wyniki organizacji', 'uczy nowych pracowników'], ['listy spraw', 'kampanie reklamowe'], ['łączy informacje z różnych źródeł', 'nadzoruje linię produkcyjną'], ['relacje z ludźmi', 'bazy danych'], ['kapitał intelektualny', 'kapitał obrotowy']],
+};
+
+ORAL[11] = {
+  say: [
+    ['def', '**Logistyka** to proces **przepływu fizycznego dóbr materialnych** – surowców, materiałów i wyrobów gotowych – w przedsiębiorstwie i **między przedsiębiorstwami**, wraz z **przepływem informacji**.'],
+    ['det', 'To także **zintegrowana, systemowa koncepcja zarządzania** tymi przepływami, której ideą jest ich **koordynacja w celu minimalizacji kosztów**.'],
+    ['list', 'Logistykę opisujemy w trzech aspektach: **koncepcyjno-funkcjonalnym**, **przedmiotowo-strukturalnym** i **efektywnościowym**.'],
+    ['det', 'Aspekt **efektywnościowy** oznacza zapewnienie klientom **pożądanego poziomu obsługi** przy **racjonalnych kosztach**.'],
+    ['end', 'Jej fundamentem jest zasada **7R**: właściwy **produkt, ilość, stan, miejsce, czas, klient i koszt**.'],
+  ],
+  fu: [
+    ['Na czym polega aspekt przedmiotowo-strukturalny?', 'Logistykę widzimy jako fizyczny proces przepływów towarowych i kompleks czynności związanych z ich realizacją.', 'Logistykę widzimy jako koncepcję zarządzania przepływami.'],
+    ['Wymień zasadę 7R.', 'Właściwy produkt, właściwa ilość, właściwy stan, właściwe miejsce, właściwy czas, właściwy klient i właściwy koszt.', 'Właściwy produkt, cena, promocja, dystrybucja, ludzie, procesy i dostawca.'],
+    ['Czy logistyka dotyczy tylko towarów?', 'Nie – obejmuje także przepływ towarzyszących im informacji.', 'Tak – informacje są przedmiotem wyłącznie systemów IT, nie logistyki.'],
+  ],
+  err: [['między przedsiębiorstwami', 'wyłącznie w jednym dziale'], ['minimalizacji kosztów', 'maksymalizacji zapasów'], ['pożądanego poziomu obsługi', 'najniższej ceny sprzedaży'], ['przepływem informacji', 'przepływem gotówki']],
+};
+
+ORAL[12] = {
+  say: [
+    ['def', 'Misją **logistyki zaopatrzenia** jest **optymalizacja transferu surowców, materiałów i podzespołów** wpływających do przedsiębiorstwa, także przez **ogniwa zasilające**.'],
+    ['det', 'To **pierwsze ogniwo** łańcucha – przed **logistyką produkcji i dystrybucji** – które łączy **rynek dostawców** przez **magazyn surowców** z **procesem produkcji**.'],
+    ['det', 'W praktyce chodzi o **ciągłość produkcji** przy **minimalnych łącznych kosztach zakupu i magazynowania**.'],
+    ['end', 'Istotą jest **równowaga**: nie dopuścić do zatrzymania linii z **braku materiału**, ale też nie zamrażać **kapitału obrotowego** w nadmiernych zapasach.'],
+  ],
+  fu: [
+    ['Gdzie w łańcuchu logistycznym jest zaopatrzenie?', 'Na początku – przed logistyką produkcji i dystrybucji; łączy rynek dostawców przez magazyn surowców z produkcją.', 'Na końcu – po dystrybucji, przy kontakcie z klientem.'],
+    ['Co grozi przy zbyt dużych zapasach?', 'Zamrożenie kapitału obrotowego i wysokie koszty magazynowania.', 'Zatrzymanie linii produkcyjnej z braku materiału.'],
+  ],
+  err: [['pierwsze ogniwo', 'ostatnie ogniwo'], ['ciągłość produkcji', 'maksymalne zapasy'], ['kapitału obrotowego', 'kapitału intelektualnego'], ['rynek dostawców', 'rynek klientów']],
+};
+
+ORAL[13] = {
+  say: [
+    ['def', '**Controlling strategiczny** to **długofalowy podsystem wsparcia zarządzania strategicznego**, który pomaga rozstrzygać o **przetrwaniu i rozwoju** firmy z uwzględnieniem **otoczenia**.'],
+    ['det', 'Wspiera plany o horyzoncie **minimum 3–5 lat**, **monitoruje szanse i zagrożenia** z otoczenia i **stale diagnozuje zmiany** rynkowe, demograficzne i ekonomiczne.'],
+    ['det', 'Wymaga **pełnej otwartości na informacje**, bo zakłada częściową nieprzewidywalność otoczenia.'],
+    ['det', 'Jego zadaniem jest **kaskadowanie celów**: strategiczne, potem **taktyczne na 1–5 lat** i **operacyjne do roku**, a także nadzór nad **wartością firmy EVA** i monitoring odchyleń.'],
+    ['det', 'Do kontroli projektów używa metody **EVM**: **CV = BCWP − ACWP**, **SV = BCWP − BCWS**, a wskaźniki to **CPI = BCWP/ACWP** i **SPI = BCWP/BCWS**.'],
+  ],
+  fu: [
+    ['Co oznacza ujemne CV?', 'Że rzeczywisty koszt pracy wykonanej (ACWP) jest wyższy od budżetowego (BCWP), czyli przekroczyliśmy koszty.', 'Że projekt wyprzedza harmonogram.'],
+    ['Czym różni się CPI od SPI?', 'CPI = BCWP/ACWP mierzy efektywność kosztową, a SPI = BCWP/BCWS – efektywność harmonogramu.', 'CPI mierzy opóźnienia, a SPI przekroczenie kosztów.'],
+    ['Jaki horyzont ma controlling strategiczny?', 'Minimum 3–5 lat, w ujęciu makroekonomicznym nawet 5–10 lat.', 'Zwykle jeden miesiąc, bo opiera się na bieżących rozliczeniach księgowych.'],
+  ],
+  err: [['3–5 lat', '3–5 miesięcy'], ['CV = BCWP − ACWP', 'CV = BCWP − BCWS'], ['operacyjne do roku', 'operacyjne na 10 lat'], ['szanse i zagrożenia', 'faktury i paragony'], ['SPI = BCWP/BCWS', 'SPI = BCWP/ACWP']],
+};
+
+ORAL[14] = {
+  say: [
+    ['def', 'Wyróżniamy pięć strategii logistycznych: **opóźniania, konsolidacji, racjonalizacji, zróżnicowanej dystrybucji i mieszaną**.'],
+    ['det', '**Strategia opóźniania** przesuwa nadanie **ostatecznego kształtu produktu** na **jeden z ostatnich etapów**, np. producent **maluje kuchenki w centrum dystrybucyjnym**, więc ma mniejsze zapasy i kolory dopasowane do sklepów.'],
+    ['det', '**Strategia konsolidacji** **łączy działania dla korzyści skali**: łączymy ładunki, obniżamy koszty jednostkowe i możemy mieć **mniej magazynów** przy tym samym poziomie obsługi.'],
+    ['det', 'Racjonalizacja odrzuca zasadę „**wszystko wszystkim**” i opiera się na analizie **80/20**, a zróżnicowana dystrybucja daje **różny poziom obsługi** różnym klientom.'],
+    ['end', 'Strategia **mieszana**, wielowariantowa, jest często **tańsza** niż strategie czyste.'],
+  ],
+  fu: [
+    ['Podaj przykład strategii opóźniania.', 'Producent kuchenek przenosi malowanie z fabryki do centrum dystrybucyjnego i maluje je dopiero pod zamówienia ze sklepów.', 'Firma łączy małe przesyłki w pełne ciężarówki.'],
+    ['Na czym polega strategia racjonalizacji?', 'Firma nie sprzedaje wszystkiego wszystkim – analizuje asortyment, klientów i koszty, np. zasadą 80/20.', 'Firma zwiększa liczbę magazynów, by skrócić czas dostaw.'],
+    ['Dlaczego strategia mieszana bywa lepsza?', 'Bo strategie wielowariantowe często dają niższe koszty niż czyste, choć czyste są prostsze w zarządzaniu.', 'Bo zawsze wymaga mniejszej liczby produktów w ofercie.'],
+  ],
+  err: [['jeden z ostatnich etapów', 'pierwszy etap'], ['mniej magazynów', 'więcej magazynów'], ['80/20', '50/50'], ['tańsza', 'droższa'], ['korzyści skali', 'korzyści podatkowych']],
+};
+
+ORAL[15] = {
+  say: [
+    ['def', 'Według prof. Obłoja **strategia to zbiór kluczowych wyborów w czasie i przestrzeni**, a jej rodzaje to **strategia prostych reguł, doskonalenia firmy i innowacji**.'],
+    ['det', '**Strategia prostych reguł**, opisana przez **Eisenhardt i Sulla**, dotyczy **start-upów i firm rodzinnych** do poziomu SME – zamiast złożonych mechanizmów stosuje się **proste reguły** jako elastyczne drogowskazy.'],
+    ['det', '**Strategię doskonalenia** stosuje firma o **dojrzałej pozycji**, która musi rosnąć **szybciej niż branża**; wyznacza **1–3 cele strategiczne** i **kluczowe czynniki sukcesu**, walcząc z **rutyną i niepotrzebną złożonością**.'],
+    ['det', '**Strategia innowacji** jest potrzebna, gdy firma **wpada w rutynę**; buduje przewagę przez innowacje **produktowe, procesowe i nowe modele biznesowe**.'],
+    ['ex', 'Duże firmy przeznaczają na to średnio około **1% rocznego przychodu**, jak **KGHM** czy **PKN ORLEN**.'],
+  ],
+  fu: [
+    ['Jak prof. Obłój definiuje strategię?', 'Strategia to zbiór kluczowych wyborów w czasie i przestrzeni.', 'Strategia to plan finansowy firmy na najbliższy rok.'],
+    ['Na czym opiera się strategia prostych reguł?', 'Na koncentracji na ważnych wyzwaniach i odbiorcach, kontroli kosztów, misji i wizji jako ramach, nauce na błędach i potencjale ludzi.', 'Na rozbudowanych procedurach, silosach i szerokiej ofercie.'],
+    ['Czemu zapobiega strategia doskonalenia?', 'Niebezpieczeństwu rutyny i niepotrzebnej złożoności, np. silosom, skomplikowanym cennikom i zbyt szerokiej ofercie.', 'Zbyt szybkiemu wzrostowi start-upu.'],
+  ],
+  err: [['w czasie i przestrzeni', 'w budżecie i hierarchii'], ['start-upów i firm rodzinnych', 'dojrzałych koncernów'], ['1–3 cele strategiczne', '20 celów strategicznych'], ['1% rocznego przychodu', '50% rocznego przychodu'], ['szybciej niż branża', 'wolniej niż branża']],
+};
+
+ORAL[16] = {
+  say: [
+    ['def', 'Wdrożenie strategii to **ustrukturyzowany proces informacyjno-decyzyjny**, złożony z **czterech etapów**.'],
+    ['det', 'Najpierw **analiza**: określamy **misję**, **wizję**, domenę działania i cele strategiczne.'],
+    ['det', 'Potem **planowanie**: na podstawie badania **mikro- i makrootoczenia** tworzymy plany i **kroki milowe**.'],
+    ['det', 'Trzeci etap to **wdrażanie i kaskadowanie**: cele strategiczne przekładamy na **taktyczne i operacyjne**, alokujemy zasoby i identyfikujemy **sześć obszarów zmian** – załogę, systemy, strukturę, strategię, wartości i technologię.'],
+    ['det', 'Na końcu **podjęcie decyzji i kontrola**: **sprawozdawczość**, monitoring **odchyleń budżetowych i terminowych** i cykliczna kontrola wyników.'],
+  ],
+  fu: [
+    ['Czym różni się misja od wizji?', 'Misja to podstawowy, niepowtarzalny cel wyróżniający firmę; wizja to obraz przyszłości – czym firma będzie się zajmować.', 'Misja to obraz przyszłości firmy, a wizja to jej bieżący budżet.'],
+    ['Wymień obszary zmian przy wdrażaniu strategii.', 'Załoga, systemy info-decyzyjne, struktura organizacyjna, strategia, dzielone wartości i kultura oraz technologia.', 'Cena, produkt, promocja i dystrybucja.'],
+    ['Na czym polega kaskadowanie celów?', 'Cele strategiczne przekłada się na cele taktyczne i operacyjne i wiąże z planami sprzedaży i produkcji.', 'Cele operacyjne łączy się w jeden cel strategiczny na końcu roku.'],
+  ],
+  err: [['czterech etapów', 'siedmiu etapów'], ['mikro- i makrootoczenia', 'wyłącznie budżetu działu'], ['taktyczne i operacyjne', 'wyłącznie strategiczne'], ['odchyleń budżetowych i terminowych', 'nastrojów pracowników']],
+};
+
+ORAL[17] = {
+  say: [
+    ['def', '**Segmentacja** to strategiczny **podział rynku** na mniejsze, **jednorodne grupy klientów** o podobnych potrzebach, zachowaniach lub cechach.'],
+    ['det', 'Jej celem jest precyzyjne **dopasowanie oferty**, optymalizacja marketingu, **obniżenie kosztów**, większa **lojalność** klientów i planowanie produkcji **bez niedoborów i nadmiarów**.'],
+    ['list', 'Kryteria segmentacji to: **geograficzne, demograficzne, psychograficzne i behawioralne**.'],
+    ['det', 'Kryteria **demograficzne** to np. wiek, płeć, wykształcenie, zawód i dochód; **psychograficzne** – klasa społeczna, **styl życia** i osobowość; **behawioralne** – okazje zakupu i **status użytkownika**.'],
+    ['end', 'Ryzykiem segmentacji jest jej **koszt** i możliwe **błędy**, które dają źle doprecyzowaną ofertę.'],
+  ],
+  fu: [
+    ['Do którego kryterium należy styl życia?', 'Do psychograficznego – razem z klasą społeczną i osobowością.', 'Do behawioralnego – razem ze statusem użytkownika.'],
+    ['Jakie są cele segmentacji?', 'Dopasowanie oferty, optymalizacja marketingu, niższe koszty, lojalność klientów i planowanie produkcji bez niedoborów i nadmiarów.', 'Ujednolicenie oferty dla wszystkich klientów i zwiększenie zapasów.'],
+    ['Jakie są wady segmentacji?', 'Znaczny koszt procesu i ryzyko błędów, przez które oferta jest źle doprecyzowana.', 'Nie ma wad – segmentacja jest darmowa i zawsze trafna.'],
+  ],
+  err: [['jednorodne grupy klientów', 'losowe grupy klientów'], ['styl życia', 'dochód'], ['status użytkownika', 'wiek'], ['bez niedoborów i nadmiarów', 'z dużymi nadmiarami']],
+};
+
+ORAL[18] = {
+  say: [
+    ['def', '**Analiza PEST** bada **makrootoczenie** firmy w czterech wymiarach: **polityczno-prawnym, ekonomicznym, społeczno-kulturowym i technologicznym**.'],
+    ['det', 'Pozwala wskazać **zewnętrzne szanse i zagrożenia**, na które firma **nie ma bezpośredniego wpływu**, ale musi się do nich **dostosować**.'],
+    ['det', 'W materiałach badanie otoczenia obejmuje rynek w wymiarze **podmiotowym, przedmiotowym i przestrzennym**.'],
+    ['det', '**Analiza jakościowa** opisuje **nabywców**, **segmenty**, **kanały rynku** i **konkurencję**.'],
+    ['det', '**Analiza ilościowa** określa **wielkość i pojemność rynku**, **dynamikę**, **strukturę cen**, **rentowność** i **chłonność**, żeby planować produkcję bez strat.'],
+  ],
+  fu: [
+    ['Podaj przykład czynnika ekonomicznego w PEST.', 'Na przykład inflacja albo zmiana stóp procentowych.', 'Na przykład nowa ustawa o emisjach CO₂.'],
+    ['Czym różni się analiza jakościowa od ilościowej?', 'Jakościowa opisuje nabywców, segmenty, kanały i konkurencję; ilościowa mierzy wielkość, dynamikę, ceny, rentowność i chłonność rynku.', 'Jakościowa liczy wielkość rynku, a ilościowa opisuje konkurencję.'],
+    ['Czy firma ma wpływ na czynniki PEST?', 'Nie bezpośrednio – to czynniki zewnętrzne, do których firma musi się strategicznie dostosować.', 'Tak – firma kształtuje je swoją polityką cenową.'],
+  ],
+  err: [['makrootoczenie', 'wnętrze'], ['nie ma bezpośredniego wpływu', 'ma pełną kontrolę'], ['kanały rynku', 'koszty produkcji'], ['chłonność', 'kruchość']],
+};
+
+ORAL[19] = {
+  say: [
+    ['def', '**RTB – Reason To Believe** – to **racjonalne zabezpieczenie i udowodnienie obietnicy marki**.'],
+    ['det', 'Dobre RTB jest **wiarygodne, niepodważalne i unikalne**, wyróżnia markę na nasyconym rynku i trzeba je określić **już na etapie myślenia o produkcie**.'],
+    ['list', 'Wyróżniamy siedem podejść: **logiczne uzasadnienie, twarde dowody, rekomendacje, konkurencyjność, bezpieczeństwo, historię marki i storytelling**.'],
+    ['ex', 'Na przykład **twarde dowody** to wyniki badań, jak „u 90% kobiet zmarszczki się zmniejszyły”, a w przemyśle – **certyfikat, norma ISO czy patent**.'],
+    ['end', 'Samo RTB bywa jednak niepewne, dlatego dziś **równolegle buduje się emocjonalną więź** z klientem.'],
+  ],
+  fu: [
+    ['Podaj przykład RTB opartego na historii marki.', 'Na przykład kremy dr Irena Eris, które budują zaufanie na prawie 40 latach obecności na rynku.', 'Na przykład obniżka ceny o 20% w sezonie.'],
+    ['Co oznacza konkurencyjność jako podejście RTB?', 'Wykazanie przewagi pozacenowej, np. unikatowego składnika albo jedynego opakowania wielokrotnego użytku.', 'Oferowanie najniższej ceny na rynku.'],
+    ['Kiedy trzeba określić RTB?', 'Już na etapie myślenia o produkcie, żeby firma wiedziała, co i dlaczego obiecuje.', 'Dopiero po pierwszych reklamacjach klientów.'],
+  ],
+  err: [['już na etapie myślenia o produkcie', 'dopiero po wprowadzeniu produktu'], ['niepodważalne', 'tanie'], ['emocjonalną więź', 'rabat cenowy'], ['certyfikat, norma ISO czy patent', 'slogan i jingiel']],
+};
+
+ORAL[20] = {
+  say: [
+    ['def', '**Public Relations** to **planowe i długofalowe budowanie relacji z otoczeniem**.'],
+    ['list', 'PR pełni cztery funkcje: **informacyjną, wizerunkową, relacyjną i kryzysową**.'],
+    ['det', 'Funkcja **informacyjna** zapewnia **stały, rzetelny i dwukierunkowy przepływ informacji**, a **wizerunkowa**, zwana też harmonizującą, **buduje i chroni reputację**.'],
+    ['det', 'Funkcja **relacyjna, czyli łącznikowa**, kształtuje relacje **między pracownikami – to PR wewnętrzny** – oraz z instytucjami zewnętrznymi.'],
+    ['det', 'Funkcja **kryzysowa** to zarządzanie komunikacją w **sytuacjach nagłych**, np. sporach prawnych, przez **natychmiastową informację** i **ochronę wartości marki**.'],
+  ],
+  fu: [
+    ['Podaj przykład działania w funkcji kryzysowej.', 'Po awarii lub wycieku firma od razu wydaje jasne oświadczenie, by chronić wartość marki.', 'Firma organizuje coroczny piknik integracyjny dla pracowników.'],
+    ['Co to jest PR wewnętrzny?', 'Kształtowanie harmonijnych relacji między pracownikami – element funkcji relacyjnej, czyli łącznikowej.', 'Reklama produktów skierowana do klientów zewnętrznych.'],
+  ],
+  err: [['dwukierunkowy', 'jednokierunkowy'], ['między pracownikami', 'między konkurentami'], ['sytuacjach nagłych', 'okresach spokoju'], ['długofalowe', 'jednorazowe']],
+};
+
+</script>
+<script>/* js/data/oral-b.js */
+'use strict';
+/* ODPOWIEDZI USTNE (P21–P40). Format jak w oral-a.js. */
+
+ORAL[21] = {
+  say: [
+    ['def', '**TPS** to zintegrowany model nastawiony na **maksymalizację wartości i całkowitą eliminację strat**, przedstawiany jako **Dom Toyoty**.'],
+    ['det', 'Dachem domu jest cel **The Best: Quality, Cost, Safety, Delivery, Moral**, czyli **QCSDM**.'],
+    ['det', 'W centrum są **ludzie i praca grupowa**, realizujący **ciągłe doskonalenie – Kaizen**.'],
+    ['det', 'Dwa filary to **Just-in-Time** – z Kanbanem, One-Piece-Flow, Takt Time, SMED i Heijunką – oraz **Jidoka** – z automatycznym przerywaniem, Poka-Yoke i Andonem.'],
+    ['det', 'Fundamentem są **kultura 5S, zarządzanie wizualne i standaryzacja**, a u podstaw leży **wartość i eliminacja strat**.'],
+    ['end', 'Toyota walczy z trzema „M”: **Muda – marnotrawstwem, Muri – przeciążeniem i Mura – zmiennością**.'],
+  ],
+  fu: [
+    ['Co jest w fundamencie Domu Toyoty?', 'Kultura 5S, zarządzanie wizualne i standaryzacja, a u podstaw wartość i eliminacja strat.', 'Just-in-Time i Jidoka.'],
+    ['Czym różni się Muri od Mura?', 'Muri to przeciążenie, a Mura to zmienność, nierównomierność.', 'Muri to marnotrawstwo, a Mura to przeciążenie.'],
+    ['Co oznacza skrót QCSDM?', 'Quality, Cost, Safety, Delivery, Moral – cel na dachu Domu Toyoty.', 'Quality Control System for Delivery Management.'],
+  ],
+  err: [['Kaizen', 'Kanban'], ['oraz **Jidoka**', 'oraz **Heijunka**'], ['standaryzacja', 'kampania marketingowa'], ['Muri – przeciążeniem', 'Muri – marnotrawstwem'], ['ludzie i praca grupowa', 'maszyny i roboty']],
+};
+
+ORAL[22] = {
+  say: [
+    ['def', '**JIT – Just in Time** – to **lewy filar Domu Toyoty**, system, który stawia **klienta na piedestale**.'],
+    ['det', 'Firma dostarcza wyroby **dokładnie w takiej ilości**, jakiej chce klient, i **dokładnie w wyznaczonym przez niego czasie**, bez magazynów i nadprodukcji.'],
+    ['list', 'JIT wykorzystuje pięć narzędzi: **system Pull z kartami Kanban, One-Piece-Flow, Takt Time, SMED i Heijunkę**.'],
+    ['det', '**System Pull** steruje przepływem według **rzeczywistego zużycia**, **One-Piece-Flow** to przepływ jednej sztuki bez zapasów międzyoperacyjnych, a **Takt Time** dopasowuje tempo do **rytmu zamówień klienta**.'],
+    ['det', '**SMED** to **szybkie przezbrajanie maszyn**, a **Heijunka** to **poziomowanie** sekwencji i wolumenu produkcji.'],
+  ],
+  fu: [
+    ['Co to jest SMED?', 'Single Minute Exchange of Die – technika szybkiego przezbrajania maszyn, która skraca przestoje.', 'System sterowania przepływem kartami Kanban.'],
+    ['Czym różni się system Pull od Push?', 'W Pull produkuje się dopiero na sygnał rzeczywistego zużycia, np. kartę Kanban; w Push produkuje się na zapas według planu.', 'W Pull produkuje się na magazyn, a w Push na zamówienie klienta.'],
+    ['Po co jest Takt Time?', 'Żeby dopasować tempo produkcji do rytmu zamówień klienta.', 'Żeby maszyny pracowały z maksymalną prędkością.'],
+  ],
+  err: [['lewy filar', 'prawy filar'], ['rzeczywistego zużycia', 'prognozy sprzedaży'], ['szybkie przezbrajanie maszyn', 'szybkie przeglądy jakości'], ['poziomowanie', 'przyspieszanie'], ['rytmu zamówień klienta', 'maksymalnej prędkości maszyny']],
+};
+
+ORAL[23] = {
+  say: [
+    ['def', '**Jidoka**, czyli **autonomizacja**, to **prawy filar Domu Toyoty**: **niezwłoczne wykrywanie błędów i anomalii w czasie rzeczywistym**.'],
+    ['det', 'Łączy usprawnienia techniczne i **automatyzację z potencjałem ludzkim**, żeby **jakość była wbudowana w proces**.'],
+    ['list', 'Do technik Jidoka należą: **automatyczne przerywanie procesu, Poka-Yoke, Andon** oraz analiza przyczyn metodami **5 Why i Ishikawy**.'],
+    ['det', 'Po wykryciu defektu **linia się zatrzymuje**, żeby **nie przekazać wady dalej**, a **Andon** – światła, tablice i dźwięki – alarmuje zespół.'],
+    ['ex', '**Poka-Yoke** to proste zabezpieczenia przed pomyłką, na przykład **niesymetryczna wtyczka USB**.'],
+  ],
+  fu: [
+    ['Co to jest Andon?', 'Wizualna i dźwiękowa sygnalizacja – tablice, kolorowe światła, dźwięki – która ostrzega o problemie w czasie rzeczywistym.', 'Karta sterująca przepływem materiału między stanowiskami.'],
+    ['Dlaczego linia zatrzymuje się po wykryciu wady?', 'Żeby nie przekazać wady dalej i od razu usunąć przyczynę u źródła.', 'Żeby zwiększyć wskaźnik wydajności OEE.'],
+    ['Podaj przykład Poka-Yoke.', 'Niesymetryczna wtyczka USB, której nie da się włożyć odwrotnie.', 'Tablica z harmonogramem zmian produkcyjnych.'],
+  ],
+  err: [['prawy filar', 'lewy filar'], ['nie przekazać wady dalej', 'nie zatrzymywać produkcji'], ['niesymetryczna wtyczka USB', 'karta Kanban'], ['potencjałem ludzkim', 'wyłącznie robotami']],
+};
+
+ORAL[24] = {
+  say: [
+    ['def', '**CORE – Customer Oriented Results & Excellence** – to **system doskonałości operacyjnej** nastawiony na **klienta** i **maksymalizację jego satysfakcji**.'],
+    ['det', 'Opiera się na **mierzalnych wynikach jakościowych i finansowych**, a nie na samym wykonywaniu procedur.'],
+    ['list', 'Narzędzia CORE to: **mapowanie strumieni wartości VSM**, **eliminacja przewlekłych strat** i twarde mierniki **Six Sigma**.'],
+    ['det', 'CORE wymusza przejście od **reaktywnego usuwania problemów** do **prewencyjnego zarządzania jakością**, przez **standaryzację stanowisk** i **zaangażowanie pracowników**.'],
+    ['end', 'W praktyce likwiduje **silosy** i rozlicza stanowiska z **rezultatu dla klienta** – jakości, terminowości **OTIF** i zadowolenia.'],
+  ],
+  fu: [
+    ['Z czego CORE rozlicza stanowiska?', 'Z rezultatu dla klienta – jakości, terminowości OTIF i zadowolenia odbiorcy – a nie z samego wykonania procedury.', 'Z liczby wykonanych procedur i przepracowanych godzin.'],
+    ['Na czym opiera się CORE?', 'Na mapowaniu strumieni wartości (VSM), eliminacji przewlekłych strat i miernikach Six Sigma, przy standaryzacji stanowisk i zaangażowaniu ludzi.', 'Na rozbudowie działów kontroli i reagowaniu na reklamacje.'],
+  ],
+  err: [['prewencyjnego zarządzania jakością', 'reaktywnego gaszenia pożarów'], ['Six Sigma', 'Hoshin Kanri'], ['silosy', 'standardy'], ['mierzalnych wynikach', 'dobrych intencjach']],
+};
+
+ORAL[25] = {
+  say: [
+    ['def', '**QRQC – Quick Response Quality Control** – to metodyka **szybkiego rozwiązywania problemów jakościowych**, która wywodzi się z koncernu **VALEO**.'],
+    ['det', 'Stosuje się ją **od najniższego szczebla**, żeby problem rozwiązać **natychmiast, na miejscu** – według pliku pierwszego w ciągu **24 godzin**.'],
+    ['det', 'Pierwszą zasadą jest **cykl PDCA**, czyli pętla Deminga: **Plan, Do, Check, Act**.'],
+    ['det', 'Drugą zasadą jest **San Gen Shugi – trzy realia**: **Genba**, czyli idź na **miejsce**, **Genbutsu** – zbadaj **wadliwy produkt**, i **Genjitsu** – opieraj się na **faktach i danych**.'],
+    ['end', 'Problemy dzielimy na **drobne** – 5S i Poka-Yoke, **średnie** – QRQC, 8D, raport A3 – i **duże**, rozwiązywane na poziomie **Hoshin Kanri**.'],
+  ],
+  fu: [
+    ['Co oznacza Genbutsu?', 'Realny obiekt – trzeba zbadać fizyczny, wadliwy produkt i realne informacje.', 'Realne miejsce – trzeba iść na halę.'],
+    ['Z jakiej firmy wywodzi się QRQC?', 'Z koncernu motoryzacyjnego VALEO.', 'Z Toyoty – jako element Domu Toyoty.'],
+    ['Jak rozwiązuje się duży problem według QRQC?', 'Przenosi się go na poziom Hoshin Kanri, czyli całej organizacji.', 'Rozwiązuje go operator na stanowisku przez 5S.'],
+  ],
+  err: [['od najniższego szczebla', 'wyłącznie na poziomie zarządu'], ['wadliwy produkt', 'raport w biurze'], ['faktach i danych', 'przypuszczeniach'], ['VALEO', 'Boeinga'], ['poziomie **Hoshin Kanri**', 'poziomie **5S**']],
+};
+
+ORAL[26] = {
+  say: [
+    ['def', '**Hoshin Kanri**, czyli **zarządzanie przez cele** albo **kaskadowanie strategii**, to system, który **łączy cele długofalowe** fabryki z **codzienną pracą operacyjną**.'],
+    ['det', 'Zarządza się w kontekście **otoczenia**, dlatego kadra musi je **w pełni rozumieć**.'],
+    ['det', 'Cele uzgadnia się w procesie **Catchball** – w **dialogu góra–dół**, w obie strony.'],
+    ['det', 'Narzędziem wizualnym jest **Matryca X**, która wiąże **KPI działów** – marketingu, finansów, produkcji, HR i B+R – z **projektami operacyjnymi** i **planami zakupów**.'],
+  ],
+  fu: [
+    ['Na czym polega Catchball?', 'Na uzgadnianiu celów w dialogu góra–dół: cele wracają od niższych szczebli z uwagami, aż wszyscy uznają je za realne.', 'Na jednorazowym narzuceniu celów przez zarząd.'],
+    ['Co łączy Matryca X?', 'KPI działów z projektami operacyjnymi i planami zakupów materiałowych.', 'Kolejne etapy przepływu jednej sztuki na linii.'],
+  ],
+  err: [['dialogu góra–dół', 'poleceniu z góry'], ['codzienną pracą operacyjną', 'wyłącznie budżetem rocznym'], ['KPI działów', 'kolory produktów'], ['Matryca X', 'Karta Shewharta']],
+};
+
+ORAL[27] = {
+  say: [
+    ['def', '**Przemysł 4.0** to przekształcenie tradycyjnej automatyzacji w system **bardziej połączony, otwarty i elastyczny**, czyli **Smart Factory**, oparty na **Internecie Rzeczy**.'],
+    ['list', 'Ma cztery założenia: **wzajemne połączenie urządzeń, transparentność informacji, wsparcie technologiczne i decentralizację decyzji**.'],
+    ['det', 'Dzięki **połączeniu** maszyny komunikują się ze sobą i z człowiekiem, **transparentność** pozwala wcześniej wykrywać problemy, a przy **decentralizacji** urządzenia **same podejmują decyzje** na podstawie danych.'],
+    ['det', 'Kluczowe filary to: **wirtualizacja i symulacja, czyli cyfrowy bliźniak, modułowość, interoperacyjność, decentralizacja, zarządzanie w czasie rzeczywistym i orientacja na usługi**.'],
+    ['end', 'Umożliwiają to technologie **CPS, IIoT, chmura, Big Data i sztuczna inteligencja**, a efektem jest m.in. **Predictive Maintenance**.'],
+  ],
+  fu: [
+    ['Co oznacza decentralizacja decyzji?', 'Autonomiczne urządzenia same podejmują określone decyzje na podstawie danych wejściowych, bez ingerencji operatora.', 'Wszystkie decyzje zapadają centralnie w zarządzie firmy.'],
+    ['Czym jest transparentność informacji w Przemyśle 4.0?', 'Dostępem do jak największej ilości informacji, dzięki któremu operatorzy lepiej decydują i wcześniej wykrywają problemy.', 'Publikowaniem danych finansowych firmy na giełdzie.'],
+    ['Wymień filary Przemysłu 4.0.', 'Wirtualizacja i symulacja, modułowość, interoperacyjność, decentralizacja, zarządzanie w czasie rzeczywistym i orientacja na usługi.', 'Kanban, Poka-Yoke, Heijunka i 5S.'],
+  ],
+  err: [['otwarty i elastyczny', 'zamknięty i sztywny'], ['same podejmują decyzje', 'czekają na decyzję zarządu'], ['interoperacyjność', 'centralizacja'], ['Predictive Maintenance', 'produkcja na magazyn']],
+};
+
+ORAL[28] = {
+  say: [
+    ['def', '**Cyfrowy bliźniak** to **filar Przemysłu 4.0** – **wirtualna replika** fizycznego obiektu, maszyny albo całego procesu.'],
+    ['det', 'Jest **sprzężony z obiektem stałą wymianą danych** przez **czujniki IoT**, więc odzwierciedla jego stan na bieżąco.'],
+    ['det', 'Dzięki **realistycznym symulacjom** możemy **przewidywać zachowanie** systemu, np. **symulować uszkodzenia i kolizje** w motoryzacji.'],
+    ['det', 'To pozwala **uniknąć kosztów prób niszczących** na prawdziwych samochodach czy samolotach.'],
+    ['end', 'Bliźniak służy też do **weryfikacji przepływów logistycznych i layoutu fabryki**, a według pliku pierwszego – do testów zmian **bez zatrzymywania produkcji**.'],
+  ],
+  fu: [
+    ['Czym bliźniak różni się od zwykłego modelu CAD?', 'Jest sprzężony z fizycznym obiektem stałą wymianą danych z czujników IoT, więc pokazuje jego aktualny stan.', 'Niczym – to po prostu statyczny rysunek 2D.'],
+    ['Jaka jest główna korzyść z symulacji na bliźniaku?', 'Przewidywanie zachowań, np. kolizji, bez kosztownych prób niszczących na fizycznych obiektach.', 'Całkowite zastąpienie czujników na maszynach.'],
+  ],
+  err: [['czujniki IoT', 'notatki operatora'], ['prób niszczących', 'szkoleń BHP'], ['layoutu fabryki', 'cennika produktów'], ['wirtualna replika', 'papierowa kopia']],
+};
+
+ORAL[29] = {
+  say: [
+    ['def', 'Systemy **ERP, MES i SCADA** tworzą kolejne warstwy zarządzania produkcją.'],
+    ['det', '**ERP** to **poziom czwarty**, aplikacje biznesowe: planowanie zasobów, globalne planowanie produkcji, **finanse, księgowość i kadry**.'],
+    ['det', '**MES** to **poziom trzeci** – **realizacja produkcji** i **łącznik czasu rzeczywistego między ERP a halą**, od zamówienia do dostarczenia wyrobu.'],
+    ['det', '**SCADA** to **poziom drugi** – **nadzór i wizualizacja**: zbieranie danych, sterowanie, **alarmowanie i archiwizacja**; jest **nadrzędna nad panelami HMI**.'],
+    ['det', '**Integracja wertykalna** łączy ERP, MES i SCADA i likwiduje **lukę informacyjną**, na którą skarży się **52% firm**; wykorzystuje protokoły jak **Modbus, PROFINET czy OPC UA**.'],
+    ['list', 'Sześć najczęstszych funkcji MES to: **genealogia produkcji, analiza wydajności OEE, akwizycja danych, zarządzanie jakością, harmonogramowanie i obieg dokumentów**.'],
+  ],
+  fu: [
+    ['Czym różni się SCADA od HMI?', 'HMI prezentuje dane konkretnej maszyny i przyjmuje nastawy; SCADA jest systemem nadrzędnym, działa na większą skalę i w pełni archiwizuje dane.', 'HMI jest nadrzędny nad SCADA i archiwizuje dane całego zakładu.'],
+    ['Dlaczego samo ERP nie wystarcza?', 'Bo bazuje na arbitralnych, godzinowych kosztach maszyn i nie widzi faktycznych odpadów – potrzebna jest integracja z MES i SCADA.', 'Bo ERP steruje zaworami w czasie rzeczywistym i jest przeciążone.'],
+    ['Na czym polega genealogia produkcji w MES?', 'Na śledzeniu partii: od jakiego dostawcy był surowiec i który operator zmienił recepturę.', 'Na planowaniu kampanii marketingowej dla nowego produktu.'],
+  ],
+  err: [['poziom czwarty', 'poziom pierwszy'], ['52% firm', '2% firm'], ['nadrzędna nad panelami HMI', 'podrzędna wobec paneli HMI'], ['finanse, księgowość i kadry', 'sterowanie zaworami'], ['OPC UA', 'PDCA']],
+};
+
+ORAL[30] = {
+  say: [
+    ['def', '**Elastyczne systemy produkcyjne** to przejście od **sztywnej automatyzacji** do systemu **otwartego, połączonego i elastycznego**.'],
+    ['det', '**Masowa personalizacja** to produkcja szerokiej gamy wyrobów **na indywidualne zamówienie klienta** przy **kosztach zbliżonych do seryjnych**.'],
+    ['det', 'Opiera się na systemie **PLM**, np. Enovia, który zarządza **całym cyklem życia produktu** od koncepcji po recykling i daje **jedną wersję prawdy**.'],
+    ['det', 'Drugi filar to **PDM**, który **wersjonuje dane** o produkcie według procedury: **wyszukaj, wyrejestruj, edytuj, zarejestruj nową wersję**.'],
+    ['end', 'Według pliku pierwszego pomagają w tym też **FMS**, czyli obrabiarki CNC z automatycznym transportem, **modułowość wyrobów** i **SMED**.'],
+  ],
+  fu: [
+    ['Czym różni się PLM od PDM?', 'PLM zarządza całym cyklem życia produktu i daje jedną wersję prawdy; PDM zarządza danymi i wersjami plików, np. rev 1, rev 2.', 'PDM obejmuje cały cykl życia produktu, a PLM tylko wersje rysunków.'],
+    ['Jak wygląda procedura pracy w PDM?', 'Wyszukanie pliku, wyrejestrowanie go, edycja u użytkownika i zarejestrowanie nowej wersji.', 'Wydruk, podpis kierownika i archiwizacja w segregatorze.'],
+  ],
+  err: [['kosztach zbliżonych do seryjnych', 'kosztach produkcji jednostkowej'], ['jedną wersję prawdy', 'wiele niezależnych wersji'], ['całym cyklem życia produktu', 'wyłącznie sprzedażą produktu'], ['sztywnej automatyzacji', 'pracy ręcznej']],
+};
+
+ORAL[31] = {
+  say: [
+    ['def', 'W Przemyśle 4.0 automatyzacja zmierza w stronę **systemów cyber-fizycznych**.'],
+    ['det', '**Druk 3D** i zaawansowane **obrabiarki CNC** łączy się w **elastyczne gniazda produkcyjne**.'],
+    ['det', 'Roboty mobilne **AMR i AGV** przewożą komponenty na podstawie **cyfrowych list zadań** pobieranych **w czasie rzeczywistym z MES**.'],
+    ['det', 'Panele **HMI** są w **sieci Ethernet**, więc nastawy **PLC** i programy obróbcze ładują się **automatycznie z serwerów** na podstawie **receptur i kodów produktu**.'],
+    ['end', 'Według pliku pierwszego ważne są też **coboty** z czujnikami **siły i momentu**, które pracują obok człowieka **bez barier ochronnych**.'],
+  ],
+  fu: [
+    ['Skąd roboty AMR wiedzą, co przewieźć?', 'Pobierają cyfrowe listy zadań w czasie rzeczywistym z systemu MES.', 'Kierowca wózka przekazuje im zadania przez radio.'],
+    ['Co daje podłączenie HMI do sieci Ethernet?', 'Automatyczne ładowanie nastaw PLC i programów obróbczych z serwerów na podstawie receptur i kodów produktu.', 'Możliwość oglądania filmów szkoleniowych przez operatora.'],
+  ],
+  err: [['z MES', 'z działu kadr'], ['automatycznie z serwerów', 'ręcznie z kartki'], ['siły i momentu', 'zapachu'], ['bez barier ochronnych', 'wyłącznie w klatkach']],
+};
+
+ORAL[32] = {
+  say: [
+    ['def', 'Powszechny **dostęp sieciowy**, dane na halach i **chmura** wymagają dziś **szerszego spojrzenia na bezpieczeństwo** systemów **IT i OT**.'],
+    ['det', 'Obowiązuje zasada: **„Im więcej drzwi otwieramy, tym więcej zagrożeń i tym więcej drzwi musimy kontrolować”**.'],
+    ['list', 'Mechanizmy ochrony to: **szyfrowanie danych** w sieci przemysłowej, **kontrola dostępu** dla zalogowanych użytkowników z uprawnieniami, **cyfrowe certyfikaty** i weryfikacja tożsamości urządzeń oraz **międzynarodowe standardy**.'],
+    ['end', 'Według pliku pierwszego zagrożenia to **paraliż linii** i **kradzież danych**, a ochroną jest też **separacja IT od OT** strefami **DMZ** i zasada **Zero Trust**.'],
+  ],
+  fu: [
+    ['Co oznacza zasada Zero Trust?', 'Brak domyślnego zaufania – każde urządzenie i użytkownik musi się uwierzytelnić.', 'Pełne zaufanie do urządzeń w sieci firmowej.'],
+    ['Jak weryfikuje się tożsamość urządzeń w sieci?', 'Za pomocą cyfrowych certyfikatów bezpieczeństwa.', 'Po kolorze obudowy urządzenia.'],
+  ],
+  err: [['szyfrowanie danych', 'udostępnianie haseł'], ['zalogowanych użytkowników', 'wszystkich gości'], ['więcej drzwi musimy kontrolować', 'mniej drzwi musimy kontrolować'], ['Zero Trust', 'Full Trust']],
+};
+
+ORAL[33] = {
+  say: [
+    ['def', '**SPC**, czyli statystyczne sterowanie procesem, służy do **ciągłej oceny stabilności i zdolności** procesu produkcyjnego.'],
+    ['list', 'Narzędzia SPC to **karty kontrolne Shewharta**, **histogramy** i wskaźniki zdolności **Cp i Cpk**.'],
+    ['det', 'Karta ma **linię centralną** i limity **UCL i LCL równe ±3σ** i pokazuje rozrzut **średniej, odchylenia standardowego lub rozstępu**.'],
+    ['det', 'Proces jest **stabilny**, gdy zmienność wynika **tylko z przyczyn losowych**; punkty **poza limitami** albo **nienaturalne sekwencje**, np. **trend 6 punktów**, oznaczają **przyczynę specjalną** i wymagają **akcji korygującej**.'],
+    ['end', '**Cp** mierzy szerokość rozrzutu względem tolerancji, a **Cpk** uwzględnia też **wycentrowanie**; zwykle wymaga się **Cpk ≥ 1,33**.'],
+  ],
+  fu: [
+    ['Jak rozpoznać rozregulowanie procesu na karcie kontrolnej?', 'Po punktach poza UCL/LCL albo nienaturalnych sekwencjach, np. trendzie 6 punktów czy przesunięciu średniej.', 'Po tym, że punkty losowo oscylują wokół linii centralnej.'],
+    ['Czym różni się Cp od Cpk?', 'Cp porównuje rozrzut z szerokością tolerancji, a Cpk uwzględnia dodatkowo wycentrowanie procesu.', 'Cp uwzględnia wycentrowanie, a Cpk tylko rozrzut.'],
+    ['Co oznacza zmienność losowa?', 'Naturalny szum procesu – proces jest stabilny i nie wymaga ingerencji.', 'Sygnał awarii, który wymaga natychmiastowej reakcji.'],
+  ],
+  err: [['±3σ', '±1σ'], ['trend 6 punktów', 'trend 2 punktów'], ['tylko z przyczyn losowych', 'z przyczyn specjalnych'], ['Cpk ≥ 1,33', 'Cpk ≥ 0,5'], ['wycentrowanie', 'kolor wykresu']],
+};
+
+ORAL[34] = {
+  say: [
+    ['def', '**RCA**, czyli analiza przyczyn źródłowych, to systematyczne podejście do **trwałego eliminowania problemów** – usuwamy **źródło, a nie objawy**; to **trzeci poziom** zarządzania jakością.'],
+    ['det', 'Zanim zaczniemy szukać przyczyn, wadę opisujemy metodą **5W2H** – **siedmioma pytaniami**: What, Who, Where, When, Why, How i How many.'],
+    ['det', '**Diagram Ishikawy** zaczyna od **jasno opisanego skutku** i porządkuje przyczyny w kategoriach: **człowiek, metoda, materiał, maszyna i zarządzanie**.'],
+    ['det', 'Metoda **5 Why** polega na **wielokrotnym pytaniu „dlaczego?”**, aż dojdziemy do **przyczyny systemowej**.'],
+    ['end', 'Według pliku pierwszego stosuje się też **raport 8D** – zespołową, ośmioetapową procedurę rozwiązywania problemów.'],
+  ],
+  fu: [
+    ['Co opisuje pytanie „How many?” w 5W2H?', 'Mierzalną skalę i wolumen wad.', 'Ile osób pracuje na zmianie.'],
+    ['Od czego zaczyna się diagram Ishikawy?', 'Od jasnego stwierdzenia skutku, czyli problemu; potem szuka się jego przyczyn w kategoriach.', 'Od listy pracowników odpowiedzialnych za dział.'],
+    ['Po co używa się 5 Why?', 'Żeby przejść od widocznego objawu do głębokiej przyczyny systemowej.', 'Żeby szybko wskazać winnego pracownika.'],
+  ],
+  err: [['źródło, a nie objawy', 'objawy, a nie źródło'], ['jasno opisanego skutku', 'listy kosztów'], ['maszyna i zarządzanie', 'maszyna i marketing'], ['przyczyny systemowej', 'winnego pracownika'], ['siedmioma pytaniami', 'trzema pytaniami']],
+};
+
+ORAL[35] = {
+  say: [
+    ['def', '**FMEA** to **prewencyjna metoda analizy ryzyka jakościowego**, kluczowa w cyklu rozwoju produktu.'],
+    ['det', '**DFMEA**, czyli projektową, wykonujemy w **fazie 2 APQP**, przed sfinalizowaniem projektu, żeby poznać słabe strony **konstrukcji** i zapewnić **niezawodność i żywotność**.'],
+    ['det', '**PFMEA**, czyli procesową, wykonujemy w **fazie 3 APQP**, przed produkcją seryjną i w jej trakcie; skupia się na błędach **maszyn, metod i człowieka**.'],
+    ['det', 'Oceniamy charakterystyki: **KC** – kluczowe dla montażu i żywotności, **SC** – znaczące, oceniane na **5–8**, i **CC** – krytyczne, wynikające z **przepisów**, oceniane na **9–10**.'],
+    ['end', 'Według pliku pierwszego ryzyko liczy się jako **RPN = S × O × D**, czyli znaczenie razy częstość razy wykrywalność.'],
+  ],
+  fu: [
+    ['Czym różni się DFMEA od PFMEA?', 'DFMEA analizuje ryzyko konstrukcji w fazie 2 APQP, a PFMEA ryzyko procesu – błędy maszyn, metod i ludzi – w fazie 3.', 'DFMEA dotyczy procesu, a PFMEA konstrukcji.'],
+    ['Co to jest charakterystyka krytyczna CC?', 'Cecha wynikająca z wymagań regulacyjnych – bezpieczeństwa, prawa, środowiska – oceniana na 9–10 i wymagająca rygorystycznych kontroli.', 'Cecha estetyczna, oceniana na 1–2.'],
+    ['Jak oblicza się RPN?', 'RPN = S × O × D – znaczenie razy częstość razy wykrywalność, każde w skali 1–10.', 'RPN = S + O + D w skali 1–100.'],
+  ],
+  err: [['fazie 2 APQP', 'fazie 5 APQP'], ['maszyn, metod i człowieka', 'kolorów i opakowań'], ['9–10', '1–2'], ['prewencyjna', 'reaktywna'], ['RPN = S × O × D', 'RPN = S + O + D']],
+};
+
+ORAL[36] = {
+  say: [
+    ['def', '**Metrologia współrzędnościowa – CMM** – polega na wyznaczaniu **współrzędnych X, Y, Z** punktów powierzchni i porównaniu geometrii z **modelem CAD** lub dokumentacją.'],
+    ['det', 'Systemy **stykowe** dotykają detalu **rubinową końcówką**, punkt po punkcie albo skanując, i są **najdokładniejsze**, często **poniżej 1 µm**.'],
+    ['det', 'Systemy **bezstykowe** – skanery laserowe, światło strukturalne i fotogrametria – zbierają **miliony punktów**, są **szybsze** i mierzą **materiały elastyczne**, ale nieco mniej dokładnie.'],
+    ['det', 'Przed pomiarem wykonuje się **bazowanie według reguły 3-2-1**: **płaszczyzna** blokuje trzy stopnie swobody, **oś** dwa, a **punkt** ostatni, szósty.'],
+    ['end', 'CMM weryfikuje wymiary i **tolerancje geometryczne GD&T** – kształtu, kierunku i położenia – a wyniki pokazuje w raportach i na **kolorowych mapach odchyłek**.'],
+  ],
+  fu: [
+    ['Na czym polega reguła 3-2-1?', 'Płaszczyzna bazowa blokuje 3 stopnie swobody, linia bazowa kolejne 2, a punkt bazowy ostatni, szósty – to początek układu współrzędnych.', 'Mierzymy 3 punkty, 2 linie i 1 okrąg na każdym detalu.'],
+    ['Kiedy wybrać system bezstykowy?', 'Gdy potrzebny jest szybki pomiar wielu punktów albo mierzymy materiał elastyczny, który styk mógłby odkształcić.', 'Gdy potrzebna jest najwyższa dokładność poniżej 1 µm.'],
+    ['Podaj przykłady odchyłek GD&T.', 'Kształtu – płaskość, okrągłość, walcowość; kierunku – równoległość, prostopadłość; położenia – pozycja, współosiowość.', 'Twardość, chropowatość i masa detalu.'],
+  ],
+  err: [['rubinową końcówką', 'wiązką elektronów'], ['poniżej 1 µm', 'powyżej 1 mm'], ['materiały elastyczne', 'wyłącznie stal hartowaną'], ['reguły 3-2-1', 'reguły 80/20'], ['szybsze', 'wolniejsze']],
+};
+
+ORAL[37] = {
+  say: [
+    ['def', '**ISO 9001:2015** to uniwersalna podstawa **systemów zarządzania jakością**, oparta na **podejściu procesowym**, cyklu **PDCA** i **zadowoleniu klienta**.'],
+    ['det', 'W motoryzacji obowiązuje **IATF 16949**, która zastąpiła normy krajowe: amerykańską **QS-9000**, niemiecką **VDA 6.1**, francuską **EAQF** i włoską **AVSQ**.'],
+    ['det', 'W lotnictwie, kosmonautyce i obronności działa **AS/EN 9100**, opracowana pod egidą **IAQG**, a **AS9145** wprowadza lotnicze **APQP i PPAP**.'],
+    ['det', 'W przemyśle obronnym stosuje się standardy NATO **AQAP**, z nadzorem rządowego przedstawiciela jakości **GQAR**.'],
+    ['end', 'W kolejnictwie obowiązuje **IRIS, czyli ISO/TS 22163**, które dodaje do ISO 9001 wymagania **RAMS**.'],
+  ],
+  fu: [
+    ['Jakie normy zastąpiła IATF 16949?', 'Amerykańską QS-9000, niemiecką VDA 6.1, francuską EAQF i włoską AVSQ.', 'ISO 14001, AS9100 i AQAP.'],
+    ['Co to jest GQAR?', 'Rządowy przedstawiciel jakości, który nadzoruje wykonawcę w standardach AQAP.', 'Norma jakości dla przemysłu kolejowego.'],
+    ['Co oznacza RAMS w normie IRIS?', 'Niezawodność, dostępność, utrzymanie i bezpieczeństwo – według EN 50126.', 'Recykling, analiza, marketing i sprzedaż.'],
+  ],
+  err: [['QS-9000', 'AS9100'], ['IAQG', 'NATO'], ['GQAR', 'IATF'], ['wymagania **RAMS**', 'wymagania **DMAIC**'], ['podejściu procesowym', 'podejściu marketingowym']],
+};
+
+ORAL[38] = {
+  say: [
+    ['def', '**Zero Defektów** to filozofia **Philipa Crosby’ego**: jedynym akceptowalnym standardem jest **brak jakichkolwiek wad**, a podstawą jest **profilaktyka i planowanie**.'],
+    ['det', 'Podobnie akcentuje to **Trylogia Jakości Jurana**: **planowanie, kontrola i poprawa jakości**.'],
+    ['det', '**Lean** doskonali proces przez **eliminację strat**, a narzędziem jest **5S: sortowanie, systematyka, sprzątanie, standaryzacja i samodyscyplina**.'],
+    ['det', '**Six Sigma** **redukuje zmienność** procesu pętlą **DMAIC**, a według pliku pierwszego dąży do **3,4 błędu na milion możliwości**.'],
+    ['det', 'Kluczowe jest przełożenie **głosu klienta – VOC** – na mierzalne **CTQ**: drzewko CTQ ustala **limity USL i LSL** i definiuje defekt.'],
+  ],
+  fu: [
+    ['Podaj przykład przełożenia VOC na CTQ.', 'Klient mówi „chciałbym więcej zarabiać”; miernik CTQ to wartość 1 godziny pracy netto, a specyfikacja – powyżej 100 zł na godzinę.', 'Klient chce szybszej dostawy, więc firma obniża cenę.'],
+    ['Rozwiń skrót DMAIC.', 'Define, Measure, Analyze, Improve, Control.', 'Design, Make, Assemble, Inspect, Correct.'],
+    ['Na czym polega analiza CQA?', 'Na szukaniu problemów przez analizę diagramu przepływu procesu – wejść od dostawcy i wyjść dla klienta.', 'Na ankietowaniu pracowników o zadowolenie z pracy.'],
+  ],
+  err: [['Philipa Crosby’ego', 'Waltera Shewharta'], ['3,4 błędu na milion', '34 błędy na tysiąc'], ['redukuje zmienność', 'zwiększa zmienność'], ['planowanie, kontrola i poprawa jakości', 'reklama, sprzedaż i serwis'], ['samodyscyplina', 'sponsoring']],
+};
+
+ORAL[39] = {
+  say: [
+    ['def', 'Strukturę zarządzania produkcją opisuje **piramida automatyzacji** z **czterema warstwami** i poziomem procesu.'],
+    ['det', 'Na szczycie, na **poziomie czwartym**, jest **ERP lub MRP II** – planowanie zasobów, **finanse, księgowość, zaopatrzenie i sprzedaż**.'],
+    ['det', '**Poziom trzeci** to **MES z APS** – **śledzenie produkcji i materiałów w czasie rzeczywistym**; działają tu też **PLM i PDM**.'],
+    ['det', '**Poziom drugi** to **SCADA i PLMS** – **nadzór operatorski**, ekrany synoptyczne, **alarmy i archiwizacja** danych w historianie.'],
+    ['det', '**Poziom pierwszy** to **HMI, MDA, PDA i PLC** – **sterowanie w czasie rzeczywistym**, a poziom zero to **czujniki i urządzenia wykonawcze**, np. zawory i silniki.'],
+  ],
+  fu: [
+    ['Na którym poziomie działa APS i do czego służy?', 'Na poziomie trzecim, razem z MES – optymalizuje harmonogram on-line przy złożonych procesach i produkcji na zamówienie.', 'Na poziomie pierwszym – steruje zaworami i silnikami.'],
+    ['Co znajduje się na poziomie zero?', 'Fizyczne czujniki, np. temperatury i ciśnienia, oraz urządzenia wykonawcze, np. silniki i zawory.', 'System ERP i moduł finansowy.'],
+  ],
+  err: [['poziomie czwartym', 'poziomie pierwszym'], ['materiałów w czasie rzeczywistym', 'materiałów raz w miesiącu'], ['alarmy i archiwizacja', 'księgowość i płace'], ['czujniki i urządzenia wykonawcze', 'systemy finansowe']],
+};
+
+ORAL[40] = {
+  say: [
+    ['def', '**OEE** to iloczyn trzech składowych: **Dostępność × Wydajność × Jakość**, a każdą z nich obniżają po dwie z **sześciu podstawowych strat**.'],
+    ['det', '**Dostępność** obniżają **przestoje nieplanowane**: **awarie** oraz **ustawienia i regulacje**, czyli przezbrojenia.'],
+    ['det', '**Wydajność** obniżają **straty szybkości**: **bieg jałowy i zatrzymania** oraz **zmniejszenie szybkości**.'],
+    ['det', '**Jakość** obniżają **straty jakości**: **defekty w procesie** i **straty rozruchowe**.'],
+    ['det', 'Na diagramie czas maleje schodkowo: **teoretyczny, planowany, brutto, netto i efektywny czas pracy**.'],
+    ['ex', 'Na przykład dostępność 90%, wydajność 80% i jakość 90% dają **OEE = 0,9 × 0,8 × 0,9 = 64,8%**.'],
+  ],
+  fu: [
+    ['Czy przestoje planowane obniżają OEE?', 'Nie – odejmuje się je od czasu teoretycznego, by uzyskać planowany czas produkcji; dostępność obniżają przestoje nieplanowane.', 'Tak – przestoje planowane to główna strata dostępności.'],
+    ['Do której składowej należą mikroprzestoje?', 'Do wydajności – to bieg jałowy i zatrzymania.', 'Do jakości – razem z defektami.'],
+    ['Jak policzyć jakość w OEE?', 'Liczba dobrych sztuk podzielona przez wszystkie wyprodukowane, np. 108 000 / 120 000 = 90%.', 'Rzeczywisty czas pracy podzielony przez planowany.'],
+  ],
+  err: [['ustawienia i regulacje', 'defekty w procesie'], ['64,8%', '72%'], ['**straty rozruchowe**', '**awarie**'], ['bieg jałowy i zatrzymania', 'przezbrojenia'], ['Dostępność × Wydajność × Jakość', 'Dostępność + Wydajność + Jakość']],
+};
+
+/* dołączenie do pytań */
+for (const q of QUESTIONS) {
+  const o = ORAL[q.id] || {};
+  q.say = o.say || [];
+  q.fu = o.fu || [];
+  q.err = o.err || [];
+}
+
+</script>
 <script>/* js/data/_rules.js */
 'use strict';
 /* Reguły antydwuznaczności: pary pojęć, których nie wolno zamieniać miejscami
@@ -2918,6 +3711,18 @@ const SPRITES = {
   ],
   prof: [
     '...llllll...', '..llllllll..', '..lssssssl..', '..skkssskk..', '..ssssssss..', '...ssSSss...',
+    '...slllls...', '....llll....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
+  profH: [
+    '...llllll...', '..llllllll..', '..lssssssl..', '..skkssskk..', '..ssssssss..', '...ssSSss...',
+    '..RsllllsR..', '...sRRRRs...', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
+  profA: [
+    '...llllll...', '..llllllll..', '..lkksskkl..', '..sskssks...', '..ssssssss..', '...ssSSss...',
+    '...slllls...', '....kkkk....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
+  ],
+  profB: [
+    '...llllll...', '..llllllll..', '..lssssssl..', '..sllssslls.', '..ssssssss..', '...ssSSss...',
     '...slllls...', '....llll....', '..BBBwwBBB..', '.BBBBwrBBBB.', '.BBBBwrBBBB.', '.BBBBBBBBBB.',
   ],
   mole: [
@@ -3595,6 +4400,169 @@ const GEN = {
     return { gen: 1, kind: 'num', lead: 'Policz RPN (FMEA)', p: `Znaczenie S = ${S}, częstość O = ${O}, wykrywalność D = ${D}. RPN = ?`, a: ans, d: GEN.choices(ans, wr), fix: `RPN = S × O × D = ${S} × ${O} × ${D} = ${ans}` };
   },
 };
+
+</script>
+<script>/* js/challenges-oral.js */
+'use strict';
+/* Zadania na poziomie całej odpowiedzi ustnej:
+   builder (Mównica – ułóż wypowiedź), luki (znikający tekst), hunt (łowca błędów), fu (pytanie dodatkowe). */
+Object.assign(CH, {
+  ROLE_RANK: { def: 0, list: 1, det: 2, ex: 3, end: 4 },
+  ROLE_NAME: { def: 'Definicja', list: 'Wyliczenie', det: 'Rozwinięcie', ex: 'Przykład', end: 'Domknięcie' },
+  ANSWER_TYPES: ['builder', 'luki', 'hunt', 'fu', 'keys'],
+
+  /* podział zdania na fragmenty: tekst zwykły i **pojęcia** */
+  parseBold(t) {
+    const out = [];
+    const re = /\*\*(.+?)\*\*/g;
+    let last = 0, m;
+    while ((m = re.exec(t))) {
+      if (m.index > last) out.push({ k: 'txt', t: t.slice(last, m.index) });
+      out.push({ k: 'b', t: m[1] });
+      last = re.lastIndex;
+    }
+    if (last < t.length) out.push({ k: 'txt', t: t.slice(last) });
+    return out;
+  },
+  sayPlain(q) { return q.say.map(s => U.plain(s[1])).join(' '); },
+  boldTerms(q) { return q.say.flatMap(s => this.parseBold(s[1]).filter(p => p.k === 'b').map(p => p.t)); },
+  /* plan odpowiedzi: role + pierwsze pojęcie zdania jako podpowiedź */
+  plan(q) {
+    return q.say.map(([r, t]) => {
+      const b = this.parseBold(t).find(p => p.k === 'b');
+      return { role: r, name: this.ROLE_NAME[r], cue: b ? b.t : '' };
+    });
+  },
+
+  /* ---------- Mównica: ułóż wypowiedź ---------- */
+  make_builder(q, level) {
+    const sents = q.say.map(([r, t], i) => ({ i, role: r, rank: this.ROLE_RANK[r], t }));
+    const intr = [];
+    const others = this.world(q).filter(o => o.id !== q.id && o.say.length);
+    const pool = (others.length ? others : QUESTIONS.filter(o => o.id !== q.id)).flatMap(o => o.say.filter(s => s[0] !== 'def').map(s => ({ o, t: s[1] })));
+    const foreign = U.shuffle(pool).find(x => !x.o.say.some(s => s[1] === x.t && q.say.some(y => y[1] === x.t)));
+    if (foreign) intr.push({ t: foreign.t, why: `To zdanie pochodzi z innego pytania: P${foreign.o.id} ${foreign.o.t}.` });
+    if (level >= 4 || Math.random() < 0.35) {
+      const e = U.shuffle(q.err).find(([o]) => q.say.some(s => s[1].includes(o)));
+      if (e) {
+        const s = q.say.find(x => x[1].includes(e[0]));
+        intr.push({ t: s[1].replace(e[0], e[1]), why: `Błąd merytoryczny: „${U.plain(e[1])}” zamiast „${U.plain(e[0])}”.`, twin: true });
+      }
+    }
+    return { sents, intr, plan: this.plan(q) };
+  },
+
+  /* ---------- Luki: znikający tekst ---------- */
+  make_luki(q, level) {
+    const parts = q.say.map(s => this.parseBold(s[1]));
+    const cands = [];
+    const seenT = new Set();
+    parts.forEach((ps, si) => ps.forEach((p, pi) => {
+      if (p.k !== 'b' || p.t.length > 48 || seenT.has(U.key(p.t))) return;
+      seenT.add(U.key(p.t));
+      cands.push({ si, pi, t: p.t });
+    }));
+    const frac = level >= 4 ? 0.7 : 0.4;
+    const n = U.clamp(Math.round(cands.length * frac), Math.min(3, cands.length), 9);
+    const chosen = U.sample(cands, n).sort((a, b) => a.si - b.si || a.pi - b.pi);
+    chosen.forEach((c, j) => { parts[c.si][c.pi].blank = j; });
+    const wrongs = q.err.map(e => U.plain(e[1])).filter(w => w.length <= 48);
+    const foreign = U.shuffle(this.world(q).filter(o => o.id !== q.id).flatMap(o => this.boldTerms(o))).filter(t => t.length <= 40 && !this.inQ(q, t));
+    const nd = level >= 4 ? 4 : 3;
+    const dist = U.uniq([...U.sample(wrongs, 2), ...foreign]).filter(d => !chosen.some(c => U.key(c.t) === U.key(d))).slice(0, nd);
+    const bank = U.shuffle([...chosen.map(c => ({ t: c.t, ok: true })), ...dist.map(t => ({ t, ok: false }))]);
+    return { parts, roles: q.say.map(s => s[0]), blanks: chosen.map(c => c.t), bank };
+  },
+
+  /* ---------- Łowca błędów ---------- */
+  make_hunt(q, level) {
+    const want = level >= 5 ? 3 : 2;
+    const sents = q.say.map(s => s[1]);
+    const used = new Set();
+    const errs = [];
+    for (const [o, w] of U.shuffle(q.err)) {
+      if (errs.length >= want) break;
+      const si = sents.findIndex((t, i) => !used.has(i) && t.includes(o));
+      if (si < 0) continue;
+      used.add(si);
+      sents[si] = sents[si].replace(o, '\u0001' + errs.length + '\u0003' + w + '\u0002');
+      errs.push({ o: U.plain(o), w: U.plain(w) });
+    }
+    const segs = sents.map(t => this.huntSegments(t, errs));
+    return { segs, roles: q.say.map(s => s[0]), n: errs.length, errs };
+  },
+  huntSegments(t, errs) {
+    // znacznik błędu: \u0001<id>\u0003<tekst>\u0002 ; może leżeć wewnątrz **…** albo zawierać **…**
+    const out = [];
+    const re = /\*\*(.+?)\*\*|\u0001(\d+)\u0003([\s\S]+?)\u0002/g;
+    let last = 0, m;
+    while ((m = re.exec(t))) {
+      if (m.index > last) out.push({ k: 'txt', t: t.slice(last, m.index) });
+      if (m[1] != null) {
+        const inner = m[1];
+        const em = /\u0001(\d+)\u0003([\s\S]+?)\u0002/.exec(inner);
+        if (em) {
+          const e = errs[+em[1]];
+          out.push({ k: 'tok', err: true, t: U.plain(inner.replace(em[0], em[2])), fix: U.plain(inner.replace(em[0], e.o)) });
+        } else out.push({ k: 'tok', err: false, t: inner });
+      } else {
+        const e = errs[+m[2]];
+        out.push({ k: 'tok', err: true, t: U.plain(m[3]), fix: e.o });
+      }
+      last = re.lastIndex;
+    }
+    if (last < t.length) out.push({ k: 'txt', t: t.slice(last) });
+    return out;
+  },
+
+  /* ---------- Pytanie dodatkowe ---------- */
+  make_fu(q, level) {
+    const [f] = STORE.pickLeast('fu' + q.id, q.fu, 1, x => x[0]);
+    const others = U.shuffle(this.world(q).filter(o => o.id !== q.id).flatMap(o => o.fu.map(x => x[1])));
+    const glob = U.shuffle(QUESTIONS.filter(o => o.w !== q.w).flatMap(o => o.fu.map(x => x[1])));
+    const third = [...others, ...glob].find(a => U.key(a) !== U.key(f[1]) && U.key(a) !== U.key(f[2]));
+    const opts = U.shuffle([f[1], f[2], third].filter(Boolean));
+    return { question: f[0], options: opts, answer: opts.indexOf(f[1]), fix: f[1] };
+  },
+});
+
+/* dostępność i wybór typów z uwzględnieniem zadań „ustnych” */
+(function () {
+  const baseAvail = CH.available.bind(CH);
+  CH.available = function (q) {
+    const s = baseAvail(q);
+    if (!q._avOral) {
+      if (q.say.length >= 4) s.add('builder');
+      if (CH.boldTerms(q).length >= 4) s.add('luki');
+      if (q.err.length >= 2) s.add('hunt');
+      if (q.fu.length >= 1) s.add('fu');
+      q._avOral = true;
+    }
+    return s;
+  };
+  CH.LEVELS = [
+    ['tf', 'flappy'],
+    ['flappy', 'bomb', 'tf', 'match'],
+    ['match', 'sort', 'whac', 'tower', 'bomb'],
+    ['builder', 'luki', 'fu'],
+    ['hunt', 'luki', 'keys', 'fu', 'builder'],
+    ['builder', 'luki', 'hunt', 'fu', 'keys', 'bomb', 'match', 'sort', 'tower', 'whac', 'flappy', 'tf'],
+  ];
+  CH.LEVEL_NAMES = ['Nowe', 'Rozpoznaję', 'Kojarzę', 'Układam odpowiedź', 'Mówię jak na obronie', 'Opanowane'];
+  const baseChoose = CH.chooseType.bind(CH);
+  CH.chooseType = function (q, level, avoid) {
+    if (level >= 5 && Math.random() < 0.65) return CH.chooseAnswerType(q, 5, avoid);
+    return baseChoose(q, level, avoid);
+  };
+  /* tylko zadania „ustne” – tryb Trening odpowiedzi */
+  CH.chooseAnswerType = function (q, level, avoid) {
+    const av = CH.available(q);
+    let c = (level < 3 ? ['builder', 'luki', 'fu'] : ['hunt', 'luki', 'keys', 'fu', 'builder']).filter(t => av.has(t));
+    if (!c.length) c = CH.ANSWER_TYPES.filter(t => av.has(t));
+    const c2 = c.filter(t => t !== avoid);
+    return U.pick(c2.length ? c2 : c);
+  };
+})();
 
 </script>
 <script>/* js/stage.js */
@@ -4621,6 +5589,104 @@ Bomba.intro = { title: 'ROZBRÓJ!', hint: 'Tapnij przedmiot z dobrą odpowiedzi�
 MINIGAMES.bomb = Bomba;
 
 </script>
+<script>/* js/mg/room.js */
+'use strict';
+/* SALA EGZAMINACYJNA – pikselowa scenka z komisją reagującą na odpowiedzi + nastrój komisji. */
+class Room {
+  constructor(parent, opts = {}) {
+    this.mood = opts.mood == null ? 0.5 : opts.mood;
+    this.shown = this.mood;
+    this.t = Math.random() * 10;
+    this.pulse = 0;
+    this.blink = [2, 3.4, 5.1];
+    this.cv = U.el('canvas', { class: 'room-cv', width: 320, height: 88, 'aria-hidden': 'true' });
+    this.ctx = this.cv.getContext('2d');
+    this.bubble = U.el('div', { class: 'room-bubble' }, opts.say || 'Proszę bardzo, słuchamy.');
+    this.meter = U.el('div', { class: 'room-meter', title: 'Nastrój komisji' }, U.el('span', {}, 'Nastrój komisji'), U.el('div', { class: 'rm-bar' }, U.el('i')));
+    this.el = U.el('div', { class: 'room' }, this.cv, this.bubble, this.meter);
+    parent.append(this.el);
+    this.draw();
+  }
+  set(delta, text) {
+    this.mood = U.clamp(this.mood + delta, 0, 1);
+    this.pulse = 0.5;
+    if (text) this.say(text);
+  }
+  say(text) { this.bubble.textContent = text; this.bubble.classList.remove('pop'); void this.bubble.offsetWidth; this.bubble.classList.add('pop'); }
+  face() { return this.mood > 0.66 ? 'profH' : this.mood < 0.34 ? 'profA' : 'prof'; }
+  update(dt) {
+    this.t += dt;
+    this.pulse = Math.max(0, this.pulse - dt);
+    this.shown += (this.mood - this.shown) * Math.min(1, dt * 5);
+    const bar = this.meter.querySelector('i');
+    bar.style.width = Math.round(this.shown * 100) + '%';
+    bar.style.background = this.shown > 0.66 ? 'var(--green)' : this.shown < 0.34 ? 'var(--red)' : 'var(--amber)';
+    this.draw();
+  }
+  draw() {
+    const c = this.ctx, t = this.t;
+    c.imageSmoothingEnabled = false;
+    c.fillStyle = '#2b2138'; c.fillRect(0, 0, 320, 88);
+    c.fillStyle = '#33283f';
+    for (let x = 0; x < 320; x += 20) c.fillRect(x, 0, 10, 60);
+    // okno z nocnym niebem nad Krakowem
+    c.fillStyle = PAL.k; c.fillRect(250, 6, 60, 36);
+    c.fillStyle = '#16304a'; c.fillRect(252, 8, 56, 32);
+    c.fillStyle = '#f6e7b0'; c.fillRect(292, 12, 6, 6);
+    c.fillStyle = '#0b1b27'; c.fillRect(252, 28, 56, 12); c.fillRect(266, 20, 8, 8); c.fillRect(284, 24, 6, 4);
+    c.fillStyle = PAL.k; c.fillRect(279, 8, 2, 32);
+    // tablica
+    c.fillStyle = PAL.k; c.fillRect(8, 6, 70, 34);
+    c.fillStyle = '#1f4a31'; c.fillRect(10, 8, 66, 30);
+    c.fillStyle = 'rgba(242,236,217,.7)'; c.fillRect(14, 14, 30, 2); c.fillRect(14, 20, 44, 2); c.fillRect(14, 26, 22, 2);
+    // komisja
+    const face = this.face();
+    const swaps = [{ l: '#b8c4bc', B: '#1b4f8a' }, { l: '#4a2c18', B: '#8e1a26' }, { l: '#f2ecd9', B: '#138a45' }];
+    [100, 150, 200].forEach((x, i) => {
+      const bob = this.pulse > 0 ? Math.round(Math.sin((0.5 - this.pulse) * 30 + i) * 1.5) : 0;
+      const blinking = ((t + this.blink[i]) % 4.2) < 0.12;
+      SPR.drawC(c, blinking && face === 'prof' ? 'profB' : face, x, 64 + bob, 3, { swap: swaps[i] });
+    });
+    // stół komisji
+    c.fillStyle = PAL.k; c.fillRect(70, 58, 160, 30);
+    c.fillStyle = '#6b4424'; c.fillRect(72, 60, 156, 28);
+    c.fillStyle = '#8a5a32'; c.fillRect(72, 60, 156, 4);
+    c.fillStyle = PAL.w; c.fillRect(90, 56, 14, 4); c.fillRect(186, 56, 16, 4);
+    // student przy mównicy
+    SPR.drawC(c, 'student', 262, 80, 2);
+    c.fillStyle = PAL.k; c.fillRect(248, 66, 30, 22);
+    c.fillStyle = '#5a3e24'; c.fillRect(250, 68, 26, 20);
+    c.fillStyle = '#8a5a32'; c.fillRect(250, 68, 26, 3);
+    c.fillStyle = '#1a1222'; c.fillRect(0, 84, 320, 4);
+  }
+}
+
+/* Wzorcowa odpowiedź ustna jako lista zdań z rolami (używane w grach i nakładkach). */
+Room.answer = function (q, opts = {}) {
+  const ol = U.el('ol', { class: 'say' + (opts.compact ? ' compact' : '') });
+  q.say.forEach(([r, t]) => ol.append(U.el('li', { class: 'say-' + r },
+    U.el('span', { class: 'role role-' + r }, CH.ROLE_NAME[r]), U.el('span', { class: 'say-t', html: U.md(t) }))));
+  return ol;
+};
+/* Wspólna końcówka gier „ustnych”: werdykt, wzorcowa odpowiedź, haczyk, DALEJ. */
+Room.finale = function (mg, ok, verdict, extra) {
+  const q = mg.ch.q;
+  const btn = U.el('button', { class: 'btn primary', type: 'button' }, 'DALEJ ▶');
+  btn.onclick = () => { if (!mg.done) mg.end({ ok, skipCorrection: true }, 0.05); };
+  const box = U.el('div', { class: 'finale' },
+    U.el('div', { class: 'verdict ' + (ok ? 'good' : 'bad') }, verdict),
+    extra || null,
+    U.el('div', { class: 'mini-label' }, 'TAK TO POWIEDZ KOMISJI'),
+    Room.answer(q),
+    U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+    U.el('div', { class: 'kom-actions' }, btn));
+  mg.S.panel.append(box);
+  mg.finaleBtn = btn;
+  setTimeout(() => box.scrollIntoView({ block: 'start', behavior: 'smooth' }), 60);
+  btn.focus({ preventScroll: true });
+};
+
+</script>
 <script>/* js/mg/spawarka.js */
 'use strict';
 /* SPAWARKA PAR – połącz pojęcia z opisami (spawanie iskrą). */
@@ -4703,11 +5769,7 @@ class Komisja extends MG {
     this.submitted = false;
     this.S.prompt({ lead: `${ch.tag} · Pytanie egzaminacyjne`, text: q.q });
     const quips = ['No to słucham…', 'Proszę wymienić najważniejsze elementy.', 'Konkretnie, panie magistrze.', 'Mamy czas. Chociaż nie za dużo.', 'Proszę się nie denerwować.'];
-    const profs = U.el('div', { class: 'profs' },
-      SPR.img('prof', 4, '', { l: '#b8c4bc', B: '#1b4f8a' }),
-      SPR.img('prof', 4, '', { l: '#4a2c18', B: '#8e1a26' }),
-      SPR.img('prof', 4, '', { l: '#f2ecd9', B: '#138a45' }));
-    this.bubble = U.el('div', { class: 'bubble' }, U.pick(quips));
+    this.room = new Room(P, { say: U.pick(quips) });
     this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
     this.chipsEl = U.el('div', { class: 'chips' });
     this.chips = ch.chips.map(c => {
@@ -4719,9 +5781,8 @@ class Komisja extends MG {
     this.btn = U.el('button', { class: 'btn primary', type: 'button' }, 'ODPOWIADAM ▶');
     this.btn.onclick = () => this.submitted ? this.next() : this.submit(false);
     this.reveal = U.el('div', { class: 'kom-reveal', hidden: true });
-    const head = U.el('div', { class: 'kom-head' }, profs, this.bubble);
     const boss = ch.boss ? U.el('div', { class: 'boss' }, U.el('span', {}, `Komisja: ${ch.boss.hp}/${ch.boss.max}`), U.el('div', { class: 'hp' }, U.el('i', { style: { width: (ch.boss.hp / ch.boss.max * 100) + '%' } }))) : null;
-    P.append(U.el('div', { class: 'kom' }, head, boss, this.bar,
+    P.append(U.el('div', { class: 'kom' }, boss, this.bar,
       U.el('p', { class: 'kom-ins' }, 'Zaznacz hasła, które należą do minimum odpowiedzi na to pytanie:'),
       this.chipsEl, U.el('div', { class: 'kom-actions' }, this.btn), this.reveal));
   }
@@ -4745,16 +5806,17 @@ class Komisja extends MG {
       c.el.disabled = true;
     }
     const q = this.ch.q;
-    this.bubble.textContent = this.ok ? U.pick(['Bardzo dobrze. Następne pytanie.', 'Widać, że Pan/Pani się przygotował(a).', 'Komisja kiwa głową.']) : U.pick(['Hmm… a gdzie reszta?', 'Komisja marszczy brwi.', 'To nie do końca to…']);
+    this.room.set(this.ok ? 0.3 : -0.3, this.ok ? U.pick(['Bardzo dobrze. Następne pytanie.', 'Widać, że Pan/Pani się przygotował(a).', 'Komisja kiwa głową.']) : U.pick(['Hmm… a gdzie reszta?', 'Komisja marszczy brwi.', 'To nie do końca to…']));
     this.S.sfx(this.ok ? 'ok' : 'bad');
     this.reveal.hidden = false;
     this.reveal.innerHTML = '';
     this.reveal.append(
       U.el('div', { class: 'verdict ' + (this.ok ? 'good' : 'bad') }, (this.ok ? '✓ ZALICZONE' : '✗ NIEZALICZONE') + (timeout ? ' (czas minął)' : '') + ` · trafione ${hit}/${good.length}, błędne ${wrong}`),
       U.el('div', { class: 'legend' }, U.el('span', { class: 'chip hit sm' }, 'trafione'), U.el('span', { class: 'chip miss sm' }, 'pominięte'), U.el('span', { class: 'chip wrong sm' }, 'błędne')),
-      U.el('div', { class: 'mini-label' }, 'MINIMUM EGZAMINACYJNE'),
-      U.el('div', { class: 'rich', html: U.richText(q.a) }),
-      U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m));
+      U.el('div', { class: 'mini-label' }, 'TAK TO POWIEDZ KOMISJI'),
+      Room.answer(q),
+      U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+      U.el('details', { class: 'ext' }, U.el('summary', {}, 'Minimum egzaminacyjne'), U.el('div', { class: 'rich', html: U.richText(q.a) })));
     this.btn.textContent = 'DALEJ ▶';
     this.reveal.append(U.el('div', { class: 'kom-actions' }, this.btn));
     this.btn.focus({ preventScroll: true });
@@ -4763,6 +5825,7 @@ class Komisja extends MG {
   next() { if (!this.done) this.end({ ok: this.ok, skipCorrection: true }, 0.05); }
   update(dt) {
     super.update(dt);
+    this.room.update(dt);
     if (this.submitted || this.done) return;
     this.left -= dt;
     const f = U.clamp(this.left / this.total, 0, 1);
@@ -4776,6 +5839,329 @@ Komisja.intro = { title: 'KOMISJA PYTA!', hint: 'Zaznacz hasła z minimum odpowi
 MINIGAMES.keys = Komisja;
 
 </script>
+<script>/* js/mg/mownica.js */
+'use strict';
+/* MÓWNICA – ułóż odpowiedź dla komisji z gotowych zdań, w dobrej kolejności; odrzuć zdania błędne. */
+class Mownica extends MG {
+  start() {
+    const ch = this.ch, q = ch.q, P = this.S.panel;
+    this.left = this.total = U.clamp(ch.sents.length * 15 / this.speed, 45, 110);
+    this.allowed = 2; this.mist = 0; this.placed = 0; this.over = false;
+    this.S.prompt({ lead: `${ch.tag} · Mównica: ułóż odpowiedź`, text: q.q, sub: 'Wybieraj zdania w kolejności, w jakiej powiesz je komisji: definicja → wyliczenie → rozwinięcie → przykład. Zdania błędne pomiń.' });
+    this.room = new Room(P, { say: 'Słuchamy. Proszę zacząć od definicji.' });
+    this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
+    this.stat = U.el('div', { class: 'mw-stat' });
+    this.speech = U.el('ol', { class: 'say speech' });
+    this.pool = U.el('div', { class: 'mw-pool' });
+    const cards = U.shuffle([...ch.sents.map(s => ({ ...s, ok: true })), ...ch.intr.map(s => ({ ...s, ok: false }))]);
+    this.cards = cards.map(c => {
+      const b = U.el('button', { class: 'mw-card', type: 'button', html: U.md(c.t) });
+      b.onclick = () => this.pick(c, b);
+      this.pool.append(b);
+      return { c, b };
+    });
+    P.append(U.el('div', { class: 'mw' }, this.bar, this.stat,
+      U.el('div', { class: 'mini-label' }, 'TWOJA WYPOWIEDŹ'), this.speech,
+      U.el('div', { class: 'mini-label' }, 'ZDANIA DO WYBORU'), this.pool));
+    this.updStat();
+  }
+  remaining() { return this.cards.filter(x => x.c.ok && !x.c.used).map(x => x.c); }
+  updStat() { this.stat.textContent = `Zdania: ${this.placed}/${this.ch.sents.length} · pomyłki: ${this.mist}/${this.allowed + 1}`; }
+  pick(c, b) {
+    if (this.done || this.over || this.S.intro > 0 || b.disabled) return;
+    AUDIO.resume();
+    if (!c.ok) {
+      this.mistake(b, c.twin ? 'To zdanie ma błąd merytoryczny!' : 'To nie jest odpowiedź na to pytanie!');
+      b.disabled = true; b.classList.add('gone');
+      b.append(U.el('small', { class: 'why' }, c.why));
+      return;
+    }
+    const minRank = Math.min(...this.remaining().map(s => s.rank));
+    if (c.rank > minRank) {
+      const need = this.remaining().find(s => s.rank === minRank);
+      this.mistake(b, `Za wcześnie! Najpierw: ${CH.ROLE_NAME[need.role].toLowerCase()}.`);
+      return;
+    }
+    c.used = true; b.disabled = true; b.classList.add('used');
+    this.placed++;
+    this.speech.append(U.el('li', { class: 'say-' + c.role + ' fresh' }, U.el('span', { class: 'role role-' + c.role }, CH.ROLE_NAME[c.role]), U.el('span', { class: 'say-t', html: U.md(c.t) })));
+    this.room.set(0.1, U.pick(['Mhm.', 'Dobrze.', 'Tak, słuchamy dalej.', 'Konkretnie – tak trzymać.']));
+    this.S.sfx('ok');
+    this.updStat();
+    if (!this.remaining().length) this.finish(true);
+    else this.showPool();
+  }
+  /* pula zdań ma być widoczna: przewiń scenę, jeśli wypowiedź zepchnęła ją w dół */
+  showPool() {
+    const st = this.S.panel.parentElement, r = this.pool.getBoundingClientRect(), sr = st.getBoundingClientRect();
+    if (r.top > sr.bottom - 140) st.scrollTo({ top: st.scrollTop + r.top - sr.top - 140, behavior: 'smooth' });
+  }
+  mistake(b, text) {
+    this.mist++;
+    b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad');
+    this.room.set(-0.18, text);
+    this.S.sfx('bad');
+    this.updStat();
+    if (this.mist > this.allowed) this.finish(false);
+  }
+  finish(ok, timeout) {
+    if (this.over) return;
+    this.over = true;
+    this.S.sfx(ok ? 'coin' : 'lose');
+    this.room.set(ok ? 0.2 : -0.2, ok ? 'Pełna, uporządkowana odpowiedź. Brawo!' : 'Hmm… Proszę jeszcze to przećwiczyć.');
+    this.cards.forEach(({ b }) => { b.disabled = true; });
+    this.pool.hidden = true;
+    Room.finale(this, ok, ok ? `✓ WYPOWIEDŹ UŁOŻONA · pomyłki: ${this.mist}` : `✗ ${timeout ? 'CZAS MINĄŁ' : 'ZA DUŻO POMYŁEK'} – przeczytaj wzorcową odpowiedź`);
+  }
+  key(k, down) { if (down && k === 'enter' && this.finaleBtn) this.finaleBtn.click(); }
+  update(dt) {
+    super.update(dt);
+    this.room.update(dt);
+    if (this.over || this.done) return;
+    this.left -= dt;
+    const f = U.clamp(this.left / this.total, 0, 1);
+    this.bar.firstChild.style.width = (f * 100) + '%';
+    this.bar.classList.toggle('low', f < 0.25);
+    if (this.left <= 0) this.finish(false, true);
+  }
+}
+Mownica.dom = true;
+Mownica.intro = { title: 'MÓWNICA!', hint: 'Ułóż odpowiedź dla komisji zdanie po zdaniu' };
+MINIGAMES.builder = Mownica;
+
+</script>
+<script>/* js/mg/luki.js */
+'use strict';
+/* ZNIKAJĄCY TEKST – uzupełnij luki w wzorcowej odpowiedzi ustnej kolejnymi pojęciami. */
+class Luki extends MG {
+  start() {
+    const ch = this.ch, q = ch.q, P = this.S.panel;
+    this.n = ch.blanks.length;
+    this.cur = 0; this.mist = 0; this.over = false;
+    this.allowed = Math.max(1, Math.floor(this.n / 4));
+    this.left = this.total = U.clamp((15 + this.n * 9) / this.speed, 30, 110);
+    this.S.prompt({ lead: `${ch.tag} · Znikający tekst`, text: q.q, sub: 'Uzupełnij luki po kolei – tak brzmi odpowiedź, którą powiesz komisji.' });
+    this.room = new Room(P, { say: 'Proszę mówić pełnymi zdaniami.' });
+    this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
+    this.stat = U.el('div', { class: 'mw-stat' });
+    this.blankEls = [];
+    const text = U.el('ol', { class: 'say luki-text' });
+    ch.parts.forEach((ps, si) => {
+      const t = U.el('span', { class: 'say-t' });
+      for (const p of ps) {
+        if (p.k === 'b' && p.blank != null) {
+          const bl = U.el('span', { class: 'blank', style: { minWidth: Math.min(16, Math.max(4, p.t.length * 0.55)) + 'em' } }, ' ');
+          this.blankEls[p.blank] = bl;
+          t.append(bl);
+        } else if (p.k === 'b') t.append(U.el('b', {}, p.t));
+        else t.append(p.t);
+      }
+      text.append(U.el('li', { class: 'say-' + ch.roles[si] }, U.el('span', { class: 'role role-' + ch.roles[si] }, CH.ROLE_NAME[ch.roles[si]]), t));
+    });
+    this.bank = U.el('div', { class: 'chips bank' });
+    this.chips = ch.bank.map(c => {
+      const b = U.el('button', { class: 'chip', type: 'button' }, c.t);
+      b.onclick = () => this.pick(c, b);
+      this.bank.append(b);
+      return b;
+    });
+    P.append(U.el('div', { class: 'mw' }, this.bar, this.stat, text, U.el('div', { class: 'mini-label' }, 'BANK POJĘĆ – wybierz pojęcie do podświetlonej luki'), this.bank));
+    this.mark();
+  }
+  mark() {
+    this.blankEls.forEach((b, i) => b.classList.toggle('cur', i === this.cur && !this.over));
+    this.stat.textContent = `Luki: ${this.cur}/${this.n} · pomyłki: ${this.mist}/${this.allowed + 1}`;
+    const el = this.blankEls[this.cur];
+    if (el && this.cur > 0) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+  pick(c, b) {
+    if (this.done || this.over || this.S.intro > 0 || b.disabled) return;
+    AUDIO.resume();
+    const want = this.ch.blanks[this.cur];
+    if (U.key(c.t) === U.key(want)) {
+      const bl = this.blankEls[this.cur];
+      bl.textContent = want; bl.classList.add('filled');
+      b.disabled = true; b.classList.add('hit');
+      this.cur++;
+      this.S.sfx('coin');
+      this.room.set(0.06);
+      if (this.cur >= this.n) return this.finish(true);
+      this.mark();
+    } else {
+      this.mist++;
+      b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake', 'wrong');
+      setTimeout(() => b.classList.remove('wrong'), 500);
+      this.room.set(-0.15, c.ok ? 'To pojęcie pasuje, ale w innym miejscu.' : 'To nie pasuje do tej odpowiedzi.');
+      this.S.sfx('bad');
+      this.mark();
+      if (this.mist > this.allowed) this.finish(false);
+    }
+  }
+  finish(ok, timeout) {
+    if (this.over) return;
+    this.over = true;
+    this.blankEls.forEach((bl, i) => { if (!bl.classList.contains('filled')) { bl.textContent = this.ch.blanks[i]; bl.classList.add('missed'); } bl.classList.remove('cur'); });
+    this.chips.forEach(b => { b.disabled = true; });
+    this.bank.hidden = true;
+    this.S.sfx(ok ? 'ok' : 'lose');
+    this.room.set(ok ? 0.2 : -0.2, ok ? 'Płynnie i merytorycznie. Tak trzymać!' : 'Brakuje kluczowych pojęć…');
+    Room.finale(this, ok, ok ? `✓ ODPOWIEDŹ KOMPLETNA · pomyłki: ${this.mist}` : `✗ ${timeout ? 'CZAS MINĄŁ' : 'ZA DUŻO POMYŁEK'} – na żółto brakujące pojęcia`);
+  }
+  key(k, down) { if (down && k === 'enter' && this.finaleBtn) this.finaleBtn.click(); }
+  update(dt) {
+    super.update(dt);
+    this.room.update(dt);
+    if (this.over || this.done) return;
+    this.left -= dt;
+    const f = U.clamp(this.left / this.total, 0, 1);
+    this.bar.firstChild.style.width = (f * 100) + '%';
+    this.bar.classList.toggle('low', f < 0.25);
+    if (this.left <= 0) this.finish(false, true);
+  }
+}
+Luki.dom = true;
+Luki.intro = { title: 'LUKI!', hint: 'Uzupełnij wzorcową odpowiedź brakującymi pojęciami' };
+MINIGAMES.luki = Luki;
+
+</script>
+<script>/* js/mg/lowca.js */
+'use strict';
+/* ŁOWCA BŁĘDÓW – komisja słucha odpowiedzi kolegi; wskaż błędne sformułowania. */
+class Lowca extends MG {
+  start() {
+    const ch = this.ch, q = ch.q, P = this.S.panel;
+    this.found = 0; this.wrong = 0; this.over = false;
+    this.allowed = ch.n >= 3 ? 2 : 1;
+    this.left = this.total = U.clamp((40 + ch.n * 12) / this.speed, 35, 90);
+    const word = ch.n === 1 ? 'błąd merytoryczny' : `${ch.n} ${U.pl(ch.n, 'błąd', 'błędy', 'błędów')} merytoryczne`;
+    this.S.prompt({ lead: `${ch.tag} · Łowca błędów`, text: q.q, sub: `Kolega odpowiada przed komisją. W jego odpowiedzi jest ${word}. Tapnij błędne sformułowania.` });
+    this.room = new Room(P, { say: 'Proszę posłuchać kolegi i wskazać błędy.', mood: 0.45 });
+    this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
+    this.stat = U.el('div', { class: 'mw-stat' });
+    this.toks = [];
+    const text = U.el('ol', { class: 'say hunt-text' });
+    ch.segs.forEach((segs, si) => {
+      const t = U.el('span', { class: 'say-t' });
+      for (const s of segs) {
+        if (s.k === 'txt') { t.append(s.t); continue; }
+        const b = U.el('button', { class: 'tok', type: 'button' }, s.t);
+        b.onclick = () => this.tap(s, b);
+        this.toks.push({ s, b });
+        t.append(b);
+      }
+      text.append(U.el('li', { class: 'say-' + ch.roles[si] }, U.el('span', { class: 'role role-' + ch.roles[si] }, CH.ROLE_NAME[ch.roles[si]]), t));
+    });
+    P.append(U.el('div', { class: 'mw' }, this.bar, this.stat, text));
+    this.updStat();
+  }
+  updStat() { this.stat.textContent = `Znalezione błędy: ${this.found}/${this.ch.n} · chybione: ${this.wrong}/${this.allowed + 1}`; }
+  tap(s, b) {
+    if (this.done || this.over || this.S.intro > 0 || b.disabled) return;
+    AUDIO.resume();
+    b.disabled = true;
+    if (s.err) {
+      this.found++;
+      b.classList.add('caught');
+      b.innerHTML = '';
+      b.append(U.el('s', {}, s.t), ' ', U.el('b', {}, s.fix));
+      this.S.sfx('coin');
+      this.room.set(0.15, 'Dokładnie! To był błąd.');
+      this.updStat();
+      if (this.found >= this.ch.n) this.finish(true);
+    } else {
+      this.wrong++;
+      b.classList.add('fine');
+      this.S.sfx('bad');
+      this.room.set(-0.15, 'Nie, to akurat było poprawne.');
+      this.updStat();
+      if (this.wrong > this.allowed) this.finish(false);
+    }
+  }
+  finish(ok, timeout) {
+    if (this.over) return;
+    this.over = true;
+    for (const { s, b } of this.toks) {
+      b.disabled = true;
+      if (s.err && !b.classList.contains('caught')) { b.classList.add('missed'); b.innerHTML = ''; b.append(U.el('s', {}, s.t), ' ', U.el('b', {}, s.fix)); }
+    }
+    this.S.sfx(ok ? 'ok' : 'lose');
+    this.room.set(ok ? 0.2 : -0.2, ok ? 'Świetne oko. Pan/Pani to wie.' : 'Błędy przeszły niezauważone…');
+    Room.finale(this, ok, ok ? '✓ WSZYSTKIE BŁĘDY ZNALEZIONE' : `✗ ${timeout ? 'CZAS MINĄŁ' : 'ZA DUŻO CHYBIEŃ'} – przekreślone są błędy, obok poprawna wersja`);
+  }
+  key(k, down) { if (down && k === 'enter' && this.finaleBtn) this.finaleBtn.click(); }
+  update(dt) {
+    super.update(dt);
+    this.room.update(dt);
+    if (this.over || this.done) return;
+    this.left -= dt;
+    const f = U.clamp(this.left / this.total, 0, 1);
+    this.bar.firstChild.style.width = (f * 100) + '%';
+    this.bar.classList.toggle('low', f < 0.25);
+    if (this.left <= 0) this.finish(false, true);
+  }
+}
+Lowca.dom = true;
+Lowca.intro = { title: 'ŁOWCA BŁĘDÓW!', hint: 'Tapnij błędne sformułowania w odpowiedzi kolegi' };
+MINIGAMES.hunt = Lowca;
+
+</script>
+<script>/* js/mg/dopytka.js */
+'use strict';
+/* DOPYTKA – komisja zadaje pytanie dodatkowe; wybierz odpowiedź, która Cię obroni. */
+class Dopytka extends MG {
+  start() {
+    const ch = this.ch, q = ch.q, P = this.S.panel;
+    this.left = this.total = U.clamp(32 / this.speed, 18, 40);
+    this.S.prompt({ lead: `${ch.tag} · Pytanie dodatkowe`, text: ch.question, sub: `Temat: ${q.t}. Która odpowiedź obroni Cię przed komisją?` });
+    this.room = new Room(P, { say: `„${ch.question}”` });
+    this.bar = U.el('div', { class: 'tbar' }, U.el('i'));
+    this.btns = ch.options.map((o, i) => {
+      const b = U.el('button', { class: 'mw-card fu-opt', type: 'button' }, U.el('b', { class: 'fu-n' }, String(i + 1)), ' ', o);
+      b.onclick = () => this.choose(i);
+      return b;
+    });
+    P.append(U.el('div', { class: 'mw' }, this.bar, U.el('div', { class: 'fu-list' }, ...this.btns)));
+  }
+  key(k, down) {
+    if (!down) return;
+    const m = /^n(\d)$/.exec(k);
+    if (m && +m[1] <= this.btns.length) this.choose(+m[1] - 1);
+  }
+  choose(i) {
+    if (this.done || this.S.intro > 0) return;
+    AUDIO.resume();
+    const ok = i === this.ch.answer;
+    this.btns.forEach((b, j) => { b.disabled = true; if (j === this.ch.answer) b.classList.add('right'); else if (j === i) b.classList.add('wrongc'); });
+    if (ok) {
+      this.room.set(0.3, U.pick(['Dokładnie tak. Dziękujemy.', 'Bardzo dobrze.', 'Wyczerpująco. Brawo.']));
+      this.S.sfx('ok');
+      this.end({ ok: true }, 1.3);
+    } else {
+      this.room.set(-0.3, 'Hmm… nie do końca.');
+      this.S.sfx('bad');
+      this.end({ ok: false, your: this.ch.options[i], right: this.ch.fix, fix: `Pytanie komisji: „${this.ch.question}”` }, 1.4);
+    }
+  }
+  update(dt) {
+    super.update(dt);
+    this.room.update(dt);
+    if (this.done) return;
+    this.left -= dt;
+    const f = U.clamp(this.left / this.total, 0, 1);
+    this.bar.firstChild.style.width = (f * 100) + '%';
+    this.bar.classList.toggle('low', f < 0.25);
+    if (this.left <= 0) {
+      this.room.set(-0.3, 'Cisza to też odpowiedź…');
+      this.S.sfx('bad');
+      this.end({ ok: false, timeout: true, right: this.ch.fix, fix: `Pytanie komisji: „${this.ch.question}”` }, 1.0);
+    }
+  }
+}
+Dopytka.dom = true;
+Dopytka.intro = { title: 'DOPYTKA!', hint: 'Komisja dopytuje – wybierz odpowiedź, która Cię obroni (1–3)' };
+MINIGAMES.fu = Dopytka;
+
+</script>
 <script>/* js/run.js */
 'use strict';
 /* Runda: dobór pytań (powtórki rozłożone w czasie), życia, combo, tempo, wynik. */
@@ -4786,6 +6172,7 @@ const RUN = {
     world: { title: 'Świat', cap: 3 },
     focus: { title: 'Trening pytania', cap: 1 },
     drill: { title: 'Poprawka błędów', cap: 6 },
+    answers: { title: 'Trening odpowiedzi', cap: 5 },
     boss: { title: 'Boss: Komisja', cap: 0 },
     final: { title: 'Egzamin końcowy', cap: 0 },
   },
@@ -4833,10 +6220,12 @@ const RUN = {
     if (s.hearts <= 0) return this.end('dead');
     const allDone = s.pool.every(q => STORE.q(q.id).L >= 5);
     if (s.count > 0 && (s.mode === 'focus' || s.mode === 'world' || s.mode === 'drill') && allDone) return this.end('mastered');
+    if (s.count > 0 && s.mode === 'answers' && s.count >= s.pool.length * 3 && allDone) return this.end('mastered');
     if ((s.mode === 'boss' || s.mode === 'final') && !s.queue.length) return this.end('win');
     let q, type;
-    if (s.mode === 'boss') { q = s.queue[0]; type = 'keys'; }
+    if (s.mode === 'boss') { q = s.queue[0]; type = CH.chooseAnswerType(q, 4, s.lastType); }
     else if (s.mode === 'final') { q = s.queue[0]; type = CH.chooseType(q, 5, s.lastType); }
+    else if (s.mode === 'answers') { q = this.pickQuestion(); type = CH.chooseAnswerType(q, STORE.q(q.id).L, s.lastType); }
     else { q = this.pickQuestion(); type = CH.chooseType(q, STORE.q(q.id).L, s.lastType); }
     if (!STORE.q(q.id).seen && s.mode !== 'boss' && s.mode !== 'final') UI.learnCard(q, () => this.play(q, type));
     else this.play(q, type);
@@ -4867,6 +6256,7 @@ const RUN = {
       s.speed = Math.min(s.base + 0.75, s.speed + 0.05);
       UI.toast(`+${U.fmt(gain)}${s.combo >= 3 ? ` · COMBO ×${s.combo}` : ''}`, 'good');
       if (rec.after > rec.before) UI.toast(`P${q.id}: ${CH.LEVEL_NAMES[rec.after]} ${'★'.repeat(rec.after)}`, 'lvl');
+      if (rec.after === 5 && rec.before < 5) UI.celebrate(`P${String(q.id).padStart(2, '0')} OPANOWANE!`, q.t);
       if (s.combo % 8 === 0 && s.hearts < s.maxHearts) { s.hearts++; UI.toast('+♥ Kawa z automatu!', 'heart'); AUDIO.play('coin'); }
       if (s.combo % 5 === 0) { AUDIO.play('level'); UI.toast('TEMPO ↑', 'tempo'); }
       if (res.note) UI.toast(res.note, 'note');
@@ -4906,6 +6296,103 @@ const RUN = {
     UI.summary(s, reason, record);
   },
   quit() { if (this.s && !this.s.over) this.end('quit'); },
+};
+
+</script>
+<script>/* js/scene.js */
+'use strict';
+/* Animowana scena tytułowa: nocny Kraków, gmach główny AGH z hutnikiem i górnikiem, huta z iskrami,
+   student idący na obronę. Rysowana w 320×96 i skalowana pikselowo. */
+const SCENE = {
+  raf: 0,
+  title(cv) {
+    const W = 320, H = 96, c = cv.getContext('2d');
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stars = Array.from({ length: 34 }, () => ({ x: U.ri(0, W - 1), y: U.ri(0, 38), p: Math.random() * 6 }));
+    const lit = Array.from({ length: 24 }, () => Math.random() < 0.55);
+    const sparks = [], smoke = [];
+    let t = 0, sx = -12, last = performance.now(), cap = null;
+    const R = (col, x, y, w, h) => { c.fillStyle = col; c.fillRect(x | 0, y | 0, w, h); };
+    const draw = () => {
+      c.imageSmoothingEnabled = false;
+      // niebo pasami (pikselowy gradient)
+      ['#07101c', '#0a1522', '#0d1b29', '#112233', '#16293a'].forEach((col, i) => R(col, 0, i * 12, W, 12));
+      for (const s of stars) if ((t * 1.3 + s.p) % 6 > 0.5) R(s.p > 3 ? '#f2ecd9' : '#8fa3b8', s.x, s.y, 1, 1);
+      ['..###..', '.###...', '###....', '###....', '###....', '.###...', '..###..'].forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '#') R('#f6e7b0', 24 + x, 6 + y, 1, 1); }));
+      // panorama Krakowa (Wawel, Mariacki)
+      c.fillStyle = '#0c1826';
+      c.beginPath(); c.moveTo(0, 62);
+      [[0, 54], [18, 54], [18, 46], [22, 42], [26, 46], [26, 52], [40, 52], [44, 40], [46, 36], [48, 40], [52, 52], [70, 50], [72, 44], [76, 44], [76, 50], [98, 52], [98, 62]].forEach(([x, y]) => c.lineTo(x, y));
+      c.fill();
+      c.fillStyle = '#0c1826';
+      c.beginPath(); c.moveTo(250, 62); [[250, 50], [262, 50], [262, 40], [265, 32], [268, 40], [268, 48], [276, 48], [278, 42], [281, 42], [283, 48], [320, 50], [320, 62]].forEach(([x, y]) => c.lineTo(x, y)); c.fill();
+      // gmach główny AGH (A-0)
+      R('#0b0f0c', 94, 30, 132, 50);
+      R('#3b4a42', 96, 32, 128, 48);
+      R('#46574d', 96, 32, 128, 3);
+      R('#0b0f0c', 138, 22, 44, 10); R('#52645a', 140, 24, 40, 8);
+      // litery AGH z pikseli (bez czcionek)
+      const A = ['.#.', '#.#', '###', '#.#', '#.#'], G = ['###', '#..', '#.#', '#.#', '###'], Hh = ['#.#', '#.#', '###', '#.#', '#.#'];
+      [A, G, Hh].forEach((L, li) => L.forEach((row, ry) => [...row].forEach((ch, rx) => { if (ch === '#') R('#2bd46b', 150 + li * 7 + rx * 2 - 1, 25 + ry, 2, 1); })));
+      // hutnik i górnik na dachu
+      [[102, '#1b4f8a'], [210, '#8e1a26']].forEach(([x, col], i) => {
+        R('#0b0f0c', x, 18, 8, 14); R(col, x + 1, 22, 6, 9); R('#b8a27a', x + 2, 19, 4, 3);
+        R('#b8a27a', i ? x + 6 : x - 2, 14 + (i ? 1 : 0), 2, 9); // młot / kilof uniesiony
+        R('#ffc21a', i ? x + 5 : x - 3, 13, 4, 2);
+      });
+      // kolumny portyku
+      for (let k = 0; k < 6; k++) { R('#0b0f0c', 138 + k * 8, 36, 4, 38); R('#a9b7ae', 139 + k * 8, 36, 2, 38); }
+      R('#0b0f0c', 134, 34, 52, 3);
+      // okna skrzydeł
+      let wi = 0;
+      for (const bx of [100, 188]) for (let row = 0; row < 3; row++) for (let col = 0; col < 4; col++) {
+        const on = lit[wi++ % lit.length];
+        R('#0b0f0c', bx + col * 8, 38 + row * 12, 6, 8);
+        R(on ? ((wi + Math.floor(t * 0.3)) % 9 === 0 ? '#ffe9a0' : '#ffc21a') : '#1d2a33', bx + 1 + col * 8, 39 + row * 12, 4, 6);
+      }
+      R('#0b0f0c', 154, 64, 12, 16); R(sx > 148 && sx < 168 ? '#ffe9a0' : '#6b4424', 155, 65, 10, 15);
+      // huta: hala, komin, dym, blask, iskry
+      R('#0b0f0c', 232, 50, 50, 30); R('#2a2f33', 234, 52, 46, 28);
+      R('#0b0f0c', 286, 20, 12, 60); R('#4a3a36', 288, 22, 8, 58);
+      for (let k = 0; k < 4; k++) R(k % 2 ? '#e0303c' : '#f2ecd9', 288, 24 + k * 4, 8, 2);
+      const glow = 0.6 + Math.sin(t * 7) * 0.25 + Math.sin(t * 13) * 0.1;
+      c.fillStyle = `rgba(255,122,26,${glow.toFixed(2)})`; c.fillRect(242, 62, 22, 18);
+      R('#ffd23a', 248, 70, 10, 10);
+      for (const p of smoke) { c.fillStyle = `rgba(120,130,140,${(0.45 * p.a).toFixed(2)})`; c.fillRect(p.x | 0, p.y | 0, p.s, p.s); }
+      for (const p of sparks) R(p.l > 0.5 ? '#ffd23a' : '#ff7a1a', p.x, p.y, 1, 1);
+      // ulica i latarnie
+      R('#0b0f0c', 0, 80, W, 16); R('#1c2622', 0, 81, W, 3); R('#141b18', 0, 84, W, 12);
+      for (let k = 0; k < 6; k++) R('#2b3833', k * 56 + 8, 89, 20, 2);
+      [40, 230].forEach(x => { R('#0b0f0c', x, 56, 2, 25); R('#ffe9a0', x - 2, 54, 6, 3); c.fillStyle = 'rgba(255,233,160,.08)'; c.fillRect(x - 10, 57, 22, 24); });
+      // student idący do gmachu
+      const step = Math.floor(t * 6) % 2;
+      if (sx < 156) SPR.draw(c, 'student', sx | 0, 67 - step, 1);
+      if (cap) { R('#0b0f0c', cap.x | 0, cap.y | 0, 7, 2); R('#ffc21a', (cap.x | 0) + 6, (cap.y | 0) + 1, 1, 3); }
+    };
+    const step = dt => {
+      t += dt;
+      sx += dt * 14;
+      if (sx > 158) { sx = -12; cap = { x: 160, y: 62, vx: 22, vy: -34 }; }
+      if (cap) { cap.x += cap.vx * dt; cap.y += cap.vy * dt; cap.vy += 20 * dt; if (cap.y > 100) cap = null; }
+      if (Math.random() < dt * 30) sparks.push({ x: 253, y: 68, vx: (Math.random() - 0.3) * 40, vy: -20 - Math.random() * 40, l: 1 });
+      for (const p of sparks) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 60 * dt; p.l -= dt * 1.2; }
+      while (sparks.length && sparks[0].l <= 0) sparks.shift();
+      if (Math.random() < dt * 3) smoke.push({ x: 289 + Math.random() * 4, y: 18, s: 3 + U.ri(0, 3), a: 1 });
+      for (const p of smoke) { p.x -= dt * 8; p.y -= dt * 6; p.s += dt * 2; p.a -= dt * 0.25; }
+      while (smoke.length && smoke[0].a <= 0) smoke.shift();
+    };
+    cancelAnimationFrame(this.raf);
+    if (reduce) { sx = 60; draw(); return; }
+    const loop = now => {
+      if (!cv.isConnected) { this.raf = 0; return; }
+      step(Math.min(0.05, (now - last) / 1000));
+      last = now;
+      draw();
+      this.raf = requestAnimationFrame(loop);
+    };
+    draw();
+    this.raf = requestAnimationFrame(loop);
+  },
 };
 
 </script>
@@ -4994,7 +6481,9 @@ const UI = {
       }
     }
     const weakest = WORLDS.map(w => ({ w, p: S.worldPct(w.id) })).sort((a, b) => a.p - b.p)[0];
+    const scene = U.el('canvas', { class: 'title-scene', width: 320, height: 96, 'aria-hidden': 'true' });
     const hero = U.el('div', { class: 'hero' },
+      scene,
       U.el('div', { class: 'logo' }, U.el('span', { class: 'l1' }, 'MAGISTERKA'), U.el('span', { class: 'l2' }, 'THE GAME')),
       U.el('div', { class: 'hero-row' },
         U.el('div', { class: 'avatar' }, SPR.img('student', 6, 'bob')),
@@ -5005,8 +6494,9 @@ const UI = {
           U.el('div', { class: 'pline' }, `Opanowane ${S.mastered()}/40 · postęp ${S.percent()}% · rekord ${U.fmt(S.data.best.marathon)}`))));
     const menu = U.el('div', { class: 'menu' },
       this.btn(U.el('span', {}, U.el('b', {}, '▶ MARATON'), U.el('small', {}, 'Gra sama dobiera zagadnienia – od najsłabszych')), () => RUN.start({ mode: 'marathon', pool: QUESTIONS }), 'primary big', { 'data-primary': '' }),
+      this.btn(U.el('span', {}, U.el('b', {}, '▶ TRENING ODPOWIEDZI'), U.el('small', {}, 'Mównica, luki, łowca błędów, dopytki – uczysz się mówić jak na obronie')), () => RUN.start({ mode: 'answers', pool: QUESTIONS }), 'answer big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'MAPA ŚWIATÓW'), U.el('small', {}, '8 światów tematycznych + bossowie')), () => this.map(), 'big'),
-      this.btn(U.el('span', {}, U.el('b', {}, 'SYMULATOR OBRONY'), U.el('small', {}, 'Losujesz pytania, mówisz na głos, oceniasz się')), () => this.defense(), 'big'),
+      this.btn(U.el('span', {}, U.el('b', {}, 'SYMULATOR OBRONY'), U.el('small', {}, 'Losujesz pytanie, mówisz na głos wg planu, komisja dopytuje, dostajesz ocenę')), () => this.defense(), 'big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'EGZAMIN KOŃCOWY'), U.el('small', {}, `12 losowych pytań, 3 życia · rekord ${U.fmt(S.data.best.final)}`)), () => RUN.start({ mode: 'final', pool: QUESTIONS }), 'big'),
       this.btn(U.el('span', {}, U.el('b', {}, 'KOMPENDIUM'), U.el('small', {}, 'Minimum, rozszerzenie i haczyki do 40 pytań')), () => this.book(), 'big'));
     el.append(
@@ -5021,6 +6511,7 @@ const UI = {
         this.btn('Jak grać?', () => this.help(), 'ghost')),
     );
     this.show('title');
+    SCENE.title(scene);
   },
   /* ---------- mapa światów ---------- */
   map() {
@@ -5078,16 +6569,76 @@ const UI = {
     ov.hidden = false;
     ov.scrollTop = 0;
   },
+  /* Blok pytania: zakładki Jak odpowiedzieć / Minimum / Rozszerzenie / Dopytki */
   qBlock(q, opts = {}) {
     const w = WORLDS[q.w];
-    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Rozszerzenie – pełny materiał'), U.el('div', { class: 'rich', html: U.richText(q.x) }));
-    return U.el('div', { class: 'qblock' },
-      U.el('div', { class: 'qb-tag', style: { '--wc': w.color } }, `${this.qTag(q)} · ${w.name}`),
+    const head = [U.el('div', { class: 'qb-tag', style: { '--wc': w.color } }, `${this.qTag(q)} · ${w.name}`), U.el('h3', { class: 'qb-q' }, q.q)];
+    if (opts.hideAnswer) return U.el('div', { class: 'qblock' }, ...head);
+    const tabs = [
+      ['say', 'Jak odpowiedzieć', () => U.el('div', { class: 'tabp' },
+        this.planEl(q),
+        Room.answer(q),
+        U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+        U.el('div', { class: 'ov-actions left' }, this.btn('Ćwicz na pamięć ▶', () => this.rehearse(q), 'sm answer')))],
+      ['min', 'Minimum', () => U.el('div', { class: 'tabp' }, U.el('div', { class: 'rich', html: U.richText(q.a) }), U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m))],
+      ['ext', 'Rozszerzenie', () => U.el('div', { class: 'tabp' }, U.el('div', { class: 'rich', html: U.richText(q.x) }))],
+      ['fu', `Dopytki (${q.fu.length})`, () => U.el('div', { class: 'tabp' }, U.el('p', { class: 'tip' }, 'Pytania, które komisja może zadać po Twojej odpowiedzi:'),
+        U.el('dl', { class: 'fus' }, ...q.fu.flatMap(([fq, fa]) => [U.el('dt', {}, fq), U.el('dd', {}, fa)])))],
+    ];
+    const bar = U.el('div', { class: 'tabs', role: 'tablist' });
+    const body = U.el('div', { class: 'tabbody' });
+    const open = key => {
+      bar.querySelectorAll('button').forEach(b => { const on = b.dataset.k === key; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+      body.innerHTML = '';
+      body.append(tabs.find(t => t[0] === key)[2]());
+    };
+    for (const [k, label] of tabs) {
+      const b = U.el('button', { class: 'tab', type: 'button', role: 'tab', 'data-k': k }, label);
+      b.addEventListener('click', () => { AUDIO.play('click'); open(k); });
+      bar.append(b);
+    }
+    open(opts.tab || 'say');
+    return U.el('div', { class: 'qblock' }, ...head, bar, body);
+  },
+  planEl(q, cues = true) {
+    return U.el('div', { class: 'plan' }, U.el('span', { class: 'plan-l' }, 'PLAN ODPOWIEDZI:'),
+      ...CH.plan(q).map((p, i) => U.el('span', { class: 'plan-s role-' + p.role }, U.el('b', {}, `${i + 1}. ${p.name}`), cues && p.cue ? U.el('small', {}, p.cue) : null)));
+  },
+  /* Trening na pamięć: tekst znika stopniowo, a Ty mówisz na głos */
+  rehearse(q, lvl = 0) {
+    const tips = ['Przeczytaj odpowiedź na głos, spokojnie, jak przed komisją.', 'Pojęcia zniknęły – powiedz na głos, uzupełniając je z pamięci.', 'Zostały pierwsze litery części słów – mów płynnie.', 'Tylko pierwsze litery – powiedz całość.', 'Tylko plan – powiedz całą odpowiedź z pamięci.'];
+    const mask = (t, L) => {
+      if (L === 0) return U.md(t);
+      return CH.parseBold(t).map(p => {
+        if (p.k === 'b') return '<b class="mask">' + U.esc(p.t.split(/\s+/).map(w => /[0-9A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż]/.test(w) ? w[0] + '…' : w).join(' ')) + '</b>';
+        if (L < 2) return U.esc(p.t);
+        let n = 0;
+        return U.esc(p.t).replace(/[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż0-9]{3,}/g, w => (L >= 3 || n++ % 2 === 0) ? w[0] + '<span class="dots">' + '·'.repeat(Math.min(w.length - 1, 6)) + '</span>' : w);
+      }).join('');
+    };
+    const list = U.el('ol', { class: 'say rehearse' });
+    q.say.forEach(([r, t]) => list.append(U.el('li', { class: 'say-' + r }, U.el('span', { class: 'role role-' + r }, CH.ROLE_NAME[r]),
+      U.el('span', { class: 'say-t', html: lvl >= 4 ? '<span class="dots">· · ·</span>' : mask(t, lvl) }))));
+    const steps = U.el('div', { class: 'steps' }, ...[0, 1, 2, 3, 4].map(i => U.el('i', { class: i <= lvl ? 'on' : '' })));
+    this.modal(U.el('div', { class: 'reh' },
+      U.el('div', { class: 'ov-kicker' }, 'NA PAMIĘĆ', steps),
+      U.el('div', { class: 'qb-tag', style: { '--wc': WORLDS[q.w].color } }, `${this.qTag(q)} · ${q.t}`),
       U.el('h3', { class: 'qb-q' }, q.q),
-      opts.hideAnswer ? null : U.el('div', { class: 'mini-label' }, 'MINIMUM EGZAMINACYJNE'),
-      opts.hideAnswer ? null : U.el('div', { class: 'rich', html: U.richText(q.a) }),
-      opts.hideAnswer ? null : U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
-      opts.hideAnswer || opts.noExt ? null : ext);
+      U.el('p', { class: 'reh-tip' }, `Krok ${lvl + 1}/5: ${tips[lvl]}`),
+      this.planEl(q),
+      list,
+      U.el('div', { class: 'ov-actions' },
+        lvl > 0 ? this.btn('◀ Mniej', () => this.rehearse(q, lvl - 1), 'ghost') : null,
+        lvl < 4 ? this.btn('Ukryj więcej ▶', () => this.rehearse(q, lvl + 1), 'primary', { 'data-primary': '' })
+          : this.btn('Pokaż całość ✓', () => { STORE.data.stats.rehearsed = (STORE.data.stats.rehearsed || 0) + 1; STORE.save(); this.rehearse(q, 0); }, 'primary', { 'data-primary': '' }))));
+  },
+  celebrate(title, sub) {
+    const box = U.el('div', { class: 'celebrate', 'aria-live': 'polite' }, U.el('div', { class: 'cel-t' }, title), sub ? U.el('div', { class: 'cel-s' }, sub) : null);
+    const cols = ['#2bd46b', '#ffc21a', '#ff77a8', '#29adff', '#ff7a1a', '#f2ecd9'];
+    for (let i = 0; i < 36; i++) box.append(U.el('i', { class: 'conf', style: { left: U.ri(0, 100) + '%', background: U.pick(cols), animationDelay: (Math.random() * 0.4) + 's', animationDuration: (1 + Math.random() * 0.8) + 's' } }));
+    U.$('#scr-game').append(box);
+    AUDIO.play('fanfare');
+    setTimeout(() => box.remove(), 2200);
   },
   learnCard(q, then) {
     AUDIO.play('level');
@@ -5095,7 +6646,7 @@ const UI = {
     const box = U.el('div', { class: 'ov-card learn' },
       U.el('div', { class: 'ov-kicker' }, 'NOWE ZAGADNIENIE'),
       this.qBlock(q),
-      U.el('p', { class: 'tip' }, 'Przeczytaj minimum i haczyk. Za chwilę gra sprawdzi to w minigrze – z każdym poziomem trudniej.'),
+      U.el('p', { class: 'tip' }, 'Przeczytaj na głos odpowiedź ustną – dokładnie tak powiesz ją komisji. Gra sprawdzi najpierw pojęcia, potem całą wypowiedź.'),
       U.el('div', { class: 'ov-actions' }, go));
     this.overlay(box, 'learn');
   },
@@ -5108,7 +6659,7 @@ const UI = {
     if (res.fix && res.fix !== res.right) lines.push(U.el('p', { class: 'c-fix' }, ...String(res.fix).split('\n').flatMap((l, i) => i ? [U.el('br'), l] : [l])));
     const btn = this.btn('DALEJ ▶', () => { this.overlay(null); then(); }, 'primary', { 'data-primary': '', disabled: true });
     setTimeout(() => { btn.disabled = false; }, 900);
-    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Pokaż całe minimum'), U.el('div', { class: 'rich', html: U.richText(q.a) }));
+    const ext = U.el('details', { class: 'ext' }, U.el('summary', {}, 'Pokaż wzorcową odpowiedź dla komisji'), Room.answer(q, { compact: true }));
     const lvl = rec && rec.before !== rec.after ? U.el('span', { class: 'lvchg' }, `poziom ${rec.before} → ${rec.after}`) : null;
     const box = U.el('div', { class: 'ov-card bad' },
       U.el('div', { class: 'ov-kicker bad' }, '✗ PUDŁO!', U.el('small', {}, U.pick(quips))),
@@ -5172,7 +6723,7 @@ const UI = {
         e.res.right ? U.el('p', { class: 'c-right' }, U.el('b', {}, 'Poprawnie: '), e.res.right) : null,
         e.res.fix && e.res.fix !== e.res.right ? U.el('p', { class: 'c-fix' }, e.res.fix) : null,
         U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), e.q.m),
-        U.el('div', { class: 'rich', html: U.richText(e.q.a) }));
+        Room.answer(e.q, { compact: true }));
       return d;
     });
     const again = () => RUN.start(s.opts);
@@ -5193,7 +6744,7 @@ const UI = {
       misRows.length ? U.el('div', { class: 'card' }, U.el('h3', {}, `Do powtórki (${misRows.length}) – kliknij, by zobaczyć poprawkę`), ...misRows) : U.el('p', { class: 'tip' }, 'Bez pomyłek. Komisja jest pod wrażeniem.'));
     this.show('summary');
   },
-  typeName(t) { return { tf: 'Drwal Prawdy', flappy: 'Flappy Birret', bomb: 'McBomba', match: 'Spawarka Par', sort: 'Taśma Sortownia', whac: 'Młotek Jidoka', tower: 'Wieża Wiedzy', keys: 'Komisja' }[t] || t; },
+  typeName(t) { return { tf: 'Drwal Prawdy', flappy: 'Flappy Birret', bomb: 'McBomba', match: 'Spawarka Par', sort: 'Taśma Sortownia', whac: 'Młotek Jidoka', tower: 'Wieża Wiedzy', keys: 'Komisja', builder: 'Mównica', luki: 'Znikający tekst', hunt: 'Łowca błędów', fu: 'Dopytka komisji' }[t] || t; },
   /* ---------- modal: pytanie / karty / ustawienia ---------- */
   modal(node) {
     const m = U.$('#modal');
@@ -5212,6 +6763,7 @@ const UI = {
         U.el('dl', { class: 'facts' }, ...q.f.flatMap(([t, d]) => [U.el('dt', {}, t), U.el('dd', {}, d)]))),
       U.el('div', { class: 'ov-actions' },
         U.el('span', { class: 'lvtxt' }, 'Poziom: ', this.stars(L), ` ${CH.LEVEL_NAMES[L]}`),
+        this.btn('Na pamięć', () => this.rehearse(q), 'answer'),
         this.btn('▶ Ćwicz to pytanie', () => { U.$('#modal').hidden = true; RUN.start({ mode: 'focus', pool: [q], title: `Trening ${this.qTag(q)}` }); }, 'primary', { 'data-primary': '' }))));
   },
   cards(list, i) {
@@ -5263,13 +6815,18 @@ const UI = {
       ['Taśma Sortownia', 'Wrzucaj skrzynki do właściwych pojemników (tap albo 1–5).'],
       ['Młotek Jidoka', 'Wal tylko w krety z hasłami ze zbioru. Przegapienie = pomyłka.'],
       ['Wieża Wiedzy', '← → sterujesz skoczkiem. Ląduj na platformach w dobrej kolejności.'],
-      ['Komisja', 'Zaznacz hasła z minimum odpowiedzi. Potem zobaczysz pełne minimum.'],
+      ['Komisja', 'Zaznacz hasła z minimum odpowiedzi. Potem zobaczysz wzorcową odpowiedź ustną.'],
+      ['Mównica', 'Układasz odpowiedź zdanie po zdaniu: definicja → wyliczenie → rozwinięcie → przykład → domknięcie. Zdania z innego pytania i z błędem odrzucasz.'],
+      ['Znikający tekst', 'Wzorcowa odpowiedź z lukami – wstawiasz kolejne pojęcia z banku. Im wyższy poziom, tym więcej luk.'],
+      ['Łowca błędów', 'Kolega odpowiada przed komisją i myli pojęcia. Tapnij błędne sformułowania – zobaczysz poprawną wersję.'],
+      ['Dopytka komisji', 'Pytanie dodatkowe po odpowiedzi. Wybierz odpowiedź, która Cię obroni (1–3).'],
     ];
     this.modal(U.el('div', { class: 'help' },
       U.el('h3', {}, 'Jak to działa'),
       U.el('p', {}, 'Każde z 40 pytań ma 5 poziomów. Dobra odpowiedź podnosi poziom, zła obniża i wraca za 2 zadania. Poziom decyduje o minigrze:'),
       U.el('ol', {}, ...CH.LEVELS.slice(0, 5).map((l, i) => U.el('li', {}, U.el('b', {}, CH.LEVEL_NAMES[i] + ': '), l.map(t => this.typeName(t)).join(', ')))),
       U.el('p', {}, 'Poziom 5 = opanowane (co jakiś czas wraca na powtórkę). Combo przyspiesza tempo i daje więcej punktów, co 8 trafień w serii – dodatkowe życie.'),
+      U.el('p', {}, U.el('b', {}, 'Jak mówić przed komisją: '), 'każda odpowiedź ma ten sam szkielet – 1) definicja jednym zdaniem, 2) wyliczenie elementów, 3) rozwinięcie najważniejszego, 4) przykład z praktyki, 5) domknięcie (po co to jest / wniosek). Trening odpowiedzi i poziomy 3–5 ćwiczą właśnie to. W karcie pytania kliknij „Na pamięć”, by powtarzać odpowiedź z coraz mniejszą ilością podpowiedzi.'),
       U.el('dl', { class: 'facts' }, ...rows.flatMap(([a, b]) => [U.el('dt', {}, a), U.el('dd', {}, b)])),
       U.el('p', { class: 'tip' }, 'Źródła: „Zagadnienia – egzamin magisterski” (główne) + „40 zagadnień – wersja minimalistyczna” (styl minimum i uzupełnienia oznaczone „plik 1”). Role pracowników wiedzy – wg slajdów z wykładu.')));
   },
@@ -5324,6 +6881,7 @@ const UI = {
   bookActions(q) {
     return U.el('div', { class: 'ov-actions' },
       U.el('details', { class: 'ext' }, U.el('summary', {}, `Pojęcia i definicje (${q.f.length})`), U.el('dl', { class: 'facts' }, ...q.f.flatMap(([t, d]) => [U.el('dt', {}, t), U.el('dd', {}, d)]))),
+      this.btn('Na pamięć', () => this.rehearse(q), 'answer'),
       this.btn('▶ Ćwicz to pytanie', () => RUN.start({ mode: 'focus', pool: [q], title: `Trening ${this.qTag(q)}` }), 'primary'));
   },
 };
@@ -5331,12 +6889,34 @@ const UI = {
 </script>
 <script>/* js/defense.js */
 'use strict';
-/* SYMULATOR OBRONY – losowanie pytań, odpowiedź na głos, samoocena hasłami, ocena 2–5. */
+/* SYMULATOR OBRONY 2.0 – losowanie, odpowiedź na głos wg planu, porównanie ze wzorcem zdanie po zdaniu,
+   pytanie dodatkowe komisji, ocena 2–5 i zmiana poziomu opanowania. */
 const DEF = {
   timer: null,
+  room: null,
+  raf: 0,
   grade(p) { return p >= 0.9 ? 5 : p >= 0.8 ? 4.5 : p >= 0.7 ? 4 : p >= 0.6 ? 3.5 : p >= 0.5 ? 3 : 2; },
   fmtGrade: g => g.toFixed(1).replace('.', ','),
-  stopTimer() { if (this.timer) { clearInterval(this.timer); this.timer = null; } },
+  fmtTime: sec => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`,
+  stopTimer() {
+    if (this.timer) { clearInterval(this.timer); this.timer = null; }
+    this.mic.stop();
+    if (this.raf) { cancelAnimationFrame(this.raf); this.raf = 0; }
+    this.room = null;
+  },
+  /* scenka z komisją animowana poza pętlą gry */
+  scene(parent, opts) {
+    this.room = new Room(parent, opts);
+    let last = performance.now();
+    const loop = now => {
+      if (!this.room || !this.room.el.isConnected) { this.raf = 0; return; }
+      this.room.update(Math.min(0.05, (now - last) / 1000));
+      last = now;
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+    return this.room;
+  },
 };
 
 UI.defense = function () {
@@ -5361,8 +6941,14 @@ UI.defense = function () {
       U.el('div', { class: 'kom-head' }, U.el('div', { class: 'profs' },
         SPR.img('prof', 4, '', { l: '#b8c4bc', B: '#1b4f8a' }), SPR.img('prof', 4, '', { l: '#4a2c18', B: '#8e1a26' }), SPR.img('prof', 4, '', { l: '#f2ecd9', B: '#138a45' })),
         U.el('div', { class: 'bubble' }, 'Proszę losować.')),
-      U.el('p', {}, 'Tak jak na egzaminie: komisja losuje pytanie, a Ty odpowiadasz na głos (ok. 1–2 minuty). Potem odsłaniasz minimum i zaznaczasz hasła, które padły. Wynik to ocena i zmiana poziomu opanowania.'),
-      U.el('p', { class: 'tip' }, 'Schemat odpowiedzi: 1) definicja jednym zdaniem, 2) wyliczenie elementów, 3) dwa zdania szczegółu lub przykład.'),
+      U.el('p', {}, 'Tak jak na egzaminie: komisja losuje pytanie, a Ty odpowiadasz na głos (ok. 1–2 minuty). Potem porównujesz się ze wzorcową odpowiedzią zdanie po zdaniu, a komisja zadaje pytanie dodatkowe. Wynik to ocena i zmiana poziomu opanowania.'),
+      U.el('ol', { class: 'plan-steps' },
+        U.el('li', {}, U.el('b', {}, 'Definicja'), ' – jedno zdanie: „X to…”.'),
+        U.el('li', {}, U.el('b', {}, 'Wyliczenie'), ' – „Wyróżniamy… / składa się z…”.'),
+        U.el('li', {}, U.el('b', {}, 'Rozwinięcie'), ' – najważniejszy element lub mechanizm.'),
+        U.el('li', {}, U.el('b', {}, 'Przykład'), ' – z praktyki, z zakładu, z liczbą.'),
+        U.el('li', {}, U.el('b', {}, 'Domknięcie'), ' – po co to jest, wniosek.')),
+      U.el('p', { class: 'tip' }, 'Podpowiedź z planem kosztuje punkty – jak na prawdziwej obronie, gdzie promotor musi Cię naprowadzać.'),
       nBtns,
       U.el('div', { class: 'menu row' },
         this.btn('LOSUJ (jak na egzaminie)', () => start(U.sample(QUESTIONS, n)), 'primary', { 'data-primary': '' }),
@@ -5374,80 +6960,232 @@ UI.defense = function () {
   this.show('defense');
 };
 
+/* Rozpoznawanie mowy (Chrome/Edge/Android): gra słucha odpowiedzi i sprawdza, które pojęcia kluczowe padły. */
+DEF.mic = {
+  rec: null, on: false, text: '', interim: '',
+  api() { return window.SpeechRecognition || window.webkitSpeechRecognition || null; },
+  start(onUpd, onErr) {
+    const API = this.api();
+    if (!API) return onErr('Ta przeglądarka nie obsługuje rozpoznawania mowy.');
+    this.stop();
+    this.text = ''; this.interim = ''; this.on = true;
+    const rec = this.rec = new API();
+    rec.lang = 'pl-PL'; rec.continuous = true; rec.interimResults = true;
+    rec.onresult = e => {
+      let tmp = '';
+      for (let k = e.resultIndex; k < e.results.length; k++) {
+        const r = e.results[k];
+        if (r.isFinal) this.text += ' ' + r[0].transcript; else tmp += ' ' + r[0].transcript;
+      }
+      this.interim = tmp;
+      onUpd();
+    };
+    rec.onerror = e => {
+      if (e.error === 'no-speech' || e.error === 'aborted') return;
+      this.on = false;
+      onErr(e.error === 'not-allowed' || e.error === 'service-not-allowed' ? 'Brak dostępu do mikrofonu – oceń się ręcznie.' : 'Rozpoznawanie mowy przerwane (' + e.error + ').');
+    };
+    rec.onend = () => { if (this.on && this.rec === rec) { try { rec.start(); } catch (err) { this.on = false; } } };
+    try { rec.start(); } catch (err) { this.on = false; onErr('Nie udało się włączyć mikrofonu.'); }
+  },
+  stop() {
+    this.on = false;
+    if (this.rec) { try { this.rec.stop(); } catch (e) { /* już zatrzymane */ } this.rec = null; }
+  },
+  all() { return (this.text + ' ' + this.interim).trim(); },
+};
+DEF.fold = s => U.norm(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ł/g, 'l');
+/* czy pojęcie padło w wypowiedzi: dopasowanie rdzeni słów (odmiana przez przypadki) */
+DEF.heard = function (term, folded) {
+  const words = DEF.fold(term).split(' ').filter(w => w.length >= 3 || /\d/.test(w));
+  if (!words.length) return false;
+  const txt = ' ' + folded + ' ';
+  const hit = words.filter(w => /\d/.test(w) ? txt.includes(w) : txt.includes(' ' + w.slice(0, w.length <= 4 ? w.length : Math.max(4, Math.ceil(w.length * 0.7))))).length;
+  return hit >= Math.ceil(words.length * 0.6);
+};
+
 DEF.run = function (list, i, results) {
   DEF.stopTimer();
   const q = list[i];
   const el = U.$('#scr-defense');
   el.innerHTML = '';
-  let sec = 0;
+  let sec = 0, hint = 0;
   const clock = U.el('div', { class: 'clock' }, '0:00');
+  const target = U.el('div', { class: 'clock-t' }, 'cel: 1:00–2:30');
   DEF.timer = setInterval(() => {
     sec++;
-    clock.textContent = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
-    clock.classList.toggle('warn', sec > 120);
+    clock.textContent = DEF.fmtTime(sec);
+    clock.classList.toggle('ok', sec >= 60 && sec <= 150);
+    clock.classList.toggle('warn', sec > 150);
+    if (sec === 45 && DEF.room) DEF.room.say('Mhm… proszę kontynuować.');
+    if (sec === 150 && DEF.room) DEF.room.say('Proszę powoli zmierzać do konkluzji.');
   }, 1000);
-  const reveal = UI.btn('POKAŻ MINIMUM ▶', () => DEF.reveal(list, i, results, sec), 'primary', { 'data-primary': '' });
+  const hintBox = U.el('div', { class: 'def-hint' });
+  const hintBtn = UI.btn('Podpowiedź: plan (−5%)', () => {
+    hint++;
+    hintBox.innerHTML = '';
+    hintBox.append(UI.planEl(q, hint >= 2));
+    if (DEF.room) DEF.room.set(-0.08, hint >= 2 ? 'Naprowadzę Pana/Panią słowami kluczowymi…' : 'Proszę zacząć od definicji, potem wyliczenie.');
+    if (hint >= 2) hintBtn.remove(); else hintBtn.textContent = 'Podpowiedź: pojęcia (−10%)';
+    AUDIO.play('click');
+  }, 'ghost sm hint-btn');
+  const terms = CH.boldTerms(q);
+  const live = U.el('div', { class: 'mic-live', hidden: true }, U.el('div', { class: 'mic-n' }), U.el('div', { class: 'mic-t' }));
+  const updLive = () => {
+    const f = DEF.fold(DEF.mic.all());
+    const n = terms.filter(t => DEF.heard(t, f)).length;
+    live.firstChild.textContent = `🎤 Słucham… pojęcia kluczowe: ${n}/${terms.length}`;
+    live.lastChild.textContent = DEF.mic.all().slice(-160) || '(mów wyraźnie, pełnymi zdaniami)';
+    if (DEF.room && n && n % 4 === 0 && n !== live._n) { live._n = n; DEF.room.set(0.06, U.pick(['Mhm, dobrze.', 'Tak…', 'Słuchamy dalej.'])); }
+  };
+  let micBtn = null;
+  if (DEF.mic.api()) {
+    micBtn = UI.btn('🎤 Słuchaj mnie', () => {
+      if (DEF.mic.on) { DEF.mic.stop(); micBtn.textContent = '🎤 Słuchaj mnie'; micBtn.classList.remove('on'); return; }
+      live.hidden = false;
+      micBtn.textContent = '■ Zatrzymaj'; micBtn.classList.add('on');
+      DEF.mic.start(updLive, msg => { live.hidden = false; live.lastChild.textContent = msg; micBtn.textContent = '🎤 Słuchaj mnie'; micBtn.classList.remove('on'); });
+      updLive();
+    }, 'answer sm');
+  }
+  const reveal = UI.btn('SKOŃCZYŁEM – PORÓWNAJ ZE WZORCEM ▶', () => DEF.reveal(list, i, results, sec, hint, DEF.mic.all()), 'primary', { 'data-primary': '' });
+  const card = U.el('div', { class: 'card def-q' });
   el.append(
     U.el('div', { class: 'topbar' }, UI.btn('✕ Przerwij', () => UI.defense(), 'ghost'), U.el('h2', {}, `Pytanie ${i + 1}/${list.length}`)),
-    U.el('div', { class: 'card def-q' },
-      U.el('div', { class: 'qb-tag', style: { '--wc': WORLDS[q.w].color } }, `${UI.qTag(q)} · ${WORLDS[q.w].name}`),
-      U.el('h3', { class: 'def-question' }, q.q),
-      clock,
-      U.el('p', { class: 'tip' }, 'Mów na głos. Zacznij od definicji, potem wymień elementy. Nie podglądaj!'),
-      U.el('div', { class: 'ov-actions' }, reveal)));
+    card);
+  DEF.scene(card, { say: U.pick(['Proszę, słuchamy.', 'Zapraszamy do odpowiedzi.', 'Proszę spokojnie zacząć.']) });
+  card.append(
+    U.el('div', { class: 'qb-tag', style: { '--wc': WORLDS[q.w].color } }, `${UI.qTag(q)} · ${WORLDS[q.w].name}`),
+    U.el('h3', { class: 'def-question' }, q.q),
+    U.el('div', { class: 'clock-row' }, clock, target),
+    U.el('p', { class: 'tip' }, 'Mów na głos, pełnymi zdaniami. Definicja → wyliczenie → rozwinięcie → przykład → domknięcie. Nie podglądaj!'),
+    hintBox,
+    live,
+    U.el('div', { class: 'ov-actions' }, micBtn, hintBtn, reveal),
+    micBtn ? U.el('p', { class: 'tip' }, 'Mikrofon (opcjonalnie): gra rozpozna, które pojęcia kluczowe padły, i sama zaznaczy zdania wzorca. Działa w Chrome/Edge, wymaga zgody na mikrofon.') : null);
   UI.show('defense');
 };
 
-DEF.reveal = function (list, i, results, sec) {
+DEF.hintCost = h => (h >= 1 ? 0.05 : 0) + (h >= 2 ? 0.1 : 0);
+
+DEF.reveal = function (list, i, results, sec, hint, said) {
+  DEF.stopTimer();
+  const q = list[i];
+  const folded = said ? DEF.fold(said) : '';
+  const el = U.$('#scr-defense');
+  el.innerHTML = '';
+  let heardAll = 0, termsAll = 0;
+  const checks = q.say.map(([r, t], j) => {
+    const id = `ds-${q.id}-${j}`;
+    const cb = U.el('input', { type: 'checkbox', id });
+    let html = U.md(t);
+    if (said) {
+      const ps = CH.parseBold(t);
+      const bs = ps.filter(p => p.k === 'b');
+      const hs = bs.filter(p => DEF.heard(p.t, folded));
+      heardAll += hs.length; termsAll += bs.length;
+      html = ps.map(p => p.k === 'b' ? `<b class="${hs.includes(p) ? 'heard' : 'unheard'}">${U.esc(p.t)}</b>` : U.esc(p.t)).join('');
+      if (bs.length && hs.length / bs.length >= 0.5) cb.checked = true;
+    }
+    const row = U.el('label', { class: 'dk ds say-' + r, for: id }, cb, U.el('span', { class: 'role role-' + r }, CH.ROLE_NAME[r]), U.el('span', { class: 'say-t', html }));
+    return { cb, row, w: r === 'def' ? 1.5 : 1 };
+  });
+  const cov = () => { const all = checks.reduce((s, c) => s + c.w, 0); return checks.reduce((s, c) => s + (c.cb.checked ? c.w : 0), 0) / all; };
+  const meter = U.el('div', { class: 'cov' }, U.el('span', {}, 'Pokrycie wzorca: 0%'), U.el('div', { class: 'pbar' }, U.el('i', { style: { width: '0%' } })));
+  const upd = () => { const p = Math.round(cov() * 100); meter.firstChild.textContent = `Pokrycie wzorca: ${p}%`; meter.querySelector('i').style.width = p + '%'; };
+  checks.forEach(c => c.cb.addEventListener('change', () => { upd(); AUDIO.play('tick'); }));
+  upd();
+  const timeNote = sec < 40 ? 'Za krótko – na obronie rozwiń odpowiedź do ok. 1,5 minuty (dodaj przykład i domknięcie).'
+    : sec > 180 ? 'Za długo – komisja przerwie. Trzymaj się planu i mów konkretnie.' : 'Dobry czas odpowiedzi.';
+  const next = UI.btn('DALEJ: PYTANIE DODATKOWE ▶', () => {
+    const c = cov();
+    if (!q.fu.length) return DEF.score(list, i, results, { sec, hint, cov: c, fu: 1 });
+    DEF.followUp(list, i, results, { sec, hint, cov: c });
+  }, 'primary', { 'data-primary': '' });
+  el.append(
+    U.el('div', { class: 'topbar' }, UI.btn('✕ Przerwij', () => UI.defense(), 'ghost'), U.el('h2', {}, `Pytanie ${i + 1}/${list.length} · ${DEF.fmtTime(sec)}`)),
+    U.el('div', { class: 'card' },
+      U.el('div', { class: 'qb-tag', style: { '--wc': WORLDS[q.w].color } }, `${UI.qTag(q)} · ${WORLDS[q.w].name}`),
+      U.el('h3', { class: 'qb-q' }, q.q),
+      U.el('h3', {}, 'Które zdania wzorca powiedziałeś/aś (sensem, nie słowo w słowo)?'),
+      said ? U.el('p', { class: 'tip mic-sum' }, `Mikrofon: padło ${heardAll}/${termsAll} pojęć kluczowych (na zielono; na czerwono – pominięte). Zdania z większością pojęć są już zaznaczone – popraw, jeśli trzeba.`) : null,
+      U.el('div', { class: 'dks say-check' }, ...checks.map(c => c.row)),
+      meter,
+      U.el('p', { class: 'tip' }, `Czas: ${DEF.fmtTime(sec)}. ${timeNote}${hint ? ` Podpowiedź: −${Math.round(DEF.hintCost(hint) * 100)}%.` : ''}`),
+      U.el('div', { class: 'hook' }, U.el('b', {}, 'HACZYK: '), q.m),
+      U.el('div', { class: 'ov-actions' }, UI.btn('Zaznacz wszystko', () => { checks.forEach(c => { c.cb.checked = true; }); upd(); }, 'ghost sm'), next)),
+    said ? U.el('details', { class: 'ext card' }, U.el('summary', {}, 'Co usłyszała gra (transkrypcja)'), U.el('p', {}, said)) : null,
+    U.el('details', { class: 'ext card' }, U.el('summary', {}, 'Minimum i pełny materiał'), U.el('div', { class: 'rich', html: U.richText(q.a) }), U.el('div', { class: 'rich', html: U.richText(q.x) })));
+  UI.show('defense');
+};
+
+DEF.followUp = function (list, i, results, st) {
   DEF.stopTimer();
   const q = list[i];
   const el = U.$('#scr-defense');
   el.innerHTML = '';
-  const checks = q.k.map((k, j) => {
-    const id = `dk-${q.id}-${j}`;
-    const cb = U.el('input', { type: 'checkbox', id });
-    return { cb, row: U.el('label', { class: 'dk', for: id }, cb, U.el('span', {}, k)) };
-  });
-  const rate = UI.btn('OCEŃ ▶', () => {
-    const got = checks.filter(c => c.cb.checked).length;
-    const p = got / checks.length;
-    const g = DEF.grade(p);
-    if (p >= 0.8) STORE.record(q.id, true);
-    else if (p < 0.5) STORE.record(q.id, false);
-    else STORE.markSeen(q.id);
-    STORE.data.stats.defenses++; STORE.save();
-    AUDIO.play(g >= 4 ? 'ok' : g >= 3 ? 'coin' : 'bad');
-    results.push({ q, p, g, sec });
-    if (i + 1 < list.length) DEF.run(list, i + 1, results); else DEF.final(list, results);
-  }, 'primary', { 'data-primary': '' });
+  const seen = STORE.data.fuSeen || (STORE.data.fuSeen = {});
+  const idx = q.fu.map((f, j) => j).sort((a, b) => (seen[q.id + ':' + a] || 0) - (seen[q.id + ':' + b] || 0) || Math.random() - 0.5)[0];
+  seen[q.id + ':' + idx] = (seen[q.id + ':' + idx] || 0) + 1;
+  STORE.save();
+  const [fq, fa] = q.fu[idx];
+  const card = U.el('div', { class: 'card def-q' });
+  const ans = U.el('div', { class: 'fu-ans', hidden: true }, U.el('div', { class: 'mini-label' }, 'DOBRA ODPOWIEDŹ'), U.el('p', {}, fa));
+  const rate = U.el('div', { class: 'ov-actions', hidden: true }, U.el('span', { class: 'lvtxt' }, 'Czy tak odpowiedziałeś/aś?'),
+    ...[['TAK', 1, 'primary'], ['CZĘŚCIOWO', 0.5, ''], ['NIE', 0, 'danger']].map(([l, v, c]) => UI.btn(l, () => DEF.score(list, i, results, { ...st, fu: v }), c)));
+  const show = UI.btn('POKAŻ ODPOWIEDŹ ▶', () => { ans.hidden = false; rate.hidden = false; show.remove(); rate.querySelector('.btn').focus(); }, 'primary', { 'data-primary': '' });
   el.append(
-    U.el('div', { class: 'topbar' }, UI.btn('✕ Przerwij', () => UI.defense(), 'ghost'), U.el('h2', {}, `Pytanie ${i + 1}/${list.length} · ${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`)),
-    U.el('div', { class: 'card' }, UI.qBlock(q)),
-    U.el('div', { class: 'card' },
-      U.el('h3', {}, 'Co padło w Twojej odpowiedzi? Zaznacz uczciwie:'),
-      U.el('div', { class: 'dks' }, ...checks.map(c => c.row)),
-      U.el('div', { class: 'ov-actions' }, UI.btn('Zaznacz wszystko', () => checks.forEach(c => { c.cb.checked = true; }), 'ghost sm'), rate)));
+    U.el('div', { class: 'topbar' }, UI.btn('✕ Przerwij', () => UI.defense(), 'ghost'), U.el('h2', {}, `Pytanie ${i + 1}/${list.length} · dopytka`)),
+    card);
+  const room = DEF.scene(card, { say: `„${fq}”`, mood: U.clamp(0.25 + st.cov * 0.6, 0, 1) });
+  room.pulse = 0.5;
+  card.append(
+    U.el('div', { class: 'mini-label' }, 'PYTANIE DODATKOWE KOMISJI'),
+    U.el('h3', { class: 'def-question' }, fq),
+    U.el('p', { class: 'tip' }, 'Odpowiedz na głos 1–2 zdaniami, potem sprawdź.'),
+    ans,
+    U.el('div', { class: 'ov-actions' }, show),
+    rate);
   UI.show('defense');
 };
 
+DEF.score = function (list, i, results, st) {
+  const q = list[i];
+  const p = U.clamp(0.75 * st.cov + 0.25 * st.fu - DEF.hintCost(st.hint), 0, 1);
+  const g = DEF.grade(p);
+  if (p >= 0.8) STORE.record(q.id, true);
+  else if (p < 0.5) STORE.record(q.id, false);
+  else STORE.markSeen(q.id);
+  STORE.data.stats.defenses++; STORE.save();
+  AUDIO.play(g >= 4 ? 'ok' : g >= 3 ? 'coin' : 'bad');
+  results.push({ q, p, g, sec: st.sec, cov: st.cov, fu: st.fu, hint: st.hint });
+  if (i + 1 < list.length) DEF.run(list, i + 1, results); else DEF.final(list, results);
+};
+
 DEF.final = function (list, results) {
+  DEF.stopTimer();
   const el = U.$('#scr-defense');
   el.innerHTML = '';
   const avg = results.reduce((s, r) => s + r.g, 0) / results.length;
   const passed = results.every(r => r.g >= 3);
   const verdicts = passed ? ['Komisja gratuluje. Tytuł magistra na horyzoncie!', 'Pewna odpowiedź. Tak trzymać jutro!'] : ['Jeszcze jedno podejście i będzie dobrze.', 'Komisja daje drugą szansę – powtórz słabsze pytania.'];
+  const card = U.el('div', { class: 'card' });
+  DEF.scene(card, { say: U.pick(verdicts), mood: U.clamp((avg - 2) / 3, 0, 1) });
+  card.append(...results.map(r =>
+    U.el('div', { class: 'chg def-row ' + (r.g >= 4 ? 'up' : r.g < 3 ? 'down' : '') },
+      U.el('b', {}, UI.qTag(r.q)), U.el('span', {}, r.q.t),
+      U.el('small', {}, `wzorzec ${Math.round(r.cov * 100)}% · dopytka ${r.fu === 1 ? '✓' : r.fu ? '½' : '✗'}${r.hint ? ' · podp.' : ''} · ${DEF.fmtTime(r.sec)}`),
+      U.el('b', { class: 'grade' }, DEF.fmtGrade(r.g)))));
   el.append(
     U.el('div', { class: 'topbar' }, UI.btn('◀ Menu', () => UI.title(), 'ghost'), U.el('h2', {}, 'Werdykt komisji')),
     U.el('div', { class: 'sum-head ' + (passed ? 'good' : '') },
       U.el('h2', {}, passed ? 'ZDANE!' : 'DO POPRAWKI'),
-      U.el('div', { class: 'score' }, DEF.fmtGrade(Math.round(avg * 2) / 2)),
-      U.el('p', {}, U.pick(verdicts))),
-    U.el('div', { class: 'card' }, ...results.map(r =>
-      U.el('div', { class: 'chg ' + (r.g >= 4 ? 'up' : r.g < 3 ? 'down' : '') },
-        U.el('b', {}, UI.qTag(r.q)), U.el('span', {}, r.q.t), U.el('span', {}, `${Math.round(r.p * 100)}%`), U.el('b', { class: 'grade' }, DEF.fmtGrade(r.g))))),
+      U.el('div', { class: 'score' }, DEF.fmtGrade(Math.round(avg * 2) / 2))),
+    card,
     U.el('div', { class: 'menu row' },
       UI.btn('KOLEJNA KOMISJA', () => UI.defense(), 'primary', { 'data-primary': '' }),
-      results.some(r => r.g < 4) ? UI.btn('Ćwicz słabsze w grze', () => { const qs = results.filter(r => r.g < 4).map(r => r.q); RUN.start({ mode: 'drill', pool: qs, cap: qs.length, title: 'Poprawka po obronie' }); }, 'boss') : null));
+      results.some(r => r.g < 4) ? UI.btn('Ćwicz słabsze w grze', () => { const qs = results.filter(r => r.g < 4).map(r => r.q); RUN.start({ mode: 'answers', pool: qs, cap: qs.length, title: 'Poprawka po obronie' }); }, 'boss') : null,
+      results.some(r => r.g < 4) ? UI.btn('Na pamięć: najsłabsze', () => UI.rehearse(results.slice().sort((a, b) => a.g - b.g)[0].q), 'answer') : null));
   UI.show('defense');
 };
 
