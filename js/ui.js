@@ -402,6 +402,9 @@ const UI = {
       U.el('div', { class: 'ov-actions col' },
         tog('Efekty dźwiękowe', 'sfx', () => { AUDIO.sfxOn = S.sfx; }),
         tog('Muzyka', 'music', () => { AUDIO.musicOn = S.music; if (!S.music) AUDIO.stopMusic(); })),
+      U.el('p', {}, 'Czcionka:'),
+      U.el('div', { class: 'ov-actions left' }, ...[['jersey', 'Pikselowa czytelna'], ['pixelify', 'Pikselowa klasyczna'], ['system', 'Zwykła']].map(([k, n]) =>
+        this.btn(U.el('span', { style: { fontFamily: FONT.BODIES[k] } }, n), () => { S.font = k; STORE.save(); FONT.use(k); this.settings(); }, S.font === k ? 'on' : ''))),
       U.el('p', {}, 'Tempo startowe (czas na odpowiedź):'),
       U.el('div', { class: 'ov-actions' }, ...tempos.map(([v, n]) => this.btn(n, () => { S.tempo = v; STORE.save(); this.settings(); }, S.tempo === v ? 'on' : ''))),
       U.el('p', { class: 'tip' }, 'Postęp zapisuje się w tej przeglądarce. Tryb prywatny może go nie zachować.'),

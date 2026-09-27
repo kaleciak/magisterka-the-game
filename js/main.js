@@ -4,11 +4,12 @@
   STORE.load();
   AUDIO.sfxOn = STORE.data.set.sfx;
   AUDIO.musicOn = STORE.data.set.music;
+  FONT.use(STORE.data.set.font);
   STAGE.init();
   UI.init();
   UI.title();
   if (document.fonts && document.fonts.load) {
-    Promise.all(['600 12px "Pixelify Sans"', '12px "Press Start 2P"'].map(f => document.fonts.load(f))).catch(() => {});
+    Promise.all(['12px "Jersey 15"', '12px "Press Start 2P"', '12px "VT323"'].map(f => document.fonts.load(f))).catch(() => {});
   }
   /* Aplikacja na telefon: praca offline, gdy gra jest hostowana (np. GitHub Pages) */
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && document.querySelector('link[rel="manifest"]')) {

@@ -1,5 +1,5 @@
 // Wygenerowane przez tools/pwa.js – nie edytuj ręcznie.
-const VERSION = 'mtg-ffae03e268';
+const VERSION = 'mtg-fb5a5f078f';
 const ASSETS = [
   "./",
   "index.html",
@@ -8,6 +8,7 @@ const ASSETS = [
   "icons/icon-512.png",
   "icons/icon-maskable-512.png",
   "icons/apple-touch-icon.png",
+  "css/fonts.css",
   "css/style.css",
   "js/util.js",
   "js/data/_core.js",
@@ -45,7 +46,15 @@ const ASSETS = [
   "js/scene.js",
   "js/ui.js",
   "js/defense.js",
-  "js/main.js"
+  "js/main.js",
+  "fonts/Jersey15-latin-ext.woff2",
+  "fonts/Jersey15-latin.woff2",
+  "fonts/PixelifySans-latin-ext.woff2",
+  "fonts/PixelifySans-latin.woff2",
+  "fonts/PressStart2P-latin-ext.woff2",
+  "fonts/PressStart2P-latin.woff2",
+  "fonts/VT323-latin-ext.woff2",
+  "fonts/VT323-latin.woff2"
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

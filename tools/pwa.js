@@ -65,7 +65,8 @@ fs.writeFileSync(path.join(root, 'manifest.webmanifest'), JSON.stringify(manifes
 /* ---------- service worker: najpierw sieć (świeża wersja), bez sieci – pamięć podręczna ---------- */
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const assets = ['./', 'index.html', 'manifest.webmanifest', ...icons.map(i => 'icons/' + i[0]),
-  ...[...html.matchAll(/(?:src|href)="((?:js|css)\/[^"]+)"/g)].map(m => m[1])];
+  ...[...html.matchAll(/(?:src|href)="((?:js|css)\/[^"]+)"/g)].map(m => m[1]),
+  ...fs.readdirSync(path.join(root, 'fonts')).filter(f => f.endsWith('.woff2')).map(f => 'fonts/' + f)];
 const hash = crypto.createHash('sha1');
 for (const a of assets) if (a !== './') hash.update(fs.readFileSync(path.join(root, a)));
 const version = 'mtg-' + hash.digest('hex').slice(0, 10);

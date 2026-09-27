@@ -25,6 +25,8 @@ Katalog główny repozytorium to gotowa strona (z `.nojekyll`, manifestem, ikona
 Na telefonie: iPhone – *Udostępnij → Do ekranu początkowego*, Android – *⋮ → Zainstaluj aplikację*. Po pierwszym otwarciu gra działa też bez internetu,
 a gdy jest sieć – zawsze pobiera najnowszą wersję. `node tools/build.js` odświeża ikony, manifest i `sw.js`.
 
+Czcionka: domyślnie pikselowa Jersey 15 (czytelna), w Ustawieniach można przełączyć na Pixelify Sans albo zwykłą systemową. Czcionki są wbudowane w `fonts/` (działają offline).
+
 Sterowanie: klawiatura (strzałki, spacja, 1–6, Enter, Esc = pauza) albo dotyk.
 
 ## Tryby

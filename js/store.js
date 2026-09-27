@@ -15,7 +15,7 @@ const STORE = {
     d.ex = d.ex || {};          // licznik ekspozycji elementów (by pokazywać wszystkie fakty)
     d.best = Object.assign({ marathon: 0, final: 0 }, d.best || {});
     d.stats = Object.assign({ runs: 0, answers: 0, correct: 0, tick: 0, defenses: 0, bestCombo: 0 }, d.stats || {});
-    d.set = Object.assign({ sfx: true, music: true, tempo: 1 }, d.set || {});
+    d.set = Object.assign({ sfx: true, music: true, tempo: 1, font: 'jersey' }, d.set || {});
     d.boss = d.boss || {};
     return d;
   },

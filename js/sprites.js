@@ -167,7 +167,14 @@ const SPR = {
 
 /* Tekst na canvasie (współrzędne logiczne) */
 const FONT = {
-  body: '"Pixelify Sans", "Trebuchet MS", ui-monospace, monospace',
+  body: '"Jersey 15", "Trebuchet MS", ui-monospace, monospace',
+  BODIES: { jersey: '"Jersey 15", "Trebuchet MS", ui-monospace, monospace', pixelify: '"Pixelify Sans", "Trebuchet MS", ui-monospace, monospace', system: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' },
+  /* wybór czcionki z ustawień: CSS (data-font) + tekst na canvasie */
+  use(kind) {
+    if (!this.BODIES[kind]) kind = 'jersey';
+    this.body = this.BODIES[kind];
+    if (typeof document !== 'undefined') { if (kind === 'jersey') delete document.documentElement.dataset.font; else document.documentElement.dataset.font = kind; }
+  },
   display: '"Press Start 2P", ui-monospace, monospace',
   mono: '"VT323", ui-monospace, monospace',
 };

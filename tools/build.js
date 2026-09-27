@@ -6,7 +6,10 @@ const root = path.join(__dirname, '..');
 let html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 // manifest i ikony istnieją tylko przy hostingu całego katalogu (GitHub Pages) – wersje jednoplikowe ich nie mają
 html = html.replace(/^.*data-pwa.*\n/gm, '');
-html = html.replace(/<link rel="stylesheet" href="(css\/[^"]+)">/g, (_, f) => `<style>\n${fs.readFileSync(path.join(root, f), 'utf8')}\n</style>`);
+// CSS wbudowany; czcionki z ../fonts/ jako data URI (wersja jednoplikowa działa offline)
+const inlineCss = f => fs.readFileSync(path.join(root, f), 'utf8').replace(/url\((\.\.\/fonts\/[^)]+\.woff2)\)/g,
+  (_, u) => `url(data:font/woff2;base64,${fs.readFileSync(path.join(root, 'css', u)).toString('base64')})`);
+html = html.replace(/<link rel="stylesheet" href="(css\/[^"]+)">/g, (_, f) => `<style>\n${inlineCss(f)}\n</style>`);
 html = html.replace(/<script src="(js\/[^"]+)"><\/script>/g, (_, f) => {
   const src = fs.readFileSync(path.join(root, f), 'utf8');
   if (/<\/script/i.test(src)) throw new Error('Plik zawiera </script>: ' + f);
